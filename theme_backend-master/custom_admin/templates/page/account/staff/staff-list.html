@@ -1,0 +1,120 @@
+{% extends "partials/base.html" %}
+{% load static %}
+{% block extra_css %}
+  <link href="{% static 'libs/sweetalert2/sweetalert2.min.css' %}" rel="stylesheet" type="text/css"/>
+  <link href="{% static 'page/main.css' %}" rel="stylesheet" type="text/css"/>
+
+  <!-- DataTables start -->
+  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/jszip-2.5.0/dt-1.13.1/b-2.3.3/b-colvis-2.3.3/b-html5-2.3.3/fc-4.2.1/fh-3.3.1/r-2.4.0/sp-2.1.0/datatables.min.css"/>
+  <!-- DataTables end -->
+{% endblock extra_css %}
+
+{% load template_util %}
+{% block content %}
+  <div class="row">
+    {% csrf_token %}
+    <div class="col-12">
+      <div class="title-button">
+        <div>
+          <h1 class="page-title">{{ title }}</h1>
+        </div>
+        <div style="margin: auto 0 0 auto;">
+          <button type="button" class="btn btn-info w-md waves-effect waves-light" onclick="location.href='{% url create_url %}'">생성</button>
+          <button type="button" class="btn btn-danger w-md waves-effect waves-light" id="remove">삭제</button>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-body">
+        <div>
+          <!-- <h1 class="page-title">솔루션 문의 상세</h4> -->
+        </div>
+        <div id="category-filter-body" class="select-label">
+          {% if filter_category %}
+            <label for="category-filter">{{ filter_category.title }}
+            <select id="category-filter" class="form-control" name="{{ filter_category.target_column }}">
+              <!-- @@@@ 카테고리 필터 @@@@ -->
+              {% for filter_value, verbose in filter_category.filter_list.items %}
+                <option value="{{ filter_value }}">{{ verbose }}</option>
+              {% endfor %}
+            </select>
+            </label>
+          {% endif %}
+        </div>
+        <table id="datatable" class="table table-bordered nowrap w-100">
+          <thead>
+            <!-- @@@@ table title start @@@@ -->
+            <tr>
+              <!-- checkbox 여부에 따라 표시 -->
+              {% if checkbox %}
+                <th class="table-checkbox nosort dt-head-center"><input type="checkbox" name="checkbox_select_all"></th>
+              {% else %}
+                <th class="table-hidden"></th>
+              {% endif %}
+              <!-- end -->
+
+              <!-- field 목록 title 지정 -->
+              {% for field, property in display_fields.items %}
+                <th class="dt-head-center export_excel {{ property.class }}">{{ field }}</th>
+              {% endfor %}
+              <!-- end -->
+
+              <!-- 고유 id 지정 -->
+              {% if detail_url %}
+                <th class="table-button nosort nosearch dt-head-center">상세</th>
+              {% endif %}
+              <th class="table-hidden nosearch">id</th>
+              <!-- end -->
+            </tr>
+            <!-- @@@@ table title end @@@@ -->
+          </thead>
+          <tbody>
+            <!-- @@@@ table content start @@@@ -->
+            {% for row in rows %}
+              <tr>
+                <!-- checkbox 여부에 따라 표시 -->
+                {% if checkbox %}
+                  <td class="table-checkbox"><input type="checkbox" name="checkbox"></td>
+                {% else %}
+                  <td class="table-hidden"></td>
+                {% endif %}
+                <!-- end -->
+
+                <!-- field 목록 content 지정 -->
+                {% for value, property in row.data %}
+                  <td class="{{ property.class }}">{{ value }}</td>
+                {% endfor %}
+                <!-- end -->
+
+                <!-- 고유 id 지정 -->
+                {% if detail_url %}
+                  <td class="center">
+                    <a class="" href="{% url detail_url row.pk %}" style="font-size: 1em%;">
+                      <i class="mdi mdi-pencil-box fa-lg text-muted align-middle me-1 center"></i>
+                    </a>
+                  </td>
+                {% endif %}
+                <th class="table-hidden">{{ row.pk }}</th>
+                <!-- end -->
+              </tr>
+            {% endfor %}
+            <!-- @@@@ end table content @@@@ -->
+          </tbody>
+        </table>
+      </div>
+      <!-- end card-body -->
+    </div>
+    <!-- end card -->
+  </div>
+  <!-- end col -->
+</div>
+<!-- end row -->
+{% endblock content %}
+
+{% block javascript %}
+
+<script src="{% static 'js/app.js' %}"></script>
+{% include js %}
+{% include "page/datatables.init.js.html" %}
+
+{% endblock javascript %}

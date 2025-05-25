@@ -1,0 +1,209 @@
+{% extends 'partials/base.html' %}
+{% load static %}
+{% block extra_css %}
+    <link href="{% static 'libs/sweetalert2/sweetalert2.min.css'%}" rel="stylesheet" type="text/css" />
+{% endblock extra_css %}
+
+{% block content %}
+<div class="row">{% csrf_token %}
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <div style="display: flex">
+                    <div><h1 class="card-title" style="font-size: 24px">역량진단 관리</h4></div>
+                    
+                        <div style="margin: auto 0 0 auto;">
+                            {% comment %} <button type="button" class="btn btn-primary w-md waves-effect waves-light" onclick="location.href='{% url 'coupon-create' %}'"> 생성</button>
+                            <button type="submit" class="btn btn-danger w-md waves-effect waves-light" id="coupon-remove">삭제</button> {% endcomment %}
+                            {% comment %} <li>
+                                <input type="button" class="like" name="{{ post.id }}" value="Like">
+                                <p id="count-{{ post.id }}">{{ post.like_count }}개</p>
+                                <p id="like-user-{{post.id}}">
+                                {% for like_user in post.like_user_set.all %}
+                                  {{ like_user.profile.nickname }}
+                                {% endfor %}
+                                </p>
+                              </li> {% endcomment %}
+                        </div>
+                        {% comment %} <div style="padding-left: 10px">
+                            <button type="button" class="btn btn-danger w-md waves-effect waves-light" id="custom-html-alert" onclick="location.href='{% url 'auth-logout' %}'">
+                                삭제</button>
+                        </div> {% endcomment %}
+                    </div>
+                <hr class="one">
+                {% comment %} <p class="card-title-desc">Here are examples of <code>.form-control</code> applied to
+                    each
+                    textual HTML5 <code>&lt;input&gt;</code> <code>type</code>.</p> {% endcomment %}
+                <form method="GET">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label for="example-text-input" class="form-label">기업명</label>
+                                <input class="form-control" type="text" value="{{ company_name }}" id="company_name" name="company_name">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label for="example-date-input" class="form-label">시작 날짜</label>
+                                <input class="form-control" type="date" value="{{ start_date }}" id="start_date" name="start_date">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label for="example-date-input" class="form-label">종료 날짜</label>
+                                <input class="form-control" type="date" value="{{ end_date }}" id="end_date" name="end_date">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label for="example-text-input" class="form-label">전형명</label>
+                                <input class="form-control" type="text" value="{{ recruit_name }}" id="recruit_name" name="recruit_name">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="" id="recruit_status" name="recruit_status">
+                                <label for="recruit_status" class="form-label">상태</label>
+                                <select class="form-control select2-search-disable" id="recruit_status" name="recruit_status">
+                                    {% if recruit_status != "활성" and recruit_status != "비활성" %}
+                                    <option selected disable hidden>모두</option>
+                                    {% else %}
+                                    <option value={{ recruit_status }} selected hidden>{{ recruit_status }}</option>
+                                    {% endif %}
+                                    <option value=모두>모두</option>
+                                    <option value=활성>활성</option>
+                                    <option value=비활성>비활성</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label for="example-text-input" class="form-label">전형코드</label>
+                                <input class="form-control" type="text" value="{{ code }}" id="code" name="code">
+                            </div>
+                        </div>
+                        
+                        
+                    </div>
+                    
+                    <div style="text-align: right">
+                        <button class="btn btn-primary">🔍검색</button>
+                    </div>
+                </form>
+            </div>
+        </div> <!-- end col -->
+        {% comment %} ########################## form 끝 ################################# {% endcomment %}
+
+        <div class="card">
+            <div class="card-body">
+                {% comment %} <h4 class="card-title">Default Datatable</h4>
+                <p class="card-title-desc">DataTables has most features enabled by
+                    default, so all you need to do to use it with your own tables is to call
+                    the construction function: <code>$().DataTable();</code>.
+                </p> {% endcomment %}
+
+                <table id="" class="table table-bordered dt-responsive nowrap w-100">
+                    <thead>
+                        <tr>
+                            <th style="text-align: center" width="70">선택</th>
+                            <th>전형코드</th>
+                            <th>기업명</th>
+                            <th>전형명</th>
+                            <th style="text-align: center" width="140">시작 날짜</th>
+                            <th style="text-align: center" width="140">종료 날짜</th>
+                            <th style="text-align: center">대상자</th>
+                            <th style="text-align: center">완료</th>
+                            <th style="text-align: center">미완료</th>
+                            <th style="text-align: center" width="100">전형상태</th>
+                            <th style="text-align: center" width="70">관리</th>
+                            <th style="display:none;">히든아이디</th>
+
+                        </tr>
+                    </thead>
+                    
+                    <tbody>
+                        {% for recruit in recruit_list %}
+                        <tr>
+                            {% comment %} <td style="vertical-align: center">{{ d.username }}</td> {% endcomment %}
+                            {% comment %} <th style="text-align: center"><input type="checkbox" id="checkall" /></th> {% endcomment %}
+                            <td style="text-align: center"><input type="checkbox" name="object_CheckBox" ></td>
+                            
+                            <td>{{ recruit.recruit_code }}</td>
+                            <td>{{ recruit.own_company.company_name }}</td>
+                            <td>{{ recruit.recruit_name }}</td>
+                            <td style="text-align: center">{{ recruit.start_date | date:'Y-m-d' }}</td>
+                            <td style="text-align: center">{{ recruit.end_date | date:'Y-m-d' }}</td>
+                            
+                            <td>{{ recruit.get_passed_user_count.0 }}명</td>
+                            <td>{{ recruit.get_passed_user_count.1 }}명</td>
+                            <td>{{ recruit.get_passed_user_count.2 }}명</td>
+                            <td style="text-align: center">{{ recruit.recruit_steatus | yesno:'활성, 비활성'}}</td>
+                            <td style="text-align: center">
+                                <a class="" href="{% url 'recruit-management-detail' recruit.id %}"><i
+                                        class="mdi mdi-pencil-box fa-lg text-muted align-middle me-1"></i></a>
+                            </td>
+                            </td>
+                            <td style="display:none;">{{ recruit.id  }}</td>
+                            </tr>
+                        </tr>
+                        {% endfor %}
+
+
+                    </tbody>
+                </table>
+
+            </div>
+            <div style="margin: 0px 20px 20px 20px;">
+                {% comment %} <button type="button" class="btn btn-primary w-md waves-effect waves-light" onclick="location.href='{% url 'recruit-excel-download' %}'"> 생성</button> {% endcomment %}
+                <button type="submit" class="btn btn-primary w-md waves-effect waves-light" id="create-excel">엑셀 다운로드</button>
+                <button type="submit" class="btn btn-danger w-md waves-effect waves-light" id="recruit-remove">삭제</button>
+            </div>
+            <!-- end card-body -->
+        </div>
+        <!-- end card -->
+    </div> <!-- end col -->
+</div> <!-- end row -->
+
+{% endblock content %}
+
+{% block javascript %}
+<!-- JAVASCRIPT -->
+<script src="{% static 'libs/jquery/jquery.min.js' %}"></script>
+<script src="{% static 'libs/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+<script src="{% static 'libs/metismenu/metisMenu.min.js' %}"></script>
+<script src="{% static 'libs/simplebar/simplebar.min.js' %}"></script>
+<script src="{% static 'libs/node-waves/waves.min.js' %}"></script>
+
+<!-- Required datatable js -->
+<script src="{% static 'libs/datatables.net/js/jquery.dataTables.min.js' %}"></script>
+<script src="{% static 'libs/datatables.net-bs4/js/dataTables.bootstrap4.min.js' %}"></script>
+
+<!-- Buttons examples -->
+<script src="{% static 'libs/datatables.net-buttons/js/dataTables.buttons.min.js' %}"></script>
+<script src="{% static 'libs/datatables.net-buttons-bs4/js/buttons.bootstrap4.min.js' %}"></script>
+<script src="{% static 'libs/jszip/jszip.min.js' %}"></script>
+<script src="{% static 'libs/pdfmake/build/pdfmake.min.js' %}"></script>
+<script src="{% static 'libs/pdfmake/build/vfs_fonts.js' %}"></script>
+<script src="{% static 'libs/datatables.net-buttons/js/buttons.html5.min.js' %}"></script>
+<script src="{% static 'libs/datatables.net-buttons/js/buttons.print.min.js' %}"></script>
+<script src="{% static 'libs/datatables.net-buttons/js/buttons.colVis.min.js' %}"></script>
+<script src="{% static 'libs/datatables.net-keyTable/js/dataTables.keyTable.min.js' %}"></script>
+<script src="{% static 'libs/datatables.net-select/js/dataTables.select.min.js' %}"></script>
+
+<!-- Responsive examples -->
+<script src="{% static 'libs/datatables.net-responsive/js/dataTables.responsive.min.js' %}"></script>
+<script src="{% static 'libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js' %}"></script>
+
+<!-- Datatable init js -->
+<script src="{% static 'js/pages/datatables.init.js' %}"></script>
+
+
+
+<script src="{% static 'js/menus/ai-recruit_management_and_download.js'%}"></script>
+
+<script src="{% static 'js/app.js' %}"></script>
+
+
+{% endblock javascript %}

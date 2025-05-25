@@ -1,0 +1,174 @@
+{% extends 'partials/base.html' %}
+{% load static %}
+{% block extra_css %}
+    <link href="{% static 'libs/sweetalert2/sweetalert2.min.css'%}" rel="stylesheet" type="text/css" />
+{% endblock extra_css %}
+
+{% block content %}
+<div class="row">{% csrf_token %}
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <div style="display: flex">
+                    <div><h1 class="card-title" style="font-size: 24px">기업 회원관리</h4></div>
+                    
+                        <div style="margin: auto 0 0 auto;">
+                            <button type="submit" class="btn btn-danger w-md waves-effect waves-light" id="business_user-remove">삭제</button>
+                        </div>
+                    </div>
+                <hr class="one">
+                <form method="GET">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label for="example-text-input" class="form-label">기업명</label>
+                                <input class="form-control" type="text" value="{{ company_name }}" id="company_name" name="company_name">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label for="example-text-input" class="form-label">소속(센터명)</label>
+                                <input class="form-control" type="text" value="{{ center_name }}" id="center_name" name="center_name">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label for="example-text-input" class="form-label">담당자</label>
+                                <input class="form-control" type="text" value="{{ business_name }}" id="business_name" name="business_name">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label for="example-text-input" class="form-label">주소</label>
+                                <input class="form-control" type="text" value="{{ business_address }}" id="business_address" name="business_address">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label for="example-text-input" class="form-label">이메일</label>
+                                <input class="form-control" type="text" value="{{ business_email }}" id="business_email" name="business_email">
+                            </div>
+                        </div>
+                        <div class="col-md-1" style="width: 12.499999995%">
+                            <div class="" id="search_type" name="search_type">
+                                <label for="search_type" class="form-label">검색</label>
+                                <select class="form-control select2-search-disable" id="search_type" name="search_type">
+                                    <option value={{ search_type }} selected hidden>{{ search_type }}</option>
+                                    <option value=연락처>연락처</option>
+                                    <option value=사업자 번호>사업자 번호</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-3" style="width: 20.8%">
+                            <div class="mb-3">
+                                <label for="example-text-input" class="form-label">　</label>
+                                <input class="form-control" type="text" value="{{ search_content }}" id="search_content" name="search_content">
+                            </div>
+                        </div>
+                    
+                    <div style="text-align: right">
+                        <button class="btn btn-primary">🔍검색</button>
+                    </div>
+                </form>
+            </div>
+        </div> <!-- end col -->
+        {% comment %} ########################## form 끝 ################################# {% endcomment %}
+
+        <div class="card">
+            <div class="card-body">
+                {% comment %} <h4 class="card-title">Default Datatable</h4>
+                <p class="card-title-desc">DataTables has most features enabled by
+                    default, so all you need to do to use it with your own tables is to call
+                    the construction function: <code>$().DataTable();</code>.
+                </p> {% endcomment %}
+
+                <table id="" class="table table-bordered dt-responsive nowrap w-100">
+                    <thead>
+                        <tr>
+                            <th style="text-align: center" width="70">선택</th>
+                            <th style="text-align: center">기업명</th>
+                            <th style="text-align: center" width="110">소속(센터명)</th>
+                            <th style="text-align: center">담당자</th>
+                            <th style="text-align: center">주소</th>
+                            <th style="text-align: center">이메일</th>
+                            <th style="text-align: center">연락처</th>
+                            {% comment %} <th style="text-align: center">사업자번호</th> {% endcomment %}
+                            <th style="text-align: center" width="70">세부</th>
+                            <th style="display:none;">히든아이디</th>
+                        </tr>
+                    </thead>
+                    
+                    <tbody>
+                        {% for business_user in business_user_list %}
+                        <tr>
+                            <td style="text-align: center"><input type="checkbox" name="object_CheckBox" ></td>
+                            <td>{{ business_user.company_name }}</td>
+                            <td>{{ business_user.center_name }}</td>
+                            <td>{{ business_user.user.fullname }}</td>
+                            <td>{{ business_user.address }}</td>
+                            <td>{{ business_user.user.email }}</td>
+                            <td>{{ business_user.telephone }}</td>
+                            {% comment %} <td>{{ business_user.business_registration_number }}</td> {% endcomment %}
+
+                            <td style="text-align: center">
+                                <a class="" href="{% url 'business-user-detail' business_user.user.id %}"><i
+                                        class="mdi mdi-pencil-box fa-lg text-muted align-middle me-1"></i></a>
+                            </td>
+                            <td style="display:none;">{{ business_user.user.id }}</td>
+                            </tr>
+                        {% endfor %}
+
+
+                    </tbody>
+                </table>
+
+            </div>
+            <!-- end card-body -->
+        </div>
+        <!-- end card -->
+    </div> <!-- end col -->
+</div> <!-- end row -->
+
+{% endblock content %}
+
+{% block javascript %}
+<!-- JAVASCRIPT -->
+<script src="{% static 'libs/jquery/jquery.min.js' %}"></script>
+<script src="{% static 'libs/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+<script src="{% static 'libs/metismenu/metisMenu.min.js' %}"></script>
+<script src="{% static 'libs/simplebar/simplebar.min.js' %}"></script>
+<script src="{% static 'libs/node-waves/waves.min.js' %}"></script>
+
+<!-- Required datatable js -->
+<script src="{% static 'libs/datatables.net/js/jquery.dataTables.min.js' %}"></script>
+<script src="{% static 'libs/datatables.net-bs4/js/dataTables.bootstrap4.min.js' %}"></script>
+
+<!-- Buttons examples -->
+<script src="{% static 'libs/datatables.net-buttons/js/dataTables.buttons.min.js' %}"></script>
+<script src="{% static 'libs/datatables.net-buttons-bs4/js/buttons.bootstrap4.min.js' %}"></script>
+<script src="{% static 'libs/jszip/jszip.min.js' %}"></script>
+<script src="{% static 'libs/pdfmake/build/pdfmake.min.js' %}"></script>
+<script src="{% static 'libs/pdfmake/build/vfs_fonts.js' %}"></script>
+<script src="{% static 'libs/datatables.net-buttons/js/buttons.html5.min.js' %}"></script>
+<script src="{% static 'libs/datatables.net-buttons/js/buttons.print.min.js' %}"></script>
+<script src="{% static 'libs/datatables.net-buttons/js/buttons.colVis.min.js' %}"></script>
+<script src="{% static 'libs/datatables.net-keyTable/js/dataTables.keyTable.min.js' %}"></script>
+<script src="{% static 'libs/datatables.net-select/js/dataTables.select.min.js' %}"></script>
+
+<!-- Responsive examples -->
+<script src="{% static 'libs/datatables.net-responsive/js/dataTables.responsive.min.js' %}"></script>
+<script src="{% static 'libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js' %}"></script>
+
+<!-- Datatable init js -->
+<script src="{% static 'js/pages/datatables.init.js' %}"></script>
+
+
+
+<script src="{% static 'js/menus/user-business_management.js'%}"></script>
+
+<script src="{% static 'js/app.js' %}"></script>
+
+
+{% endblock javascript %}

@@ -1,0 +1,267 @@
+{% extends 'partials/base.html' %}
+{% load static %}
+{% block extra_css %}
+    <link href="{% static 'libs/sweetalert2/sweetalert2.min.css'%}" rel="stylesheet" type="text/css" />
+{% endblock extra_css %}
+
+{% block content %}
+<head>
+    <script src="https://use.fontawesome.com/releases/v5.2.0/js/all.js"></script>
+  </head>
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <div style="display: flex">
+                    <div><h1 class="card-title" style="font-size: 24px">매출 조회</h4></div>
+                </div>
+
+                <hr class="one">
+                {% comment %} <p class="card-title-desc">Here are examples of <code>.form-control</code> applied to
+                    each
+                    textual HTML5 <code>&lt;input&gt;</code> <code>type</code>.</p> {% endcomment %}
+                    {% comment %} div class="card bg-primary text-white-50"> {% endcomment %}
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="card">
+                                <div class="card-body" style="height: 140px;">
+                                    <h5>{{all_payment_price}}원</h5>
+                                    <div style="color: silver;">총 매출</div>
+                                    {% comment %} {% if False %}
+                                    <div style="margin: 30px 0px 30px 0px; text-align: left">
+                                        <span class="bx bx-trending-up" style="font-size: 20px; color: blue; vertical-align: middle;"></span>
+                                        지난주 이후
+                                        <span style="color: blue;">5.5%</span>
+                                    </div>
+                                    {% else %}
+                                    <div style="margin: 30px 0px 30px 0px; text-align: left">
+                                        <span class="bx bx-trending-down" style="font-size: 20px; color: red; vertical-align: middle;"></span>
+                                        지난주 이후
+                                        <span style="color: red; font-weight: bold;">5.5%</span>
+                                    </div>
+                                    {% endif %} {% endcomment %}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="card">
+                                <div class="card-body" style="height: 140px;">
+                                    <h5>{{this_month_payment}}원</h5>
+                                    <div style="color: silver;">이번달 매출</div>
+                                    {% comment %} {% if True %}
+                                    <div style="margin: 30px 0px 30px 0px; text-align: left">
+                                        <span class="bx bx-trending-up" style="font-size: 20px; color: blue; vertical-align: middle;"></span>
+                                        지난주 이후
+                                        <span style="color: blue;">5.5%</span>
+                                    </div>
+                                    {% else %}
+                                    <div style="margin: 30px 0px 30px 0px; text-align: left">
+                                        <span class="bx bx-trending-down" style="font-size: 20px; color: red; vertical-align: middle;"></span>
+                                        지난주 이후
+                                        <span style="color: red; font-weight: bold;">5.5%</span>
+                                    </div>
+                                    {% endif %} {% endcomment %}
+                                </div>
+                                
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="card">
+                                <div class="card-body" style="height: 140px;">
+                                    <h5>{{new_user_count}}명</h5>
+                                    <div style="color: silver;">신규 가입 회원</div>
+                                    {% comment %} {% if False %}
+                                    <div style="margin: 30px 0px 30px 0px; text-align: left">
+                                        <span class="bx bx-trending-up" style="font-size: 20px; color: blue; vertical-align: middle;"></span>
+                                        지난주 이후
+                                        <span style="color: blue;">5.5%</span>
+                                    </div>
+                                    {% else %}
+                                    <div style="margin: 30px 0px 30px 0px; text-align: left">
+                                        <span class="bx bx-trending-down" style="font-size: 20px; color: red; vertical-align: middle;"></span>
+                                        지난주 이후
+                                        <span style="color: red; font-weight: bold;">5.5%</span>
+                                    </div>
+                                    {% endif %} {% endcomment %}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="card">
+                                <div class="card-body" style="height: 140px;">
+                                    <h5>{{user_marketing_user_count}}명</h5>
+                                    <div style="color: silver;">신규 마케팅 회원</div>
+                                    {% comment %} {% if True %}
+                                    <div style="margin: 30px 0px 30px 0px; text-align: left">
+                                        <span class="bx bx-trending-up" style="font-size: 20px; color: blue; vertical-align: middle;"></span>
+                                        지난주 이후
+                                        <span style="color: blue;">5.5%</span>
+                                    </div>
+                                    {% else %}
+                                    <div style="margin: 30px 0px 30px 0px; text-align: left">
+                                        <span class="bx bx-trending-down" style="font-size: 20px; color: red; vertical-align: middle;"></span>
+                                        지난주 이후
+                                        <span style="color: red; font-weight: bold;">5.5%</span>
+                                    </div>
+                                    {% endif %} {% endcomment %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+        </div> <!-- end col -->
+        {% comment %} ########################## form 끝 ################################# {% endcomment %}
+
+        <div class="card">
+            <div class="card-body">
+                <div><h1 class="card-title">최근 구매내역</h4></div>
+                <div style="display: flex">
+                    <div style="margin: auto 0 0 auto;">
+                        <a class="btn btn-primary" style="margin-bottom: 20px" href={% url 'purchase-history-management' %}>더보기</a>
+                        {% comment %} <a class="btn btn-primary" style="margin-bottom: 20px" href={% url 'usage-history-management' %}>더보기</a> {% endcomment %}
+                    </div>
+                </div>
+
+                <table id="" class="table table-bordered dt-responsive nowrap w-100">
+                    <thead>
+                        <tr style="text-align: center">
+                            {% comment %} <th style="text-align: center" width="70">선택</th> {% endcomment %}
+                            <th style="text-align: center">결제번호</th>
+                            <th style="text-align: center">기업명</th>
+                            <th style="text-align: center">담당자</th>
+                            <th style="text-align: center">결제일시</th>
+                            <th style="text-align: center">결제금액</th>
+                            <th style="text-align: center">충전건수</th>
+                            <th style="text-align: center">지불상태</th>
+                            <th style="text-align: center">결제방식</th>
+                            {% comment %} <th style="text-align: center" width="140">시작 날짜</th>
+                            <th style="text-align: center" width="140">종료 날짜</th>
+                            <th style="text-align: center">대상자</th>
+                            <th style="text-align: center">완료</th>
+                            <th style="text-align: center">미완료</th> {% endcomment %}
+                            {% comment %} <th style="text-align: center" width="100">전형상태</th> {% endcomment %}
+
+                        </tr>
+                    </thead>
+                    
+                    <tbody>
+                        {% for purchase_history in purchase_history_list %}
+                        <tr>
+                            {% comment %} <td style="vertical-align: center">{{ d.username }}</td> {% endcomment %}
+                            {% comment %} <th style="text-align: center"><input type="checkbox" id="checkall" /></th> {% endcomment %}
+                            <td>{{ purchase_history.payment_code }}</td>
+                            <td>{{ purchase_history.user.business.company_name }}</td>
+                            <td>{{ purchase_history.user.fullname }}</td>
+                            <td>{{ purchase_history.date | date:"y-m-d h:i:s"}}</td>
+                            <td>{{ purchase_history.price}}</td>
+                            <td>{{ purchase_history.charge_count }}</td>
+                            <td>{{ purchase_history.pay_result }}</td>
+                            <td>{{ purchase_history.payment_type }}</td>
+                            {% comment %} <td style="text-align: center">{{ usage_history.start_date | date:'Y-m-d' }}</td>
+                            <td style="text-align: center">{{ usage_history.end_date | date:'Y-m-d' }}</td>
+                            
+                            <td>{{ usage_history.get_passed_user_count.0 }}명</td>
+                            <td>{{ usage_history.get_passed_user_count.1 }}명</td>
+                            <td>{{ usage_history.get_passed_user_count.2 }}명</td> {% endcomment %}
+                        </tr>
+                        {% endfor %}
+
+
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-body">
+                <div><h1 class="card-title">최근 사용내역</h4></div>
+                <div style="display: flex">
+                    <div style="margin: auto 0 0 auto;">
+                        <a class="btn btn-primary" style="margin-bottom: 20px" href={% url 'usage-history-management' %}>더보기</a>
+                    </div>
+                </div>
+
+                <table id="" class="table table-bordered dt-responsive nowrap w-100">
+                    <thead>
+                        <tr style="text-align: center">
+                            <th style="text-align: center">전형</th>
+                            <th style="text-align: center">기업명</th>
+                            <th style="text-align: center">담당자</th>
+                            <th style="text-align: center">변동일시</th>
+                            <th style="text-align: center">잔여 </th>
+                            <th style="text-align: center">총 응시자</th>
+                            <th style="text-align: center">추가된 응시자</th>
+                            <th style="text-align: center">사용된 전형 등록 합</th>
+                            <th style="text-align: center">사용된 전형 등록</th>
+
+                        </tr>
+                    </thead>
+                    
+                    <tbody>
+                        {% for usage_history in usage_history_list %}
+                        <tr>
+                            <td>{{ usage_history.recruitment.recruit_name }}</td>
+                            <td>{{ usage_history.recruitment.own_company.company_name }}</td>
+                            <td>{{ usage_history.recruitment.own_company.user.fullname}}</td>
+                            <td>{{ usage_history.created | date:"y-m-d h:i:s"}}</td>
+                            <td>{{ usage_history.recruitment.own_company.product_count }}</td>
+                            <td>{{ usage_history.total_ticket_count }}</td>
+                            <td>{{ usage_history.ticket_count }}</td>
+                            <td>{{ usage_history.total_use_count }}</td>
+                            <td>{{ usage_history.use_count }}</td>
+                        </tr>
+                        {% endfor %}
+
+
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+        <!-- end card -->
+    </div> <!-- end col -->
+</div> <!-- end row -->
+
+{% endblock content %}
+
+{% block javascript %}
+<!-- JAVASCRIPT -->
+<script src="{% static 'libs/jquery/jquery.min.js' %}"></script>
+<script src="{% static 'libs/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+<script src="{% static 'libs/metismenu/metisMenu.min.js' %}"></script>
+<script src="{% static 'libs/simplebar/simplebar.min.js' %}"></script>
+<script src="{% static 'libs/node-waves/waves.min.js' %}"></script>
+
+<!-- Required datatable js -->
+<script src="{% static 'libs/datatables.net/js/jquery.dataTables.min.js' %}"></script>
+<script src="{% static 'libs/datatables.net-bs4/js/dataTables.bootstrap4.min.js' %}"></script>
+
+<!-- Buttons examples -->
+<script src="{% static 'libs/datatables.net-buttons/js/dataTables.buttons.min.js' %}"></script>
+<script src="{% static 'libs/datatables.net-buttons-bs4/js/buttons.bootstrap4.min.js' %}"></script>
+<script src="{% static 'libs/jszip/jszip.min.js' %}"></script>
+<script src="{% static 'libs/pdfmake/build/pdfmake.min.js' %}"></script>
+<script src="{% static 'libs/pdfmake/build/vfs_fonts.js' %}"></script>
+<script src="{% static 'libs/datatables.net-buttons/js/buttons.html5.min.js' %}"></script>
+<script src="{% static 'libs/datatables.net-buttons/js/buttons.print.min.js' %}"></script>
+<script src="{% static 'libs/datatables.net-buttons/js/buttons.colVis.min.js' %}"></script>
+<script src="{% static 'libs/datatables.net-keyTable/js/dataTables.keyTable.min.js' %}"></script>
+<script src="{% static 'libs/datatables.net-select/js/dataTables.select.min.js' %}"></script>
+
+<!-- Responsive examples -->
+<script src="{% static 'libs/datatables.net-responsive/js/dataTables.responsive.min.js' %}"></script>
+<script src="{% static 'libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js' %}"></script>
+
+<!-- Datatable init js -->
+<script src="{% static 'js/pages/datatables.init.js' %}"></script>
+
+
+
+<!-- Sweet alert init js-->
+{% comment %} <script src="{% static 'js/pages/ai-coupon_management.js'%}"></script> {% endcomment %}
+
+<script src="{% static 'js/app.js' %}"></script>
+
+
+{% endblock javascript %}

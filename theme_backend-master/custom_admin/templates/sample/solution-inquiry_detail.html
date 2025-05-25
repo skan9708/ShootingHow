@@ -1,0 +1,128 @@
+{% extends 'partials/base.html' %}
+{% load static %}
+{% block extra_css %}
+    <link href="{% static 'libs/sweetalert2/sweetalert2.min.css'%}" rel="stylesheet" type="text/css" />
+{% endblock extra_css %}
+
+{% block content %}
+<div class="row">{% csrf_token %}
+    <div class="col-12">
+        <h2 style="margin-left: 20px">{{ recruitment.own_company.company_name }}</h2>
+        <div style="display: flex">
+            <div><h1 class="card-title" style="font-size: 24px">솔루션 문의 상세</h4></div>
+            
+                <div style="margin: auto 0 0 auto;">
+                    <button type="button" class="btn btn-primary w-md waves-effect waves-light" onclick="location.href='{% url 'solution-inquiry' %}'">목록</button>
+                    <button type="button" class="btn btn-info w-md waves-effect waves-light" id="inquiry_detail-save" value={{ inquiry.id }}>저장</button>
+                    <button type="button" class="btn btn-danger w-md waves-effect waves-light" id="inquiry_detail-remove" value={{ inquiry.id }}>삭제</button>
+                </div>
+            </div>
+        </div><br><br><br><hr><br><br>
+        <div class="card">
+            <div class="card-body">
+                {% comment %} <div style="display:flex; justify-content: space-between; align-content: stretch; align-items: center;">
+                    <div style="flex-basis:65%;">문의 제목</div><br>
+                    <div style="flex-basis:200px;">처리 상태</div><br>
+                </div> {% endcomment %}
+
+                <div style="display:flex; justify-content: space-between; align-content: stretch; 
+                            height: 50px; align-items: center;  font-size: 14px;
+                            ">
+
+                    <div style="line-height: 50px; height: 100%; width: 100px; flex-basis:65%; font-size:20px; font-weight: bold">문의 제목</div>
+                    <div style="line-height: 50px; height: 100%; width: 100px; flex-basis:230px; font-size:20px; font-weight: bold">처리상태</div>
+                    {% comment %} <div style="line-height: 50px; height: 100%; width: 100px; flex-basis:30%;">{{ inquiry.content }}</div> {% endcomment %}
+                </div>
+                <div style="display:flex; justify-content: space-between; align-content: stretch; 
+                            height: 50px; align-items: center;  font-size: 14px;
+                            text-indent: 20px;">
+
+                    <div style="line-height: 50px; height: 100%; width: 100px; flex-basis:65%; border: 1px solid Silver;">{{ inquiry.title }}</div>
+                    <div style="line-height: 50px; height: 100%; width: 100px; flex-basis:230px; border: 1px solid Silver;">
+                        {% if inquiry.is_done %}
+                        <label><input type="radio" name="is_done" value="False">미처리</label>
+                        <label><input type="radio" name="is_done" value="True" checked="checked">처리완료</label>
+                        {% else %}
+                        <label><input type="radio" name="is_done" checked="checked" value="False">미처리</label>
+                        <label><input type="radio" name="is_done" value="True">처리완료</label>
+                        {% endif %}
+                    </div>
+                    {% comment %} <div style="line-height: 50px; height: 100%; width: 100px; flex-basis:30%;">{{ inquiry.content }}</div> {% endcomment %}
+                </div><br><br><hr><br><br>
+
+                <h4>문의 내용</h4><br>
+
+                <textarea class="form-control" style="height: 35em; resize: none;" readonly>
+                    {{ inquiry.content }}
+                </textarea><br><br><hr><br><br>
+                
+                <div style="display:flex; justify-content: space-between; align-content: stretch; 
+                            height: 50px; align-items: center; border-top: 1px solid Silver; font-size: 14px;
+                            text-indent: 20px;">
+                    <div style="line-height: 50px; height: 100%; width: 100px; flex-basis:20%; background-color: #F2F2F2;">이름</div>
+                    <div style="line-height: 50px; height: 100%; width: 100px; flex-basis:30%;">{{ inquiry.fullname }}</div>
+                    <div style="line-height: 50px; height: 100%; width: 100px; flex-basis:20%; background-color: #F2F2F2;">회사명</div>
+                    <div style="line-height: 50px; height: 100%; width: 100px; flex-basis:30%;">{{ inquiry.company_name }}</div>
+                </div>
+                <div style="display:flex; justify-content: space-between; align-content: stretch; 
+                            height: 50px; align-items: center; border-top: 1px solid Silver; font-size: 14px;
+                            text-indent: 20px;">
+                    <div style="line-height: 50px; height: 100%; width: 100px; flex-basis:20%; background-color: #F2F2F2;">연락처</div>
+                    <div style="line-height: 50px; height: 100%; width: 100px; flex-basis:30%;">{{ inquiry.phone }}</div>
+                    <div style="line-height: 50px; height: 100%; width: 100px; flex-basis:20%; background-color: #F2F2F2;">이메일</div>
+                    <div style="line-height: 50px; height: 100%; width: 100px; flex-basis:30%;">{{ inquiry.email_addr }}</div>
+                </div>
+            </div>
+
+            <div class="card-body">
+                
+            </div>
+        </div> <!-- end col -->
+        {% comment %} ########################## form 끝 ################################# {% endcomment %}
+
+
+
+    </div> <!-- end col -->
+</div> <!-- end row -->
+
+{% endblock content %}
+
+{% block javascript %}
+<!-- JAVASCRIPT -->
+<script src="{% static 'libs/jquery/jquery.min.js' %}"></script>
+<script src="{% static 'libs/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+<script src="{% static 'libs/metismenu/metisMenu.min.js' %}"></script>
+<script src="{% static 'libs/simplebar/simplebar.min.js' %}"></script>
+<script src="{% static 'libs/node-waves/waves.min.js' %}"></script>
+
+<!-- Required datatable js -->
+<script src="{% static 'libs/datatables.net/js/jquery.dataTables.min.js' %}"></script>
+<script src="{% static 'libs/datatables.net-bs4/js/dataTables.bootstrap4.min.js' %}"></script>
+
+<!-- Buttons examples -->
+<script src="{% static 'libs/datatables.net-buttons/js/dataTables.buttons.min.js' %}"></script>
+<script src="{% static 'libs/datatables.net-buttons-bs4/js/buttons.bootstrap4.min.js' %}"></script>
+<script src="{% static 'libs/jszip/jszip.min.js' %}"></script>
+<script src="{% static 'libs/pdfmake/build/pdfmake.min.js' %}"></script>
+<script src="{% static 'libs/pdfmake/build/vfs_fonts.js' %}"></script>
+<script src="{% static 'libs/datatables.net-buttons/js/buttons.html5.min.js' %}"></script>
+<script src="{% static 'libs/datatables.net-buttons/js/buttons.print.min.js' %}"></script>
+<script src="{% static 'libs/datatables.net-buttons/js/buttons.colVis.min.js' %}"></script>
+<script src="{% static 'libs/datatables.net-keyTable/js/dataTables.keyTable.min.js' %}"></script>
+<script src="{% static 'libs/datatables.net-select/js/dataTables.select.min.js' %}"></script>
+
+<!-- Responsive examples -->
+<script src="{% static 'libs/datatables.net-responsive/js/dataTables.responsive.min.js' %}"></script>
+<script src="{% static 'libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js' %}"></script>
+
+<!-- Datatable init js -->
+<script src="{% static 'js/pages/datatables.init.js' %}"></script>
+
+
+
+<script src="{% static 'js/menus/solution-inquiry_management.js'%}"></script>
+
+<script src="{% static 'js/app.js' %}"></script>
+
+
+{% endblock javascript %}

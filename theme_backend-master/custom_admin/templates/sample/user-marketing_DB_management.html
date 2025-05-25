@@ -1,0 +1,167 @@
+{% extends 'partials/base.html' %}
+{% load static %}
+{% block extra_css %}
+    <link href="{% static 'libs/sweetalert2/sweetalert2.min.css'%}" rel="stylesheet" type="text/css" />
+{% endblock extra_css %}
+
+{% block content %}
+<div class="row">{% csrf_token %}
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <div style="display: flex">
+                    <div><h1 class="card-title" style="font-size: 24px">마케팅DB 관리</h4></div>
+                    
+                        {% comment %} <div style="margin: auto 0 0 auto;">
+                            <button type="submit" class="btn btn-danger w-md waves-effect waves-light" id="business_user-remove">삭제</button>
+                        </div> {% endcomment %}
+                    </div>
+                <hr class="one">
+                <form method="GET">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label for="example-text-input" class="form-label">이름</label>
+                                <input class="form-control" type="text" value="{{ name }}" id="name" name="name">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label for="example-text-input" class="form-label">연락처</label>
+                                <input class="form-control" type="text" value="{{ phone }}" id="phone" name="phone">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label for="example-text-input" class="form-label">주소</label>
+                                <input class="form-control" type="text" value="{{ addr }}" id="addr" name="addr">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="">
+                                <label for="sex" class="form-label">성별</label>
+                                <select class="form-control select2-search-disable" id="sex" name="sex">
+                                    <option value={{ sex }} selected hidden>{{ sex }}</option>
+                                    <option value=모두>모두</option>
+                                    <option value=남>남</option>
+                                    <option value=여>여</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label for="example-text-input" class="form-label">출생년도</label>
+                                <input class="form-control" type="text" value="{{ birth_year }}" id="birth_year" name="birth_year">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label for="example-text-input" class="form-label">이메일</label>
+                                <input class="form-control" type="text" value="{{ email }}" id="email" name="email">
+                            </div>
+                        </div>
+                    
+                    <div style="text-align: right">
+                        <button class="btn btn-primary">🔍검색</button>
+                    </div>
+                </form>
+            </div>
+        </div> <!-- end col -->
+        {% comment %} ########################## form 끝 ################################# {% endcomment %}
+
+        <div class="card">
+            <div class="card-body">
+                {% comment %} <h4 class="card-title">Default Datatable</h4>
+                <p class="card-title-desc">DataTables has most features enabled by
+                    default, so all you need to do to use it with your own tables is to call
+                    the construction function: <code>$().DataTable();</code>.
+                </p> {% endcomment %}
+
+                <table id="" class="table table-bordered dt-responsive nowrap w-100">
+                    <thead>
+                        <tr>
+                            {% comment %} <th style="text-align: center" width="70">선택</th> {% endcomment %}
+                            <th style="text-align: center">이름</th>
+                            <th style="text-align: center">연락처</th>
+                            <th style="text-align: center">주소</th>
+                            <th style="text-align: center">출생년도</th>
+                            <th style="text-align: center">성별</th>
+                            <th style="text-align: center">이메일</th>
+                            <th style="text-align: center" width="70">상세</th>
+                            {% comment %} <th style="display:none;">히든아이디</th> {% endcomment %}
+                        </tr>
+                    </thead>
+                    
+                    <tbody>
+                        {% for marketing_agree_user in marketing_agree_user_list %}
+                        <tr>
+                            {% comment %} <td style="text-align: center"><input type="checkbox" name="object_CheckBox" ></td> {% endcomment %}
+                            <td>{{ marketing_agree_user.name }}</td>
+                            <td>{{ marketing_agree_user.phone }}</td>
+                            <td>{{ marketing_agree_user.addr}}</td>
+                            <td>{{ marketing_agree_user.birth_year }}</td>
+                            <td>{{ marketing_agree_user.sex }}</td>
+                            <td>{{ marketing_agree_user.email }}</td>
+                            <td style="text-align: center">
+                                <a class="" href="{% url 'marketing-DB-management-detail' marketing_agree_user.id %}"><i
+                                        class="mdi mdi-pencil-box fa-lg text-muted align-middle me-1"></i></a>
+                            </td>
+                            {% comment %} <td style="display:none;">{{ marketing_agree_user.id  }}</td> {% endcomment %}
+                            </tr>
+                        {% endfor %}
+
+
+                    </tbody>
+                </table>
+
+            </div>
+            <!-- end card-body -->
+        </div>
+        <!-- end card -->
+    </div> <!-- end col -->
+</div> <!-- end row -->
+
+{% endblock content %}
+
+{% block javascript %}
+<!-- JAVASCRIPT -->
+<script src="{% static 'libs/jquery/jquery.min.js' %}"></script>
+<script src="{% static 'libs/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+<script src="{% static 'libs/metismenu/metisMenu.min.js' %}"></script>
+<script src="{% static 'libs/simplebar/simplebar.min.js' %}"></script>
+<script src="{% static 'libs/node-waves/waves.min.js' %}"></script>
+
+<!-- Required datatable js -->
+<script src="{% static 'libs/datatables.net/js/jquery.dataTables.min.js' %}"></script>
+<script src="{% static 'libs/datatables.net-bs4/js/dataTables.bootstrap4.min.js' %}"></script>
+
+<!-- Buttons examples -->
+<script src="{% static 'libs/datatables.net-buttons/js/dataTables.buttons.min.js' %}"></script>
+<script src="{% static 'libs/datatables.net-buttons-bs4/js/buttons.bootstrap4.min.js' %}"></script>
+<script src="{% static 'libs/jszip/jszip.min.js' %}"></script>
+<script src="{% static 'libs/pdfmake/build/pdfmake.min.js' %}"></script>
+<script src="{% static 'libs/pdfmake/build/vfs_fonts.js' %}"></script>
+<script src="{% static 'libs/datatables.net-buttons/js/buttons.html5.min.js' %}"></script>
+<script src="{% static 'libs/datatables.net-buttons/js/buttons.print.min.js' %}"></script>
+<script src="{% static 'libs/datatables.net-buttons/js/buttons.colVis.min.js' %}"></script>
+<script src="{% static 'libs/datatables.net-keyTable/js/dataTables.keyTable.min.js' %}"></script>
+<script src="{% static 'libs/datatables.net-select/js/dataTables.select.min.js' %}"></script>
+
+<!-- Responsive examples -->
+<script src="{% static 'libs/datatables.net-responsive/js/dataTables.responsive.min.js' %}"></script>
+<script src="{% static 'libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js' %}"></script>
+
+<!-- Datatable init js -->
+<script src="{% static 'js/pages/datatables.init.js' %}"></script>
+
+
+
+<script src="{% static 'js/menus/user-marketing_DB_management.js'%}"></script>
+
+<script src="{% static 'js/app.js' %}"></script>
+
+
+{% endblock javascript %}

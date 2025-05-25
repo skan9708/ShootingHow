@@ -1,0 +1,135 @@
+{% extends 'partials/base.html' %}
+{% load static %}
+{% block extra_css %}
+
+    <link href="{% static 'libs/select2/css/select2.min.css' %}" rel="stylesheet" type="text/css" />
+    <link href="{% static 'libs/bootstrap-datepicker/css/bootstrap-datepicker.min.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'libs/spectrum-colorpicker2/spectrum.min.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'libs/bootstrap-touchspin/jquery.bootstrap-touchspin.min.css' %}" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="{% static 'libs/@chenfengyuan/datepicker/datepicker.min.css' %}">
+
+    <!-- File Upload Plugins css -->
+    <link href="{% static 'libs/dropzone/min/dropzone.min.css' %}" rel="stylesheet" type="text/css" />
+{% endblock extra_css %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <form method="POST" onsubmit="return false;">{% csrf_token %}
+
+                <div style="display: flex">
+                    <div><h1 class="card-title" style="font-size: 24px">이벤트 생성</h4></div>
+                        <div style="margin: auto 0 0 auto;">
+                            <button class="btn btn-primary w-md waves-effect waves-light" id="event-create">생성</button>
+                            <button type="button" class="btn btn-danger w-md waves-effect waves-light" onclick="location.href='{% url 'event-management' %}'">취소</button>
+                        </div>
+                    </div>
+                    <hr class="one">
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="mb-3">
+                                <label for="example-text-input" class="form-label">이벤트 제목*</label>
+                                <input class="form-control" type="text" id="event_name" name="event_name">
+                            </div>
+                        </div>
+                    </div>
+                
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label for="example-text-input" class="form-label">썸네일 등록*</label>
+                                <input class="form-control" type="file" id="event_thumbnail" name="event_thumbnail">
+                            </div>
+                        </div>
+                        <div class="col-md-8">
+                            <div class="mb-3">
+                                <label for="example-date-input" class="form-label">상세페이지*</label>
+                                <input class="form-control" type="file" id="event_detail" name="event_detail">
+                            </div>
+                        </div>
+
+                    </div>
+                
+                    <div class="row">
+
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label for="example-date-input" class="form-label">시작 날짜</label>
+                                <input class="form-control" type="date" id="start_date" name="start_date">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label for="example-date-input" class="form-label">종료 날짜</label>
+                                <input class="form-control" type="date" id="end_date" name="end_date">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="">
+                                <label for="event_type" class="form-label">구분</label>
+                                <select class="form-control select2-search-disable" id="event_type" name="event_type">
+                                    <option value=True>활성</option>
+                                    <option value=False>비활성</option>
+                                </select>
+                            </div>
+                        </div>
+
+                    </div>
+                
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="mb-3">
+                                <label for="example-text-input" class="form-label">URL</label>
+                                <input class="form-control" type="text" id="event_url" name="event_url">
+                            </div>
+                        </div>
+                    </div>
+                
+                </form>
+            </div>
+        </div> <!-- end col -->
+        {% comment %} ########################## form 끝 ################################# {% endcomment %}
+    </div> <!-- end col -->
+</div> <!-- end row -->
+
+{% endblock content %}
+
+{% block javascript %}
+<!-- JAVASCRIPT -->
+<script src="{% static 'libs/jquery/jquery.min.js' %}"></script>
+<script src="{% static 'libs/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+<script src="{% static 'libs/metismenu/metisMenu.min.js' %}"></script>
+<script src="{% static 'libs/simplebar/simplebar.min.js' %}"></script>
+<script src="{% static 'libs/node-waves/waves.min.js' %}"></script>
+
+<script src="{% static 'libs/select2/js/select2.min.js' %}"></script>
+<script src="{% static 'libs/bootstrap-datepicker/js/bootstrap-datepicker.min.js' %}"></script>
+<script src="{% static 'libs/spectrum-colorpicker2/spectrum.min.js' %}"></script>
+<script src="{% static 'libs/bootstrap-touchspin/jquery.bootstrap-touchspin.min.js' %}"></script>
+<script src="{% static 'libs/@chenfengyuan/datepicker/datepicker.min.js' %}"></script>
+
+<!-- form advanced init -->
+<script src="{% static 'js/pages/form-advanced.init.js' %}"></script>
+
+<!--tinymce js-->
+<script src="{% static 'libs/tinymce/tinymce.min.js' %}"></script>
+
+<!-- init js -->
+<script src="{% static 'js/pages/form-editor.init.js' %}"></script>
+
+<!-- Plugins js -->
+<script src="{% static 'libs/dropzone/min/dropzone.min.js' %}"></script>
+
+<!-- jquery step -->
+<script src="{% static 'libs/jquery-steps/build/jquery.steps.min.js' %}"></script>
+
+<!-- form wizard init -->
+<script src="{% static 'js/pages/form-wizard.init.js' %}"></script>
+
+<script src="{% static 'js/menus/ai-event_management.js'%}"></script>
+
+<script src="{% static 'js/app.js' %}"></script>
+{% endblock javascript %}

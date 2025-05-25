@@ -1,0 +1,153 @@
+{% extends 'partials/base.html' %}
+{% load static %}
+{% block extra_css %}
+    <link href="{% static 'libs/sweetalert2/sweetalert2.min.css'%}" rel="stylesheet" type="text/css" />
+{% endblock extra_css %}
+
+{% block content %}
+<div class="row">{% csrf_token %}
+    <div class="col-12">
+        <h2 style="margin-left: 20px">{{ recruitment.own_company.company_name }}</h2>
+        <div style="display: flex">
+            <div><h1 class="card-title" style="font-size: 24px">구매 및 사용내역 조회</h4></div>
+            
+                <div style="margin: auto 0 0 auto;">
+                    <button type="button" class="btn btn-primary w-md waves-effect waves-light" onclick="location.href='{% url 'usage-history-management' %}'">목록</button>
+                    {% comment %} <button type="button" class="btn btn-danger w-md waves-effect waves-light" id="purchase_request_detail-remove" value={{ usage_history.id }}>삭제</button> {% endcomment %}
+                </div>
+            </div>
+        </div><br><br><br><hr><br><br>
+        <div class="card">
+            <div class="card-body">
+                <h4>사용내역 상세</h4><br>
+
+                {% comment %} <div style="display:flex; justify-content: space-between; align-content: stretch; 
+                            height: 50px; align-items: center; border-top: 1px solid Silver; font-size: 14px;
+                            text-indent: 20px;">
+                    <div style="line-height: 50px; height: 100%; width: 100px; flex-basis:20%; background-color: #F2F2F2;">주문번호</div>
+                    <div style="line-height: 50px; height: 100%; width: 100px; flex-basis:30%;">{{ usage_history.company }}</div>
+                    <div style="line-height: 50px; height: 100%; width: 100px; flex-basis:20%; background-color: #F2F2F2;">기업명</div>
+                    <div style="line-height: 50px; height: 100%; width: 100px; flex-basis:80%;">{{ usage_history.register_user.fullname }}</div>
+                </div> {% endcomment %}
+                <div style="display:flex; justify-content: space-between; align-content: stretch; 
+                            height: 50px; align-items: center; border-top: 1px solid Silver; font-size: 14px;
+                            text-indent: 20px;">
+                    <div style="line-height: 50px; height: 100%; width: 100px; flex-basis:20%; background-color: #F2F2F2;">기업명</div>
+                    <div style="line-height: 50px; height: 100%; width: 100px; flex-basis:30%;">{{ usage_history.recruitment.own_company.company_name }}</div>
+                    <div style="line-height: 50px; height: 100%; width: 100px; flex-basis:20%; background-color: #F2F2F2;">사업자번호</div>
+                    <div style="line-height: 50px; height: 100%; width: 100px; flex-basis:30%;">{{ usage_history.recruitment.own_company.business_registration_number }}</div>
+                </div>
+                <div style="display:flex; justify-content: space-between; align-content: stretch; 
+                            height: 50px; align-items: center; border-top: 1px solid Silver; font-size: 14px;
+                            text-indent: 20px;">
+                    <div style="line-height: 50px; height: 100%; width: 100px; flex-basis:20%; background-color: #F2F2F2;">담당자</div>
+                    <div style="line-height: 50px; height: 100%; width: 100px; flex-basis:30%;">{{ usage_history.recruitment.own_company.user.fullname }}</div>
+                    <div style="line-height: 50px; height: 100%; width: 100px; flex-basis:20%; background-color: #F2F2F2;">변동일시</div>
+                    <div style="line-height: 50px; height: 100%; width: 100px; flex-basis:30%;">{{ usage_history.created }}</div>
+                </div>
+                {% comment %} <div style="display:flex; justify-content: space-between; align-content: stretch; 
+                            height: 50px; align-items: center; border-top: 1px solid Silver; font-size: 14px;
+                            text-indent: 20px;">
+                    <div style="line-height: 50px; height: 100%; width: 100px; flex-basis:20%; background-color: #F2F2F2;">지불상태</div>
+                    <div style="line-height: 50px; height: 100%; width: 100px; flex-basis:30%;">{{ usage_history.number_of_purchases }}</div>
+                    <div style="line-height: 50px; height: 100%; width: 100px; flex-basis:20%; background-color: #F2F2F2;">변동일시</div>
+                    <div style="line-height: 50px; height: 100%; width: 100px; flex-basis:30%;">{{ usage_history.payment_type }}</div>
+                </div> {% endcomment %}
+
+            </div>
+        </div> <!-- end col -->
+
+        <div class="card">
+            <div class="card-body">
+                <h4>사용내역 정보</h4><br>
+
+                {% comment %} <div style="display:flex; justify-content: space-between; align-content: stretch; 
+                            height: 50px; align-items: center; border-top: 1px solid Silver; font-size: 14px;
+                            text-indent: 20px; border-bottom: 1px solid Silver;">
+                    <div style="line-height: 50px; height: 100%; width: 100px; flex-basis:20%; background-color: #F2F2F2;">문의 내용</div>
+                    <div style="line-height: 50px; height: 100%; width: 100px; flex-basis:80%;">{{ usage_history.content }}</div>
+                </div> {% endcomment %}
+                <table id="" class="table table-bordered dt-responsive nowrap w-100">
+                <thead>
+                    <tr style="text-align: center;">
+                        {% comment %} <th style="text-align: center" width="70">선택</th> {% endcomment %}
+                        <th>잔여</th>
+                        <th>총 응시자</th>
+                        <th>추가된 응시자</th>
+                        <th>사용된 전형 등록 합</th>
+                        <th>사용된 전형 등록</th>
+                        {% comment %} <th style="text-align: center" width="140">시작 날짜</th>
+                        <th style="text-align: center" width="140">종료 날짜</th>
+                        <th style="text-align: center">대상자</th>
+                        <th style="text-align: center">완료</th>
+                        <th style="text-align: center">미완료</th>
+                        <th style="text-align: center" width="100">전형상태</th>
+                        <th style="text-align: center" width="70">관리</th>
+                        <th style="display:none;">히든아이디</th> {% endcomment %}
+
+                    </tr>
+                </thead>
+                
+                <tbody>
+                    <tr style="text-align: center;">
+                        {% comment %} <td style="vertical-align: center">{{ d.username }}</td> {% endcomment %}
+                        {% comment %} <th style="text-align: center"><input type="checkbox" id="checkall" /></th> {% endcomment %}
+                        {% comment %} <td>{{ recruit.recruit_code }}</td> {% endcomment %}
+                        <td>{{ usage_history.recruitment.own_company.product_count }}</td>
+                        <td>{{ usage_history.total_ticket_count }}</td>
+                        <td>{{ usage_history.ticket_count }}</td>
+                        <td>{{ usage_history.total_use_count }}</td>
+                        <td>{{ usage_history.use_count }}</td>
+                    </tr>
+                </tbody>
+            </table>
+            </div>
+        </div> <!-- end col -->
+        {% comment %} ########################## form 끝 ################################# {% endcomment %}
+
+
+
+    </div> <!-- end col -->
+</div> <!-- end row -->
+
+{% endblock content %}
+
+{% block javascript %}
+<!-- JAVASCRIPT -->
+<script src="{% static 'libs/jquery/jquery.min.js' %}"></script>
+<script src="{% static 'libs/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+<script src="{% static 'libs/metismenu/metisMenu.min.js' %}"></script>
+<script src="{% static 'libs/simplebar/simplebar.min.js' %}"></script>
+<script src="{% static 'libs/node-waves/waves.min.js' %}"></script>
+
+<!-- Required datatable js -->
+<script src="{% static 'libs/datatables.net/js/jquery.dataTables.min.js' %}"></script>
+<script src="{% static 'libs/datatables.net-bs4/js/dataTables.bootstrap4.min.js' %}"></script>
+
+<!-- Buttons examples -->
+<script src="{% static 'libs/datatables.net-buttons/js/dataTables.buttons.min.js' %}"></script>
+<script src="{% static 'libs/datatables.net-buttons-bs4/js/buttons.bootstrap4.min.js' %}"></script>
+<script src="{% static 'libs/jszip/jszip.min.js' %}"></script>
+<script src="{% static 'libs/pdfmake/build/pdfmake.min.js' %}"></script>
+<script src="{% static 'libs/pdfmake/build/vfs_fonts.js' %}"></script>
+<script src="{% static 'libs/datatables.net-buttons/js/buttons.html5.min.js' %}"></script>
+<script src="{% static 'libs/datatables.net-buttons/js/buttons.print.min.js' %}"></script>
+<script src="{% static 'libs/datatables.net-buttons/js/buttons.colVis.min.js' %}"></script>
+<script src="{% static 'libs/datatables.net-keyTable/js/dataTables.keyTable.min.js' %}"></script>
+<script src="{% static 'libs/datatables.net-select/js/dataTables.select.min.js' %}"></script>
+
+<!-- Responsive examples -->
+<script src="{% static 'libs/datatables.net-responsive/js/dataTables.responsive.min.js' %}"></script>
+<script src="{% static 'libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js' %}"></script>
+
+<!-- Datatable init js -->
+<script src="{% static 'js/pages/datatables.init.js' %}"></script>
+
+
+
+<script src="{% static 'js/menus/payment-buy_in_bulk_request.js'%}"></script>
+
+<script src="{% static 'js/app.js' %}"></script>
+
+
+{% endblock javascript %}

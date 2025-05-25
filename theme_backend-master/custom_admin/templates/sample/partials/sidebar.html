@@ -1,0 +1,88 @@
+{% block sidebar %}
+<!-- ========== Left Sidebar Start ========== -->
+<div class="vertical-menu">
+
+  <div data-simplebar class="h-100">
+
+    <!--- Sidemenu -->
+    <div id="sidebar-menu">
+      <!-- Left Menu Start -->
+      <ul class="metismenu list-unstyled" id="side-menu">
+        {% comment %} {% if user.is_admin or user.is_marketer %} {% endcomment %}
+        <li class="menu-title" key="t-menu">Menu</li>
+
+        {% if user.is_admin %}
+        <li>
+          <a href="javascript: void(0);" class="has-arrow waves-effect">
+            <i class='mdi mdi-home'></i>
+            <span key="t-pages">AI면접솔루션 관리</span>
+          </a>
+          <ul class="sub-menu" aria-expanded="false">
+            <li><a href={% url 'coupon-management' %}>쿠폰 관리</a></li>
+            <li><a href={% url 'recruit-management' %}>전형관리 및 다운로드</a></li>
+            <li><a href={% url 'interviewee-management' %}>역량진단 관리</a></li>
+            <li><a href={% url 'event-management' %}>이벤트관리</a></li>
+            <li><a href={% url 'solution-introduction-management' %}>솔루션 소개 관리</a></li>
+            <li><a href={% url 'review-management' %}>리뷰 관리</a></li>
+          </ul>
+        </li>
+        {% endif %}
+
+        <!-- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@ -->
+        {% if user.is_admin %}
+        <li>
+          <a href="javascript: void(0);" class="has-arrow waves-effect">
+            <i class='mdi mdi-credit-card'></i>
+            <span key="t-pages">매출 및 결제관리</span>
+          </a>
+          <ul class="sub-menu" aria-expanded="false">
+            <li><a href={% url 'payment-check' %}>매출 조회</a></li>
+            <li><a href={% url 'purchase-history-management' %}>구매 및 사용내역 조회</a></li>
+            <li style="display: none;"><a href={% url 'usage-history-management' %}>구매 및 사용내역 조회</a></li>
+            <li><a href={% url 'buy-in-bulk-request' %}>대량 구매 요청</a></li>
+          </ul>
+        </li>
+        {% endif %}
+        <!-- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@ -->
+
+        <li>
+          <a href="javascript: void(0);" class="has-arrow waves-effect">
+            <i class='mdi mdi-clipboard-text-outline'></i>
+            <span key="t-pages">회원 및 관리자</span>
+          </a>
+          <ul class="sub-menu" aria-expanded="false">
+            {% if user.is_admin %}
+            <li><a href={% url 'business-user-management' %}>기업 회원 관리</a></li>
+            <li><a href={% url 'individual-user-management' %}>개인 회원 관리</a></li>
+            <li><a href={% url 'admin-user-management' %}>관리자 관리</a></li>
+            <li><a href={% url 'marketing-DB-management' %}>마케팅 DB 관리</a></li>
+            <li><a href={% url 'employee-user-management' %}>재직자 DB 관리</a></li>
+            <li><a href={% url 'retired-user-management' %}>퇴사자 DB 관리</a></li>
+            {% elif user.is_marketing_admin %}
+            <li><a href={% url 'marketing-DB-management' %}>마케팅 DB 관리</a></li>
+            {% endif %}
+          </ul>
+        </li>
+        {% if user.is_admin %}
+        <li>
+          <a href="javascript: void(0);" class="">
+            <i class='mdi mdi-clipboard-text-outline'></i>
+            <span key="t-pages" onclick="location.href='{% url 'solution-inquiry' %}'">솔루션 문의</span>
+            {% comment %} {% endcomment %}
+          </a>
+        </li>
+        {% endif %}
+        <!-- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@ -->
+
+      </ul>
+      {% if user.is_admin %}
+      <a href="javascript: void(0);" class="" style="left: 20px; bottom: 20px; position: absolute; color: #8fa6bf;">
+        <span key="t-pages" onclick="location.href='{% url 'db-raw-data-download' %}'">DB Raw 데이터 다운로드</span>
+      </a>
+      {% endif %}
+    </div>
+    <!-- Sidebar -->
+  </div>
+</div>
+<!-- Left Sidebar End -->
+{% endblock sidebar %}

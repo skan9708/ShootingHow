@@ -1,0 +1,83 @@
+{% extends 'partials/base.html' %}
+{% load static %}
+{% block extra_css %}
+<link rel="stylesheet" href="https://rawgit.com/enyo/dropzone/master/dist/dropzone.css">
+
+<link href="{% static 'libs/sweetalert2/sweetalert2.min.css'%}" rel="stylesheet" type="text/css"/>
+<link href="{% static 'page/main.css' %}" rel="stylesheet" type="text/css"/>
+{% endblock extra_css %}
+
+{% load template_util %}
+{% block content %}
+  <div class="row">{% csrf_token %}
+    <div class="col-12">
+      <div class="title-button">
+        <div>
+          <h1 class="page-title">{{ title }}</h1>
+        </div>
+        <div style="margin: auto 0 0 auto;">
+          <button type="button" class="btn btn-primary w-md waves-effect waves-light" id="list" onclick="location.href='{% url list_url %}'">목록</button>
+          <button type="button" class="btn btn-danger w-md waves-effect waves-light" id="create">생성</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-body">
+      <!-- body start -->
+      <h4>공지사항 생성</h4>
+      {% comment "" %}
+      {% for field, property in create_fields.items %}
+        {% if property.check %}
+          <div class="info-text-box">
+            <div class="info-text-title">
+              <div class="info-text-title-value {{ property.class }}">{{ property.verbose }}</div>
+            </div>
+            <div class="info-text-content">
+              <input type="checkbox" id="{{ field }}"> {{ property.check }}</input>
+            </div>
+          </div>
+        {% else %}
+          <div class="info-text-box">
+            <div class="info-text-title">
+              <div class="info-text-title-value {{ property.class }}">{{ property.verbose }}</div>
+            </div>
+            <div class="info-text-content">
+              <div class="write-box" id="{{ field }}">{{ property.value }}</div>
+            </div>
+          </div>
+        {% endif %}
+      {% endfor %}
+      {% endcomment %}
+      {% for field, property in create_fields.items %}
+        <div class="info-text-box">
+          <div class="info-text-title">
+            <div class="info-text-title-value {{ property.class }}">{{ property.verbose }}</div>
+          </div>
+          <div class="info-text-content">
+            {% if property.check %}
+              <input type="checkbox" id="{{ field }}"> {{ property.check }}</input>
+            {% elif property.attachment %}
+              <input type="file" id="{{ field }}" accept='image/*' />
+            {% else %}
+              <div class="write-box" id="{{ field }}">{{ property.value }}</div>
+            {% endif %}
+          </div>
+        </div>
+      {% endfor %}
+      <hr>
+      <!-- body end -->
+    </div>
+
+  </div>
+  <!-- end col -->
+</div>
+<!-- end row -->
+
+{% endblock content %}
+
+{% block javascript %}
+
+{% include js %}
+
+{% endblock javascript %}

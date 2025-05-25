@@ -1,0 +1,176 @@
+{% extends 'partials/base.html' %}
+{% load static %}
+{% block extra_css %}
+        <!-- plugin css -->
+        <link href="{% static 'libs/admin-resources/jquery.vectormap/jquery-jvectormap-1.2.2.css'%}" rel="stylesheet" type="text/css" />
+{% endblock extra_css %}
+
+{% block content %}
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="card">
+                                    <div class="card-body">
+        
+                                        <h4 class="card-title">Google Markers</h4>
+                                        <p class="card-title-dsec">Example of google maps.</p>
+        
+                                        <div id="gmaps-markers" class="gmaps"></div>
+                                    </div>
+                                </div>
+                            </div> <!-- end col -->
+        
+                            <div class="col-lg-6">
+                                <div class="card">
+                                    <div class="card-body">
+        
+                                        <h4 class="card-title">Google Overlays</h4>
+                                        <p class="card-title-desc">Example of google maps.</p>
+        
+                                        <div id="gmaps-overlay" class="gmaps"></div>
+                                    </div>
+                                </div>
+                            </div> <!-- end col -->
+                        </div> <!-- end row -->
+        
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="card">
+                                    <div class="card-body">
+        
+                                        <h4 class="card-title">Street View Panoramas</h4>
+                                        <p class="card-title-desc">Example of google maps.</p>
+        
+                                        <div id="panorama" class="gmaps-panaroma"></div>
+                                    </div>
+                                </div>
+                            </div> <!-- end col -->
+        
+                            <div class="col-lg-6">
+                                <div class="card">
+                                    <div class="card-body">
+        
+                                        <h4 class="card-title">Map Types</h4>
+                                        <p class="card-title-desc">Example of google maps.</p>
+        
+                                        <div id="gmaps-types" class="gmaps"></div>
+                                    </div>
+                                </div>
+                            </div> <!-- end col -->
+                        </div> <!-- end row -->
+
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h4 class="card-title">World Vector Map</h4>
+                                        <p class="card-title-dsec">Example of world vector maps.</p>
+                                        <div id="world-map-markers" style="height: 420px"></div>
+                                    </div> <!-- end card-body-->
+                                </div> <!-- end card-->
+                            </div> <!-- end col-->
+                        </div>
+                        <!-- end row-->
+
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h4 class="card-title">USA Vector Map</h4>
+                                        <p class="card-title-dsec">Example of united states of ameria vector maps.</p>
+                                        <div id="usa-vectormap" style="height: 350px"></div>
+                                    </div> <!-- end card-body-->
+                                </div> <!-- end card-->
+                            </div> <!-- end col-->
+
+                            <div class="col-lg-6">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h4 class="card-title">India Vector Map</h4>
+                                        <p class="card-title-dsec">Example of india vector maps.</p>
+                                        <div id="india-vectormap"  style="height: 350px"></div>
+                                    </div> <!-- end card-body-->
+                                </div> <!-- end card-->
+                            </div> <!-- end col-->
+                        </div>
+                        <!-- end row-->
+
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h4 class="card-title">Australia Vector Map</h4>
+                                        <p class="card-title-dsec">Example of australia vector maps.</p>
+                                        <div id="australia-vectormap" style="height: 350px"></div>
+                                    </div> <!-- end card-body-->
+                                </div> <!-- end card-->
+                            </div> <!-- end col-->
+
+                            <div class="col-lg-6">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h4 class="card-title">Chicago Vector Map</h4>
+                                        <p class="card-title-dsec">Example chicago of vector maps.</p>
+                                        <div id="chicago-vectormap"  style="height: 350px"></div>
+                                    </div> <!-- end card-body-->
+                                </div> <!-- end card-->
+                            </div> <!-- end col-->
+                        </div>
+                        <!-- end row-->
+
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h4 class="card-title">UK Vector Map</h4>
+                                        <p class="card-title-dsec">Example of united kingdom vector maps.</p>
+                                        <div id="uk-vectormap" style="height: 350px"></div>
+                                    </div> <!-- end card-body-->
+                                </div> <!-- end card-->
+                            </div> <!-- end col-->
+                            
+                            <div class="col-lg-6">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h4 class="card-title">Canada Vector Map</h4>
+                                        <p class="card-title-dsec">Example canada of vector maps.</p>
+                                        <div id="canada-vectormap"  style="height: 350px"></div>
+                                    </div> <!-- end card-body-->
+                                </div> <!-- end card-->
+                            </div> <!-- end col-->
+                        </div>
+                        <!-- end row-->
+{% endblock content %}
+
+{% block javascript %}
+        <!-- JAVASCRIPT -->
+        <script src="{% static 'libs/jquery/jquery.min.js' %}"></script>
+        <script src="{% static 'libs/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+        <script src="{% static 'libs/metismenu/metisMenu.min.js' %}"></script>
+        <script src="{% static 'libs/simplebar/simplebar.min.js' %}"></script>
+        <script src="{% static 'libs/node-waves/waves.min.js' %}"></script>
+
+        <!-- google maps api -->
+        <script src="https://maps.google.com/maps/api/js?key=AIzaSyCtSAR45TFgZjOs4nBFFZnII-6mMHLfSYI"></script>
+
+        <!-- Plugins js-->
+        <script src="{% static 'libs/admin-resources/jquery.vectormap/jquery-jvectormap-1.2.2.min.js' %}"></script>
+        <script src="{% static 'libs/admin-resources/jquery.vectormap/maps/jquery-jvectormap-world-mill-en.js' %}"></script>
+        <script src="{% static 'libs/admin-resources/jquery.vectormap/maps/jquery-jvectormap-us-merc-en.js' %}"></script>
+        <script src="{% static 'libs/admin-resources/jquery.vectormap/maps/jquery-jvectormap-in-mill-en.js' %}"></script>
+        <script src="{% static 'libs/admin-resources/jquery.vectormap/maps/jquery-jvectormap-au-mill-en.js' %}"></script>
+        <script src="{% static 'libs/admin-resources/jquery.vectormap/maps/jquery-jvectormap-us-il-chicago-mill-en.js' %}"></script>
+        <script src="{% static 'libs/admin-resources/jquery.vectormap/maps/jquery-jvectormap-uk-mill-en.js' %}"></script>
+        <script src="{% static 'libs/admin-resources/jquery.vectormap/maps/jquery-jvectormap-ca-lcc-en.js' %}"></script>
+
+        <!-- Gmaps file -->
+        <script src="{% static 'libs/gmaps/gmaps.min.js' %}"></script>
+        
+        <!-- demo codes -->
+        <script src="{% static 'js/pages/gmaps.init.js' %}"></script>  
+        
+        <!-- Init js-->
+        <script src="{% static 'js/pages/vector-maps.init.js' %}"></script>
+
+        <script src="{% static 'js/app.js' %}"></script>
+
+{% endblock javascript %}

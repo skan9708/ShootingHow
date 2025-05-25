@@ -1,0 +1,115 @@
+{% extends 'partials/base.html' %}
+{% load static %}
+{% block extra_css %}
+<link rel="stylesheet" href="https://rawgit.com/enyo/dropzone/master/dist/dropzone.css">
+
+<link href="{% static 'libs/sweetalert2/sweetalert2.min.css'%}" rel="stylesheet" type="text/css"/>
+<link href="{% static 'page/main.css' %}" rel="stylesheet" type="text/css"/>
+{% endblock extra_css %}
+
+{% load template_util %}
+{% block content %}
+  <div class="row">{% csrf_token %}
+    <div class="col-12">
+      <div class="title-button">
+        <div>
+          <h1 class="page-title">{{ title }}</h1>
+        </div>
+        <div style="margin: auto 0 0 auto;">
+          <button type="button" class="btn btn-primary w-md waves-effect waves-light" id="list" onclick="location.href='{% url list_url %}'">목록</button>
+          <button type="button" class="btn btn-danger w-md waves-effect waves-light" id="create">생성</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-body">
+      <!-- body start -->
+      {% for field, property in create_fields.items %}
+        <div id="{{ field }}-input">
+          <hr>
+          <div class="single-input create_field">
+            <div class="input-title {{ property.class }}">{{ property.verbose }}</div>
+            {% if property.choices %}
+              <select class="form-control select2-search-disable dropdown-content" id="{{ field }}">
+                <!-- 기존에 설정되어 있는 값을 choice의 기본값으로 설정 -->
+                <option value="" selected="selected" hidden="hidden">{{ property.verbose }} 선택</option>
+                <!-- choice 목록 보여주기 -->
+                {% for value, verbose in property.choices.items %}
+                  <option value="{{ value }}" class="dropdown-value">{{ verbose }}</option>
+                {% endfor %}
+              </select>
+
+            <!-- 첨부파일을 list로 보여줘야 할 경우 -->
+            {% elif property.list %}
+              <div class="input-list" id="{{ field }}">
+              {% for filename, url in property.value %}
+                <a class="list-content" href="{{ url }}" download="{{ filename }}">{{ filename }}</a>
+              {% endfor %}
+              </div>
+            
+            <!-- 일반 필드일 경우 -->
+            {% else %}
+              <input type="{{ property.type }}" class="form-control input-content" id="{{ field }}" placeholder="{{ property.placeholder }}">
+            {% endif %}
+            
+          </div>
+        </div>
+      {% endfor %}
+      <hr>
+      <!-- body end -->
+    </div>
+
+  </div>
+  <!-- end col -->
+</div>
+<!-- end row -->
+
+{% endblock content %}
+
+{% block javascript %}
+<script type="text/javascript">
+  var license_dropzone_html = `
+    <div id="license-dropzone-input" style="display: none">
+      <div class="single-input">
+        <div class="input-title required">라이센스</div>
+        <div class="dropzone-content">
+          <form action="#" class="dropzone" id="license-dropzone">
+            <div class="fallback">
+              <input name="file" type="file" multiple="multiple">
+            </div>
+            <div class="dz-message needsclick">
+              <div class="dropzone-info">
+                <div>
+                  <i class="display-4 text-muted bx bxs-cloud-upload" style="text-align: center;"></i>
+                </div>
+                <h4 style="text-align: center">이미지 업로드(최대 4개)</h4>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  `;
+
+  var instructor_expired_date_html = `
+    <div id="instructor_expired_date-input" style="display: none">
+      <div class="single-input">
+        <div class="input-title required">강사 만료일자</div>
+        <input type="date" class="form-control input-content" id="instructor_expired_date">
+      </div>
+    </div>
+  `;
+
+  $("#role-input").after(instructor_expired_date_html);
+  $("#role-input").after(license_dropzone_html);
+  
+  var license_dropzone_input = document.getElementById("license-dropzone-input");
+  var instructor_expired_date_input = document.getElementById("instructor_expired_date-input");
+  var instructor_expired_date = document.getElementById("instructor_expired_date");
+</script>
+
+{% include js %}
+{% include "page/dropzone.init.js.html" %}
+
+{% endblock javascript %}

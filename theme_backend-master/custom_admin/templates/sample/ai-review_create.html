@@ -1,0 +1,123 @@
+{% extends 'partials/base.html' %}
+{% load static %}
+{% block extra_css %}
+
+    <link href="{% static 'libs/select2/css/select2.min.css' %}" rel="stylesheet" type="text/css" />
+    <link href="{% static 'libs/bootstrap-datepicker/css/bootstrap-datepicker.min.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'libs/spectrum-colorpicker2/spectrum.min.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'libs/bootstrap-touchspin/jquery.bootstrap-touchspin.min.css' %}" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="{% static 'libs/@chenfengyuan/datepicker/datepicker.min.css' %}">
+
+    <!-- File Upload Plugins css -->
+    <link href="{% static 'libs/dropzone/min/dropzone.min.css' %}" rel="stylesheet" type="text/css" />
+{% endblock extra_css %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <form method="POST" onsubmit="return false;">{% csrf_token %}
+
+                <div style="display: flex">
+                    <div><h1 class="card-title" style="font-size: 24px">리뷰 생성</h4></div>
+                        <div style="margin: auto 0 0 auto;">
+                            <button class="btn btn-primary w-md waves-effect waves-light" id="review-create">생성</button>
+                            <button type="button" class="btn btn-danger w-md waves-effect waves-light" onclick="location.href='{% url 'review-management' %}'">취소</button>
+                        </div>
+                    </div>
+                    <hr class="one">
+
+                    <div class="row">
+                        <div class="col-md-7">
+                            <div class="mb-3">
+                                <label for="example-text-input" class="form-label">리뷰 제목*</label>
+                                <input class="form-control" type="text" id="review_title" name="review_title">
+                            </div>
+                        </div>
+                        <div class="col-md-5">
+                            <div class="">
+                                <label for="review_status" class="form-label">공개 상태*</label>
+                                <select class="form-control select2-search-disable" id="review_status" name="review_status">
+                                    <option value=True>공개</option>
+                                    <option value=False>비공개</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="mb-3">
+                                <label for="example-text-input" class="form-label">리뷰 세부내용</label>
+                                <textarea class="form-control" style="height: 35em; resize: none;" id="review_content" name="review_content"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="example-text-input" class="form-label">기업명</label>
+                                <input class="form-control" type="text" id="review_company" name="review_company">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="form-label">작성자</label><br>
+                                <select class="form-control select2" id="user" name="user">
+                                    <option value=>없음</option>
+                                    {% for user in user_list %}
+                                    <option value={{ user.id }}>{{ user.username }} / {{ user.fullname }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+
+                    </div>
+                        
+                </form>
+            </div>
+        </div> <!-- end col -->
+        {% comment %} ########################## form 끝 ################################# {% endcomment %}
+    </div> <!-- end col -->
+</div> <!-- end row -->
+
+{% endblock content %}
+
+{% block javascript %}
+<!-- JAVASCRIPT -->
+<script src="{% static 'libs/jquery/jquery.min.js' %}"></script>
+<script src="{% static 'libs/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+<script src="{% static 'libs/metismenu/metisMenu.min.js' %}"></script>
+<script src="{% static 'libs/simplebar/simplebar.min.js' %}"></script>
+<script src="{% static 'libs/node-waves/waves.min.js' %}"></script>
+
+<script src="{% static 'libs/select2/js/select2.min.js' %}"></script>
+<script src="{% static 'libs/bootstrap-datepicker/js/bootstrap-datepicker.min.js' %}"></script>
+<script src="{% static 'libs/spectrum-colorpicker2/spectrum.min.js' %}"></script>
+<script src="{% static 'libs/bootstrap-touchspin/jquery.bootstrap-touchspin.min.js' %}"></script>
+<script src="{% static 'libs/@chenfengyuan/datepicker/datepicker.min.js' %}"></script>
+
+<!-- form advanced init -->
+<script src="{% static 'js/pages/form-advanced.init.js' %}"></script>
+
+<!--tinymce js-->
+<script src="{% static 'libs/tinymce/tinymce.min.js' %}"></script>
+
+<!-- init js -->
+<script src="{% static 'js/pages/form-editor.init.js' %}"></script>
+
+<!-- Plugins js -->
+<script src="{% static 'libs/dropzone/min/dropzone.min.js' %}"></script>
+
+<!-- jquery step -->
+<script src="{% static 'libs/jquery-steps/build/jquery.steps.min.js' %}"></script>
+
+<!-- form wizard init -->
+<script src="{% static 'js/pages/form-wizard.init.js' %}"></script>
+
+<script src="{% static 'js/menus/ai-review_management.js'%}"></script>
+
+<script src="{% static 'js/app.js' %}"></script>
+{% endblock javascript %}
