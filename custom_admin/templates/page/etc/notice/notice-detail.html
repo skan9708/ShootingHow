@@ -1,0 +1,105 @@
+{% extends 'partials/base.html' %}
+{% load static %}
+{% block extra_css %}
+  <link rel="stylesheet" href="https://rawgit.com/enyo/dropzone/master/dist/dropzone.css">
+
+  <link href="{% static 'libs/sweetalert2/sweetalert2.min.css'%}" rel="stylesheet" type="text/css"/>
+  <link href="{% static 'page/main.css' %}" rel="stylesheet" type="text/css"/>
+{% endblock extra_css %}
+
+{% load template_util %}
+{% block content %}
+  <div class="row">{% csrf_token %}
+    <div class="col-12">
+      <div class="title-button">
+        <div>
+          <h1 class="page-title">{{ title }}</h1>
+        </div>
+        <div style="margin: auto 0 0 auto;">
+          <button type="button" class="btn btn-primary w-md waves-effect waves-light" id="list">목록</button>
+          <button type="button" class="btn btn-danger w-md waves-effect waves-light" id="save">저장</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-body">
+      <h4>공지사항 상세</h4>
+      {% for field, property in detail_fields.items %}
+        <div class="info-text-box">
+          <div class="info-text-title">
+            <div class="info-text-title-value {{ property.class }}">{{ property.verbose }}</div>
+          </div>
+          <div class="info-text-content">
+            {% if property.check %}
+              {% if property.value %}
+                <input type="checkbox" id="{{ field }}" checked> {{ property.check }}</input>
+              {% else %}
+                <input type="checkbox" id="{{ field }}"> {{ property.check }}</input>
+              {% endif %}
+            {% elif property.attachment %}
+              <a id="{{ field }}_url" href="{{ property.value.url }}" download="{{ property.value.filename }}" value="zz" modi="azzd">{{ property.value.filename }}</a>
+              <label for="{{ field }}" class="btn">파일 수정</label>
+              <input id="{{ field }}" style="visibility:hidden;" type="file">
+            {% elif property.ckeditor %}
+              <textarea id="{{ field }}">{{ property.value|safe }}</textarea>
+            {% else %}
+              <div class="write-box" id="{{ field }}">{{ property.value }}</div>
+            {% endif %}
+          </div>
+        </div>
+      {% endfor %}
+      <br><br>
+
+      <!-- <div class="info-content" class="write-box">zzzzzzzzzzzz -->
+      <!-- body end -->
+    </div>
+  </div>
+  <!-- end col -->
+</div>
+<!-- end row -->
+
+{% endblock content %}
+
+{% block javascript %}
+
+{% include "page/dropzone.init.js.html" %}
+<!-- <script src="https://cdn.ckeditor.com/ckeditor5/35.3.2/classic/ckeditor.js"></script> -->
+<!-- <script src="https://cdn.ckeditor.com/ckeditor5/35.3.2/super-build/ckeditor.js"></script> -->
+<!-- <script src="https://cdn.ckeditor.com/ckeditor5/35.3.2/classic/translations/ko.js"></script> -->
+<script src="{% static 'js/pages/ckeditor.js' %}"></script>
+<script>
+{% for field, property in detail_fields.items %}
+  {% if property.ckeditor %}
+    ClassicEditor.create( document.querySelector( '#{{ field }}' ), {
+      language: "ko",
+      emovePlugins: [ 'ImageUpload' ],
+      toolbar: {
+        items: [
+            'heading', '|',
+            'bold', 'italic', 'strikethrough', 'underline', 'code', 'subscript', 'superscript', 'removeFormat', '|',
+            'bulletedList', 'numberedList', 'todoList', '|',
+            'outdent', 'indent', '|',
+            'undo', 'redo',
+            '-',
+            'fontColor', 'fontBackgroundColor', 'highlight', '|',
+            //'fontSize', 'fontFamily', 'fontColor', 'fontBackgroundColor', 'highlight', '|',
+            'alignment', '|',
+            'link', 'insertImage', 'blockQuote', 'insertTable', 'codeBlock', 'htmlEmbed', '|',
+            //'link', 'insertImage', 'blockQuote', 'insertTable', 'mediaEmbed', 'codeBlock', 'htmlEmbed', '|',
+            'specialCharacters', 'horizontalLine', 'pageBreak', '|',
+            //'textPartLanguage', '|',
+            //'sourceEditing'
+      ]
+    }
+  })
+  .then(contents => {
+    {{ field }}_ckedit = contents;
+  });
+
+  {% endif %}
+{% endfor %}
+</script>
+
+{% include js %}
+{% endblock javascript %}

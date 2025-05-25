@@ -1,0 +1,118 @@
+{% load template_util %}
+{% load static %}
+<script src="{% static 'libs/sweetalert2/sweetalert2.min.js'%}"></script>
+<script src="{% static 'js/pages/sweet-alerts.init.js'%}"></script>
+<script type="text/javascript">
+  // 목록
+  $(document).on("click", '#list', function(e){
+    location.href = "{% url list_url %}"
+  });
+
+  // checkbox 모두 선택
+  $('input[name=checkbox_select_all]').on('change', function(){
+    $('input[name=checkbox]').prop('checked', this.checked);
+  });
+
+
+  // 공개 여부 전환
+  $(document).on("click", '#save', function(e){
+    var formData = new FormData();
+    var $crf_token = $('[name="csrfmiddlewaretoken"]').attr('value');
+
+    formData.append("is_visible", $("#is_visible").is(":checked"))
+
+    $.ajax({
+      headers: {"X-CSRFToken": $crf_token},
+      type: "POST",
+      {% if pk %}
+        url: "{% url detail_url pk %}",
+      {% endif %}
+      data: formData,
+
+      success: function (response) {
+        location.reload()
+      },
+
+      error: function (xhr, status, error) {
+        response_text = JSON.parse(xhr.responseText);
+        alert(response_text.error)
+      },
+
+      dataType: "json",
+      async: true,
+      cache: false,
+      contentType: false,
+      processData: false,
+      timeout: 60000
+    });
+  })
+
+  // 삭제 with 확인 버튼
+  $(document).on("click", '#remove', function(e){
+    var checkbox = $("input[name=checkbox]:checked");
+    if(checkbox.length < 1){
+      Swal.fire({
+        text: "선택 된 게시글이 없습니다.",
+        confirmButtonColor: "#0576b9",
+        confirmButtonText: "확인",
+        animation: !1
+      })
+      return
+    }
+
+    Swal.fire({
+      title: "선택한 게시글을 삭제합니다.",
+      text: "삭제 된 게시글은 되돌릴 수 없습니다.",
+      icon: "warning",
+      showCancelButton: !0,
+      confirmButtonColor: "#34c3af",
+      cancelButtonColor: "#f46a6a",
+      confirmButtonText: "삭제",
+      cancelButtonText: "취소",
+    }).then(function(t) {
+        if(!t.value) return;
+        var formData = new FormData();
+        var $crf_token = $('[name="csrfmiddlewaretoken"]').attr('value');
+        
+        // get checked elements
+        var checked_list = new Array();
+
+        checkbox.each(function(i) {
+          var tr = checkbox.parent().parent().eq(i);
+          var td = tr.children();
+          
+          var code = td.slice(-1).text();
+          checked_list.push(code);
+        });
+        formData.append("checked_list", checked_list);
+
+        $.ajax({
+          headers: {"X-CSRFToken": $crf_token},
+          type: "DELETE", 
+          url: "{% url list_url %}",
+          data: formData,
+
+          success: function (response) {
+            Swal.fire(
+              "", "선택한 게시글이 삭제되었습니다.", "success"
+              ).then(function(t){
+                location.reload()
+            })
+          },
+
+          error: function (xhr, status, error) {
+            response_text = JSON.parse(xhr.responseText);
+            alert(response_text.error)
+          },
+
+          dataType: "json",
+          async: true,
+          cache: false,
+          contentType: false,
+          processData: false,
+          timeout: 60000
+        });
+    })
+  })
+  
+</script>

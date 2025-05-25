@@ -1,0 +1,236 @@
+{% load template_util %}
+{% load static %}
+<script src="{% static 'libs/sweetalert2/sweetalert2.min.js'%}"></script>
+<script src="{% static 'js/pages/sweet-alerts.init.js'%}"></script>
+<script type="text/javascript">
+  // 카테고리 선택
+  $(document).on("click", "[id^=category-button]", function (e) {
+    var selected_id = e.target.id.split("-").slice(-1);
+    var selected_category = document.getElementById("category-title-" + selected_id)
+  
+    var all_categorys = document.querySelectorAll("[id^=category-title]");
+    all_categorys.forEach(function (category) {
+      category.style.display = "none";
+    });
+  
+    selected_category.style.display = "inline";
+  });
+
+  // 수정 modal 열기
+  $(document).on("click", '.product-update', function(e){
+    modal_body = $("#modal-body")
+    modal_body.empty();
+    id = $(this).data('id')
+    name = $(this).data('name')
+    value = $(this).data('value')
+    level = $(this).attr('level')
+
+    $('.modal-title').html("수정")
+    
+    // 옵션 수정
+    if(level == "option"){
+      form = `
+        <div class="info-text-box" style="border-top: none;">
+          <div class="info-text-title" style="width:45%;">
+            <div class="write-box" id="modal-title">${name}</div>
+          </div>
+          <div class="info-text-content" style="width:55%;">
+            <div class="write-box" id="modal-value">${value}</div>
+          </div>
+        </div>
+        <div style="display: none" id="modal-type" type="update" value="option" pk="${id}"></div>
+      `
+    }
+
+    // 나머지
+    else{
+      form = `
+        <div class="info-text-box" style="border-top: none;">
+          <div class="info-text-title" style="width:45%;">
+            <div class="info-text-title-value">${name}</div>
+          </div>
+          <div class="info-text-content" style="width:55%;">
+            <div class="write-box" id="modal-value">${value}</div>
+          </div>
+        </div>
+        <div style="display: none" id="modal-type" type="update" value="" pk="${id}"></div>
+      `
+    }
+    
+    modal_body.append(form)
+  });
+  
+  // 추가 modal 열기
+  $(document).on("click", '.product-create', function(e){
+    modal_body = $("#modal-body")
+    modal_body.empty();
+    $('.modal-title').html("추가")
+
+    id = $(this).data('id')
+    name = $(this).data('name')
+    value = $(this).data('value')
+    level = $(this).attr('level')
+
+    // 새로운 상품 생성 ex) 체험다이빙
+    if(level == "category"){
+      headers = $(this).data('header')
+      split_headers = headers.split('|')
+      console.log(headers)
+      console.log(headers.length)
+
+      $('.modal-title').html(`${value} 추가`)
+      form = `
+        <div style='font-size: 16px; font-weight: bold; padding: 5px 0px 5px 0px;'>상품</div>
+          <div class="info-text-box" style="">
+            <div class="info-text-title" style="width:45%;">
+              <div class="info-text-title-value" id="modal-title">상품 명</div>
+            </div>
+            <div class="info-text-content" style="width:55%;">
+              <div class="write-box" id="modal-value"></div>
+            </div>
+          </div>
+          <div style="display: none" id="modal-type" type="create" value="category" pk="${id}" headers="${headers}"></div>
+      `
+      if (split_headers.length > 1 || split_headers[0] != '') {
+        form += `<div style='font-size: 16px; font-weight: bold; padding: 5px 0px 5px 0px;'>옵션</div>`
+        for(i=0; i < split_headers.length; i++){
+          form += `
+            <div class="info-text-box" style="">
+              <div class="info-text-title" style="width:45%;">
+                <div class="info-text-title-value" id="modal-title">${split_headers[i]}</div>
+              </div>
+              <div class="info-text-content" style="width:55%;">
+                <div class="write-box category_value"></div>
+              </div>
+            </div>
+          `
+        }
+      }
+    }
+
+    else{
+      form = `
+        <div class="info-text-box" style="border-top: none;">
+          <div class="info-text-title" style="width:45%;">
+            <div class="info-text-title-value">${name}</div>
+          </div>
+          <div class="info-text-content" style="width:55%;">
+            <div class="write-box" id="modal-value">${value}</div>
+          </div>
+        </div>
+        <div style="display: none" id="modal-type" value="value" type="create" pk="${id}"></div>
+      `
+    }
+    
+    modal_body.append(form)
+  });
+
+  // modal 저장하기
+  $(document).on("click", '#modal-save', function(e){
+    formData = new FormData();
+    $crf_token = $('[name="csrfmiddlewaretoken"]').attr('value');
+    
+    modal_type = $("#modal-type")
+    type = modal_type.attr('type')
+    type_value = modal_type.attr('value')
+
+    console.log(type)
+    console.log(type_value)
+
+    // 수정 저장
+    if(type == "update"){
+      formData.append('value', document.getElementById('modal-value').innerText);
+      formData.append('pk', modal_type.attr('pk'))
+      
+      // 옵션 수정 시
+      if(type_value == "option"){
+        formData.append('name', document.getElementById('modal-title').innerText);
+      }
+    }
+    
+    // 생성 저장
+    if(type == "create"){
+      formData.append('name', document.getElementById('modal-value').innerText);
+      formData.append('pk', modal_type.attr('pk'))
+      formData.append('headers', modal_type.attr('headers'))
+      //values = new Array();
+      
+      // 새로운 상품 생성 시 ex) 체험다이빙
+      if(type_value == "category"){
+        input_values = document.getElementsByClassName("category_value")
+        for(i=0; i < input_values.length; i++){
+          formData.append('values', input_values[i].innerText)
+        }
+      }
+    }
+
+    $.ajax({
+
+      headers: {"X-CSRFToken": $crf_token},
+      type: "POST",
+      {% if pk %}
+        url: "{% url list_url %}",
+      {% endif %}
+      data: formData,
+
+      success: function (response) {
+        location.reload()
+      },
+
+      error: function (xhr, status, error) {
+        response_text = JSON.parse(xhr.responseText);
+        alert(response_text.error)
+      },
+
+      dataType: "json",
+      async: true,
+      cache: false,
+      contentType: false,
+      processData: false,
+      timeout: 60000
+    });
+  });
+
+  // 삭제
+  $(document).on("click", '#remove', function(e){
+    $crf_token = $('[name="csrfmiddlewaretoken"]').attr('value');
+    formData = new FormData();
+    formData.append('pk', $(this).attr('value'))
+
+    Swal.fire({
+      title: "선택한 상품을 삭제합니다.",
+      text: "삭제 된 상품은 되돌릴 수 없습니다.",
+      icon: "warning",
+      showCancelButton: !0,
+      confirmButtonColor: "#34c3af",
+      cancelButtonColor: "#f46a6a",
+      confirmButtonText: "삭제",
+      cancelButtonText: "취소",
+    }).then(function(t) {
+      $.ajax({
+        headers: {"X-CSRFToken": $crf_token},
+        type: "delete",
+        {% if pk %}
+          url: "{% url list_url %}",
+        {% endif %}
+        data: formData,
+
+        success: function (response) {
+          location.reload()
+        },
+
+        error: function (xhr, status, error) {
+          response_text = JSON.parse(xhr.responseText);
+          alert(response_text.error)
+        },
+
+        dataType: "json",
+        async: true,
+        cache: false,
+        contentType: false,
+        processData: false,
+        timeout: 60000
+      });
+    })
+  });
+</script>

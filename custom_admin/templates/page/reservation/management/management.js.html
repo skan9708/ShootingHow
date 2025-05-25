@@ -1,0 +1,52 @@
+{% load template_util %}
+{% load static %}
+<script src="{% static 'libs/sweetalert2/sweetalert2.min.js'%}"></script>
+<script src="{% static 'js/pages/sweet-alerts.init.js'%}"></script>
+<script type="text/javascript">
+  function clearElements(elements) {
+      while(elements.length > 0){
+        elements[0].parentNode.removeChild(elements[0]);
+      }
+  }
+
+  // 목록
+  $(document).on("click", '#list', function(e){
+    location.href = "{% url list_url %}"
+  });
+
+
+  // 수정 저장
+  $(document).on("click", '#update', function(e){
+    var formData = new FormData();
+    var $crf_token = $('[name="csrfmiddlewaretoken"]').attr('value');
+    
+    formData.append("memo", document.getElementById("memo").innerText)
+
+    $.ajax({
+
+      headers: {"X-CSRFToken": $crf_token},
+      type: "PUT",
+      {% if pk %}
+        url: "{% url detail_url pk %}",
+      {% endif %}
+      data: formData,
+
+      success: function (response) {
+        location.reload()
+      },
+
+      error: function (xhr, status, error) {
+        response_text = JSON.parse(xhr.responseText);
+        alert(response_text.error)
+      },
+
+      dataType: "json",
+      async: true,
+      cache: false,
+      contentType: false,
+      processData: false,
+      timeout: 60000
+    });
+  })
+  
+</script>

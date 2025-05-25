@@ -1,0 +1,132 @@
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/v/dt/jszip-2.5.0/dt-1.13.1/b-2.3.3/b-colvis-2.3.3/b-html5-2.3.3/fc-4.2.1/fh-3.3.1/r-2.4.0/sp-2.1.0/datatables.min.js"></script>
+
+<script type="text/javascript">
+$("document").ready(function () {
+  //var max_width_length = 25;
+  var table = $('#datatable').DataTable({
+    // option document : https://datatables.net/reference/option/
+    
+    'autoWidth': false, // 열 너비 자동 지정 해제
+    "processing": true,
+
+    responsive: true, // 페이지 크기에 따른 요약 기능
+    
+    'order': [], // 기본 정렬 테이블 비활성화
+    'pageLength': 25, // 기본적으로 페이지에 보여질 row 갯수
+    "lengthMenu":  [[10, 25, 50, 100, -1], // row 갯수 옵션
+                    ['10개', '25개', '50개', '100개', "모두"]],
+
+    'columnDefs': [
+      // nosort class는 정렬 기능을 사용하지 않음
+      {'orderable': false, 'targets': ['nosort']},
+      {'searchable': false, 'targets': ['nosearch']},
+
+      // 반응형 column의 우선순위 설정
+      {% if detail_url %}
+        { responsivePriority: 1, targets: -2 },
+      {% endif %}
+      { responsivePriority: 0, targets: -1 },
+      { responsivePriority: 2, targets: 0 },
+
+      // id field 숨김처리
+      // { visible: false, targets: -1 },
+
+      // 가로 최고 길이 설정
+      {% if max_width_length %}
+        {
+          render: function ( data, type, row ) {
+            return data.length > {{ max_width_length }} ? data.substr( 0, {{ max_width_length }} ) + '…' : data;
+          },
+          'targets': ['ellipsis'],
+        },
+
+        {
+          render: function ( data, type, row, meta ) {
+            [url, value] = data.split('|')
+            value = value.length > {{ max_width_length }} ? value.substr( 0, {{ max_width_length }} ) + "..." : value;
+            return '<a href="'+url+'"><i class="mdi mdi-file-document-outline"><span> '+value+'</span></i></a>';
+            //return '<a href="'+url+'">'+value+'</a>';
+          },
+          'targets': ['url_ellipsis'],
+        },
+      {% endif %}
+      
+        //targets: '_all'}  
+    ],
+    
+    {% if excel_button %}
+    // dom info : https://datatables.net/reference/option/dom
+    // dom 순서에 따라 버튼 위치가 변경됨
+    // dom: 'lfrtBip',
+    "dom": '<"top"lf>rt<"bottom"ipB>',
+
+    buttons: [
+      {
+        extend: 'excel',
+        text: '엑셀 다운로드',
+        exportOptions: {
+          columns: ['.export_excel']
+        }
+      }
+    ],
+    {% else %}
+    "dom": '<"top"lf>rt<"bottom"ip>',
+    {% endif %}
+
+    // language sample : https://datatables.net/reference/option/language
+    "language": {
+      "info": "_PAGE_ / _PAGES_페이지",
+      "lengthMenu": "_MENU_ 보기",
+      "search": "검색",
+      "searchPlaceholder": "검색어 입력",
+      "loadingRecords": "불러오는 중..",
+      "zeroRecords": "데이터가 존재하지 않습니다.",
+      "infoEmpty": "",
+      "infoFiltered": "",
+      "thousands": "",
+      "processing": "",
+      "infoPostFix": "",
+      "emptyTable": "",
+
+      "paginate": { // paginate 언어 변경
+        "previous": "이전",
+        "next": "다음",
+        "last": "마지막",
+      },
+    },
+  });
+  
+  var filter_column = document.getElementById('category-filter');
+  
+  if(filter_column) {
+    filter_column = filter_column.name;
+    $("#datatable_filter.dataTables_filter").append($("#category-filter-body"));
+
+    var categoryIndex = 0;
+    $("#datatable th").each(function (i) {    
+      if ($($(this)).html() == filter_column) {
+        categoryIndex = i; return false;
+      }
+    });
+
+    $.fn.dataTable.ext.search.push(
+      function (settings, data, dataIndex) {
+        // alert(123)
+        var selectedItem = $('#category-filter').val()
+        var category = data[categoryIndex];
+        if (selectedItem === "" || category == selectedItem) {
+        // if (selectedItem === "" || category.includes(selectedItem)) {
+          return true;
+        }
+        return false;
+      }
+    );
+    $("#category-filter").change(function (e) {
+      table.draw();
+    });
+    table.draw();
+  }
+});
+</script>

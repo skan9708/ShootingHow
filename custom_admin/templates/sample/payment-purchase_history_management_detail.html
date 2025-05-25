@@ -1,0 +1,163 @@
+{% extends 'partials/base.html' %}
+{% load static %}
+{% block extra_css %}
+    <link href="{% static 'libs/sweetalert2/sweetalert2.min.css'%}" rel="stylesheet" type="text/css" />
+{% endblock extra_css %}
+
+{% block content %}
+<div class="row">{% csrf_token %}
+    <div class="col-12">
+        <h2 style="margin-left: 20px">{{ recruitment.own_company.company_name }}</h2>
+        <div style="display: flex">
+            <div><h1 class="card-title" style="font-size: 24px">구매 및 사용내역 조회</h4></div>
+                <div style="margin: auto 0 0 auto;">
+                    {% comment %} <button type="button" class="btn btn-primary w-md waves-effect waves-light" onclick="location.href='{% url 'coupon-create' %}'">사용처리</button> {% endcomment %}
+                    <button type="submit" class="btn btn-danger w-md waves-effect waves-light" id="payment-cancel" value={{ purchase_history.id }}>결제취소</button>
+                    <button type="button" class="btn btn-primary w-md waves-effect waves-light" onclick="location.href='{% url 'purchase-history-management' %}'">목록</button>
+                    {% comment %} <button type="button" class="btn btn-danger w-md waves-effect waves-light" id="purchase_request_detail-remove" value={{ purchase_history.id }}>삭제</button> {% endcomment %}
+                </div>
+            </div>
+        </div><br><br><br><hr><br><br>
+        <div class="card">
+            <div class="card-body">
+                <h4>구매내역 상세</h4><br>
+
+                <div style="display:flex; justify-content: space-between; align-content: stretch; 
+                            height: 50px; align-items: center; border-top: 1px solid Silver; font-size: 14px;
+                            text-indent: 20px;">
+                    <div style="line-height: 50px; height: 100%; width: 100px; flex-basis:20%; background-color: #F2F2F2;">주문번호</div>
+                    <div style="line-height: 50px; height: 100%; width: 100px; flex-basis:30%;">{{ purchase_history.payment_code }}</div>
+                    <div style="line-height: 50px; height: 100%; width: 100px; flex-basis:20%; background-color: #F2F2F2;">결제방식</div>
+                    <div style="line-height: 50px; height: 100%; width: 100px; flex-basis:30%;">{{ purchase_history.payment_type }}</div>
+                    {% comment %} <div style="line-height: 50px; height: 100%; width: 100px; flex-basis:20%; background-color: #F2F2F2;">승인번호</div> {% endcomment %}
+                    {% comment %} <div style="line-height: 50px; height: 100%; width: 100px; flex-basis:30%;">{{ purchase_history.register_user.fullname }}</div> {% endcomment %}
+                </div>
+                <div style="display:flex; justify-content: space-between; align-content: stretch; 
+                            height: 50px; align-items: center; border-top: 1px solid Silver; font-size: 14px;
+                            text-indent: 20px;">
+                    <div style="line-height: 50px; height: 100%; width: 100px; flex-basis:20%; background-color: #F2F2F2;">기업명</div>
+                    <div style="line-height: 50px; height: 100%; width: 100px; flex-basis:30%;">{{ purchase_history.user.business.company_name }}</div>
+                    <div style="line-height: 50px; height: 100%; width: 100px; flex-basis:20%; background-color: #F2F2F2;">소속(센터명)</div>
+                    <div style="line-height: 50px; height: 100%; width: 100px; flex-basis:30%;">{{ purchase_history.user.business.center }}</div>
+                </div>
+                <div style="display:flex; justify-content: space-between; align-content: stretch; 
+                            height: 50px; align-items: center; border-top: 1px solid Silver; font-size: 14px;
+                            text-indent: 20px;">
+                    <div style="line-height: 50px; height: 100%; width: 100px; flex-basis:20%; background-color: #F2F2F2;">담당자</div>
+                    <div style="line-height: 50px; height: 100%; width: 100px; flex-basis:30%;">{{ purchase_history.user.fullname }}</div>
+                    <div style="line-height: 50px; height: 100%; width: 100px; flex-basis:20%; background-color: #F2F2F2;">사업자번호</div>
+                    <div style="line-height: 50px; height: 100%; width: 100px; flex-basis:30%;">{{ purchase_history.user.business.business_registration_number }}</div>
+                </div>
+                <div style="display:flex; justify-content: space-between; align-content: stretch; 
+                            height: 50px; align-items: center; border-top: 1px solid Silver; font-size: 14px;
+                            text-indent: 20px;">
+                    <div style="line-height: 50px; height: 100%; width: 100px; flex-basis:20%; background-color: #F2F2F2;">지불상태</div>
+                    <div style="line-height: 50px; height: 100%; width: 100px; flex-basis:30%;">{{ purchase_history.pay_result }}</div>
+                    <div style="line-height: 50px; height: 100%; width: 100px; flex-basis:20%; background-color: #F2F2F2;">결제일시</div>
+                    <div style="line-height: 50px; height: 100%; width: 100px; flex-basis:30%;">{{ purchase_history.date | date:'Y-m-d H:i:s' }}</div>
+                </div>
+                <div style="display:flex; justify-content: space-between; align-content: stretch; 
+                            height: 50px; align-items: center; border-top: 1px solid Silver; font-size: 14px;
+                            text-indent: 20px;">
+                    <div style="line-height: 50px; height: 100%; width: 100px; flex-basis:20%; background-color: #F2F2F2;">결제금액</div>
+                    <div style="line-height: 50px; height: 100%; width: 100px; flex-basis:30%;">{{ purchase_history.price }}</div>
+                    <div style="line-height: 50px; height: 100%; width: 100px; flex-basis:20%; background-color: #F2F2F2;">충전건수</div>
+                    <div style="line-height: 50px; height: 100%; width: 100px; flex-basis:30%;">{{ purchase_history.charge_count }}</div>
+                </div>
+                {% if purchase_history.coupon %}
+                <div style="display:flex; justify-content: space-between; align-content: stretch; 
+                            height: 50px; align-items: center; border-top: 1px solid Silver; font-size: 14px;
+                            text-indent: 20px;">
+                    <div style="line-height: 50px; height: 100%; width: 100px; flex-basis:20%; background-color: #F2F2F2;">사용쿠폰</div>
+                    <div style="line-height: 50px; height: 100%; width: 100px; flex-basis:30%;">{{ purchase_history.coupon.coupon_name }}</div>
+                    <div style="line-height: 50px; height: 100%; width: 100px; flex-basis:20%; background-color: #F2F2F2;">결제방식</div>
+                    <div style="line-height: 50px; height: 100%; width: 100px; flex-basis:30%;">{{ purchase_history.coupon.freecount_info }}</div>
+                </div>
+                {% endif %}
+
+            </div>
+        </div> <!-- end col -->
+
+        {% comment %} <div class="card">
+            <div class="card-body">
+                <h4>충전내역 정보</h4><br>
+                <table id="" class="table table-bordered dt-responsive nowrap w-100">
+                    <thead>
+                        <tr>
+                            <th style="text-align: center">결제금액</th>
+                            <th style="text-align: center">쿠폰사용</th>
+                            <th style="text-align: center">충전건수</th>
+                        </tr>
+                    </thead>
+                    
+                    <tbody>
+                        {% for pur_request in request_list %}
+                        <tr>
+                            <td style="text-align: center"><input type="checkbox" name="object_CheckBox" ></td>
+                            <td>{{ pur_request.company }}</td>
+                            <td>{{ pur_request.register_user.fullname }}</td>
+                            <td>{{ pur_request.created | date:'Y-m-d H:i:s' }}</td>
+                            <td>{{ pur_request.number_of_purchases }}</td>
+                            <td>{{ pur_request.content }}</td>
+
+                            <td style="text-align: center">
+                                <a class="" href="{% url 'buy-in-bulk-request-detail' pur_request.id %}"><i
+                                        class="mdi mdi-pencil-box fa-lg text-muted align-middle me-1"></i></a>
+                            </td>
+                            <td style="display:none;">{{ pur_request.id  }}</td>
+                            </tr>
+                        {% endfor %}
+
+
+                    </tbody>
+                </table>
+            </div>
+        </div> <!-- end col --> {% endcomment %}
+        {% comment %} ########################## form 끝 ################################# {% endcomment %}
+
+
+
+    </div> <!-- end col -->
+</div> <!-- end row -->
+
+{% endblock content %}
+
+{% block javascript %}
+<!-- JAVASCRIPT -->
+<script src="{% static 'libs/jquery/jquery.min.js' %}"></script>
+<script src="{% static 'libs/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+<script src="{% static 'libs/metismenu/metisMenu.min.js' %}"></script>
+<script src="{% static 'libs/simplebar/simplebar.min.js' %}"></script>
+<script src="{% static 'libs/node-waves/waves.min.js' %}"></script>
+
+<!-- Required datatable js -->
+<script src="{% static 'libs/datatables.net/js/jquery.dataTables.min.js' %}"></script>
+<script src="{% static 'libs/datatables.net-bs4/js/dataTables.bootstrap4.min.js' %}"></script>
+
+<!-- Buttons examples -->
+<script src="{% static 'libs/datatables.net-buttons/js/dataTables.buttons.min.js' %}"></script>
+<script src="{% static 'libs/datatables.net-buttons-bs4/js/buttons.bootstrap4.min.js' %}"></script>
+<script src="{% static 'libs/jszip/jszip.min.js' %}"></script>
+<script src="{% static 'libs/pdfmake/build/pdfmake.min.js' %}"></script>
+<script src="{% static 'libs/pdfmake/build/vfs_fonts.js' %}"></script>
+<script src="{% static 'libs/datatables.net-buttons/js/buttons.html5.min.js' %}"></script>
+<script src="{% static 'libs/datatables.net-buttons/js/buttons.print.min.js' %}"></script>
+<script src="{% static 'libs/datatables.net-buttons/js/buttons.colVis.min.js' %}"></script>
+<script src="{% static 'libs/datatables.net-keyTable/js/dataTables.keyTable.min.js' %}"></script>
+<script src="{% static 'libs/datatables.net-select/js/dataTables.select.min.js' %}"></script>
+
+<!-- Responsive examples -->
+<script src="{% static 'libs/datatables.net-responsive/js/dataTables.responsive.min.js' %}"></script>
+<script src="{% static 'libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js' %}"></script>
+
+<!-- Datatable init js -->
+<script src="{% static 'js/pages/datatables.init.js' %}"></script>
+
+
+
+<script src="{% static 'js/menus/payment-purchase_history_management.js'%}"></script>
+
+<script src="{% static 'js/app.js' %}"></script>
+
+
+{% endblock javascript %}

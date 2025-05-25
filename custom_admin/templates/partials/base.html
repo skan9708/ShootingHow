@@ -1,0 +1,101 @@
+{% load static %}
+{% load template_util %}
+{% get_head_title as head_title %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ head_title }}</title>
+    <meta content="" name="description"/>
+    <meta content="Pichforest" name="author"/>
+    <!-- App favicon -->
+    <link rel="shortcut icon" href="{% static 'images/favicon.ico'%}">
+    {% block extra_css %}{% endblock %}
+    <!-- Bootstrap Css -->
+    <link href="{% static 'css/bootstrap.min.css'%}" id="bootstrap-style" rel="stylesheet" type="text/css"/>
+    <!-- Icons Css -->
+    <link href="{% static 'css/icons.min.css'%}" rel="stylesheet" type="text/css"/>
+    <!-- App Css-->
+    <link href="{% static 'css/app.min.css'%}" id="app-style" rel="stylesheet" type="text/css"/>
+    <!-- Dark Mode Css-->
+    <link href="{% static 'css/dark-layout.min.css'%}" id="app-style" rel="stylesheet" type="text/css"/>
+
+  </head>
+
+  <body data-sidebar="dark">
+
+    {% block preloader %}{% endblock preloader %}
+
+    <!-- Begin page -->
+    <div id="layout-wrapper">
+      {% block header %}
+        {% include 'partials/header.html' %}
+      {% endblock header %}
+      {% block sidebar %}
+        {% include 'partials/sidebar.html' %}
+
+      {% endblock sidebar %}
+      <!-- ============================================================== -->
+      <!-- Start right Content here -->
+      <!-- ============================================================== -->
+      <div class="main-content">
+        <div class="page-content">
+          <div class="container-fluid">
+            <!-- start page title -->
+            <div class="row">
+              <div class="col-12">
+                <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+                  {% if subtitle %}
+                    <h4 class="mb-sm-0 font-size-18">{{ category|get_category_verbose_name }}
+                      >
+                      {{ title }}
+                      >
+                      {{ subtitle }}</h4>
+                  {% else %}
+                    <h4 class="mb-sm-0 font-size-18">{{ category|get_category_verbose_name }}
+                      >
+                      {{ title }}</h4>
+                  {% endif %}
+                </div>
+              </div>
+            </div>
+            <!-- end page title -->
+            {% block content %}{% endblock content %}
+            {% block subscriber %}{% endblock subscriber %}
+          </div>
+          <!-- container-fluid -->
+        </div>
+        <!-- End Page-content -->
+        {% block footer %}
+        {% comment %} {% include 'partials/footer.html' %} {% endcomment %}
+        {% endblock footer %}
+      </div>
+      <!-- end main content-->
+    </div>
+    <!-- END layout-wrapper -->
+    {% block right_sidebar %}
+      {% include 'partials/right_sidebar.html' %}
+    {% endblock right_sidebar %}
+    <!-- JAVASCRIPT -->
+    <script src="{% static 'libs/jquery/jquery.min.js' %}"></script>
+    <script src="{% static 'libs/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'libs/metismenu/metisMenu.min.js' %}"></script>
+    <script src="{% static 'libs/simplebar/simplebar.min.js' %}"></script>
+    <script src="{% static 'libs/node-waves/waves.min.js' %}"></script>
+    <script type="text/javascript">
+      document.addEventListener('keydown', event => {
+        if (event.key === 'Enter') {
+          document.execCommand('insertLineBreak')
+          event.preventDefault()
+        }
+      })
+    </script>
+
+    {% block javascript %}{% endblock javascript %}
+  </body>
+
+</html>

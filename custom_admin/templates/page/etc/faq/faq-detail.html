@@ -1,0 +1,55 @@
+{% extends 'partials/base.html' %}
+{% load static %}
+{% block extra_css %}
+  <link rel="stylesheet" href="https://rawgit.com/enyo/dropzone/master/dist/dropzone.css">
+
+  <link href="{% static 'libs/sweetalert2/sweetalert2.min.css'%}" rel="stylesheet" type="text/css"/>
+  <link href="{% static 'page/main.css' %}" rel="stylesheet" type="text/css"/>
+{% endblock extra_css %}
+
+{% load template_util %}
+{% block content %}
+  <div class="row">{% csrf_token %}
+    <div class="col-12">
+      <div class="title-button">
+        <div>
+          <h1 class="page-title">{{ title }}</h1>
+        </div>
+        <div style="margin: auto 0 0 auto;">
+          <button type="button" class="btn btn-primary w-md waves-effect waves-light" id="list">목록</button>
+          <button type="button" class="btn btn-danger w-md waves-effect waves-light" id="save">저장</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-body">
+      <h4>자주하는 질문 정보</h4>
+      {% for field, property in detail_fields.items %}
+        <div class="info-text-box">
+          <div class="info-text-title">
+            <div class="info-text-title-value">{{ property.verbose }}</div>
+          </div>
+          <div class="info-text-content">
+            <div class="write-box" id="{{ field }}">{{ property.value|linebreaksbr }}</div>
+          </div>
+        </div>
+      {% endfor %}
+      <br><br>
+
+      <!-- <div class="info-content" class="write-box">zzzzzzzzzzzz -->
+      <!-- body end -->
+    </div>
+  </div>
+  <!-- end col -->
+</div>
+<!-- end row -->
+
+{% endblock content %}
+
+{% block javascript %}
+
+{% include js %}
+{% include "page/dropzone.init.js.html" %}
+
+{% endblock javascript %}

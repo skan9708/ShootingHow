@@ -1,0 +1,104 @@
+{% extends 'partials/base.html' %}
+{% load static %}
+{% block extra_css %}
+    <link href="{% static 'libs/sweetalert2/sweetalert2.min.css'%}" rel="stylesheet" type="text/css" />
+{% endblock extra_css %}
+{% block content %}
+<div class="row">{% csrf_token %}
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <div style="display: flex">
+                    <div><h1 class="card-title" style="font-size: 24px">관리자 관리</h4></div>
+                    
+                        <div style="margin: auto 0 0 auto;">
+                            <button type="button" class="btn btn-primary w-md waves-effect waves-light" onclick="location.href='{% url 'admin-user-create' %}'">아이디 생성</button>
+                            <button type="submit" class="btn btn-danger w-md waves-effect waves-light" id="admin_user-remove">삭제</button>
+                        </div>
+                    </div>
+                <hr class="one">
+
+                <table id="" class="table table-bordered dt-responsive nowrap w-100">
+                    <thead>
+                        <tr>
+                            <th style="text-align: center" width="70">선택</th>
+                            <th style="text-align: center">관리자ID</th>
+                            <th style="text-align: center">이름</th>
+                            <th style="text-align: center">연락처</th>
+                            <th style="text-align: center">가입일</th>
+                            <th style="text-align: center" width="70">세부</th>
+                            <th style="display:none;">히든아이디</th>
+                        </tr>
+                    </thead>
+                    
+                    <tbody>
+                        {% for marketing_admin in marketing_admin_list %}
+                        <tr>
+                            <td style="text-align: center"><input type="checkbox" name="object_CheckBox" ></td>
+                            <td>{{ marketing_admin.username }}</td>
+                            <td>{{ marketing_admin.fullname }}</td>
+                            <td>{{ marketing_admin.phone }}</td>
+                            <td>{{ marketing_admin.created | date:'Y-m-d' }}</td>
+
+                            {% comment %} <td>{{ d.username }}</td> {% endcomment %}
+
+                            <td style="text-align: center">
+                                <a class="" href="{% url 'admin-user-update' marketing_admin.id %}"><i
+                                        class="mdi mdi-pencil-box fa-lg text-muted align-middle me-1"></i></a>
+                            </td>
+                            <td style="display:none;">{{ marketing_admin.id  }}</td>
+                            </tr>
+                        {% endfor %}
+
+
+                    </tbody>
+                </table>
+
+            </div>
+            <!-- end card-body -->
+        </div>
+        <!-- end card -->
+    </div> <!-- end col -->
+</div> <!-- end row -->
+
+{% endblock content %}
+
+{% block javascript %}
+<!-- JAVASCRIPT -->
+<script src="{% static 'libs/jquery/jquery.min.js' %}"></script>
+<script src="{% static 'libs/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+<script src="{% static 'libs/metismenu/metisMenu.min.js' %}"></script>
+<script src="{% static 'libs/simplebar/simplebar.min.js' %}"></script>
+<script src="{% static 'libs/node-waves/waves.min.js' %}"></script>
+
+<!-- Required datatable js -->
+<script src="{% static 'libs/datatables.net/js/jquery.dataTables.min.js' %}"></script>
+<script src="{% static 'libs/datatables.net-bs4/js/dataTables.bootstrap4.min.js' %}"></script>
+
+<!-- Buttons examples -->
+<script src="{% static 'libs/datatables.net-buttons/js/dataTables.buttons.min.js' %}"></script>
+<script src="{% static 'libs/datatables.net-buttons-bs4/js/buttons.bootstrap4.min.js' %}"></script>
+<script src="{% static 'libs/jszip/jszip.min.js' %}"></script>
+<script src="{% static 'libs/pdfmake/build/pdfmake.min.js' %}"></script>
+<script src="{% static 'libs/pdfmake/build/vfs_fonts.js' %}"></script>
+<script src="{% static 'libs/datatables.net-buttons/js/buttons.html5.min.js' %}"></script>
+<script src="{% static 'libs/datatables.net-buttons/js/buttons.print.min.js' %}"></script>
+<script src="{% static 'libs/datatables.net-buttons/js/buttons.colVis.min.js' %}"></script>
+<script src="{% static 'libs/datatables.net-keyTable/js/dataTables.keyTable.min.js' %}"></script>
+<script src="{% static 'libs/datatables.net-select/js/dataTables.select.min.js' %}"></script>
+
+<!-- Responsive examples -->
+<script src="{% static 'libs/datatables.net-responsive/js/dataTables.responsive.min.js' %}"></script>
+<script src="{% static 'libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js' %}"></script>
+
+<!-- Datatable init js -->
+<script src="{% static 'js/pages/datatables.init.js' %}"></script>
+
+
+
+<script src="{% static 'js/menus/user-admin_managememt.js'%}"></script>
+
+<script src="{% static 'js/app.js' %}"></script>
+
+
+{% endblock javascript %}

@@ -1,0 +1,37 @@
+<script src="https://rawgit.com/enyo/dropzone/master/dist/dropzone.js"></script>  
+
+<script type="text/javascript">
+  //fileDropzone dropzone 설정할 태그의 id로 지정
+  var license_dropzone = Dropzone.options.licenseDropzone = {
+
+    maxFiles: 4, // 업로드 파일수
+    init: function() { // 최대 업로드 파일 수를 초과할 경우 업로드 하지 못하도록 함
+      this.on("maxfilesexceeded", function(file) {
+        // 가장 먼저 업로드 된 파일 제거
+        //this.removeFile(this.files[0]);
+
+        // 마지막에 업로드 된 파일 제거
+        this.removeFile(file);
+        // alert("파일은 최대 4개까지 업로드 할 수 있습니다.")
+        //this.removeAllFiles();
+        //this.addFile(file);
+      });
+
+      this.on("addedfile", function(file) {
+        // 이미지 파일이 아닌 파일의 섬네일 지정
+        if (!file.type.match(/image.*/)) {
+          // this.emit("thumbnail", file, "https://www.iconpacks.net/icons/2/free-file-icon-1453-thumb.png");
+        }
+      });
+    },
+    autoProcessQueue: false, // 자동업로드 여부 (true일 경우, 바로 업로드 되어지며, false일 경우, 서버에는 올라가지 않은 상태임 processQueue() 호출시 올라간다.)
+    clickable: false, // 클릭 후 파일 선택 여부
+    thumbnailHeight: 80, // thumbnail size
+    thumbnailWidth: 80, // thumbnail size
+    maxFilesize: 10, // 최대업로드용량 : 10MB
+    // parallelUploads: 4, // 동시파일업로드 수(이걸 지정한 수 만큼 여러파일을 한번에 컨트롤러에 넘긴다.)
+    addRemoveLinks: true, // 삭제버튼 표시 여부
+    dictRemoveFile: '삭제', // 삭제버튼 표시 텍스트
+    // uploadMultiple: false, // 다중업로드 기능
+  };
+</script>

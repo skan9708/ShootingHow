@@ -1,0 +1,145 @@
+{% extends 'partials/base.html' %}
+{% load static %}
+{% block extra_css %}
+    <link href="{% static 'libs/sweetalert2/sweetalert2.min.css'%}" rel="stylesheet" type="text/css" />
+{% endblock extra_css %}
+
+{% block content %}
+<div class="row">{% csrf_token %}
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <div style="display: flex">
+                    <div><h1 class="card-title" style="font-size: 24px">솔루션 소개 관리</h4></div>
+                    
+                        <div style="margin: auto 0 0 auto;">
+                            <button type="button" class="btn btn-primary w-md waves-effect waves-light" onclick="location.href='{% url 'event-create' %}'">생성</button>
+                            <button type="submit" class="btn btn-danger w-md waves-effect waves-light" id="event-remove">삭제</button>
+                        </div>
+                    </div>
+                <hr class="one">
+                <form method="GET">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label for="example-text-input" class="form-label">유형</label>
+                                <input class="form-control" type="text" value="{{ event_name }}" id="event_name" name="event_name">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label for="example-date-input" class="form-label">등록일</label>
+                                <input class="form-control" type="date" value="{{ start_date }}" id="start_date" name="start_date">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label for="example-date-input" class="form-label">공개상태</label>
+                                <input class="form-control" type="date" value="{{ end_date }}" id="end_date" name="end_date">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div style="text-align: right">
+                        <button class="btn btn-primary">🔍검색</button>
+                    </div>
+                </form>
+            </div>
+        </div> <!-- end col -->
+        {% comment %} ########################## form 끝 ################################# {% endcomment %}
+
+        <div class="card">
+            <div class="card-body">
+                {% comment %} <h4 class="card-title">Default Datatable</h4>
+                <p class="card-title-desc">DataTables has most features enabled by
+                    default, so all you need to do to use it with your own tables is to call
+                    the construction function: <code>$().DataTable();</code>.
+                </p> {% endcomment %}
+
+                <table id="" class="table table-bordered dt-responsive nowrap w-100">
+                    <thead>
+                        <tr>
+                            <th style="text-align: center" width="70">선택</th>
+                            <th style="text-align: center">솔루션 소개 제목</th>
+                            <th style="text-align: center">공개상태</th>
+                            <th style="text-align: center">이미지</th>
+                            <th style="text-align: center">등록일</th>
+                            <th style="text-align: center">노출 경로</th>
+                            <th style="text-align: center" width="70">편집</th>
+                            <th style="display:none;">히든아이디</th>
+                        </tr>
+                    </thead>
+                    
+                    <tbody>
+                        {% for event in event_list %}
+                        <tr>
+                            <td style="text-align: center"><input type="checkbox" name="object_CheckBox" ></td>
+                            <td>{{ event.title }}</td>
+                            <td>{{ event.is_expose | yesno:'활성, 비활성'}}</td>
+                            <td><img src="/fileserver/thumbnail/{{ event.id }}" height="80px"/></td>
+                            <td>{{ event.start_date | date:'Y-m-d' }}</td>
+                            <td>{{ event.end_date | date:'Y-m-d'  }}</td>
+                            <td>{{ event.has_url | yesno:'Y, N' }}</td>
+                            <td>{{ event.user.username }}</td>
+                            <td>{{ event.registration_date | date:'Y-m-d'  }}</td>
+                            
+                            {% comment %} <td>{{ d.username }}</td> {% endcomment %}
+                            <td style="text-align: center">
+                                <a class="" href=""><i
+                                    class="mdi mdi-pencil-box fa-lg text-muted align-middle me-1"></i></a></td>
+                            <td style="display:none;">{{ event.id  }}</td>
+                            </tr>
+                        {% endfor %}
+
+
+                    </tbody>
+                </table>
+
+            </div>
+            <!-- end card-body -->
+        </div>
+        <!-- end card -->
+    </div> <!-- end col -->
+</div> <!-- end row -->
+
+{% endblock content %}
+
+{% block javascript %}
+<!-- JAVASCRIPT -->
+<script src="{% static 'libs/jquery/jquery.min.js' %}"></script>
+<script src="{% static 'libs/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+<script src="{% static 'libs/metismenu/metisMenu.min.js' %}"></script>
+<script src="{% static 'libs/simplebar/simplebar.min.js' %}"></script>
+<script src="{% static 'libs/node-waves/waves.min.js' %}"></script>
+
+<!-- Required datatable js -->
+<script src="{% static 'libs/datatables.net/js/jquery.dataTables.min.js' %}"></script>
+<script src="{% static 'libs/datatables.net-bs4/js/dataTables.bootstrap4.min.js' %}"></script>
+
+<!-- Buttons examples -->
+<script src="{% static 'libs/datatables.net-buttons/js/dataTables.buttons.min.js' %}"></script>
+<script src="{% static 'libs/datatables.net-buttons-bs4/js/buttons.bootstrap4.min.js' %}"></script>
+<script src="{% static 'libs/jszip/jszip.min.js' %}"></script>
+<script src="{% static 'libs/pdfmake/build/pdfmake.min.js' %}"></script>
+<script src="{% static 'libs/pdfmake/build/vfs_fonts.js' %}"></script>
+<script src="{% static 'libs/datatables.net-buttons/js/buttons.html5.min.js' %}"></script>
+<script src="{% static 'libs/datatables.net-buttons/js/buttons.print.min.js' %}"></script>
+<script src="{% static 'libs/datatables.net-buttons/js/buttons.colVis.min.js' %}"></script>
+<script src="{% static 'libs/datatables.net-keyTable/js/dataTables.keyTable.min.js' %}"></script>
+<script src="{% static 'libs/datatables.net-select/js/dataTables.select.min.js' %}"></script>
+
+<!-- Responsive examples -->
+<script src="{% static 'libs/datatables.net-responsive/js/dataTables.responsive.min.js' %}"></script>
+<script src="{% static 'libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js' %}"></script>
+
+<!-- Datatable init js -->
+<script src="{% static 'js/pages/datatables.init.js' %}"></script>
+
+
+
+<script src="{% static 'js/menus/ai-event_management.js'%}"></script>
+
+<script src="{% static 'js/app.js' %}"></script>
+
+
+{% endblock javascript %}

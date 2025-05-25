@@ -1,0 +1,142 @@
+{% extends 'partials/base.html' %}
+{% load static %}
+{% block extra_css %}
+    <link href="{% static 'libs/sweetalert2/sweetalert2.min.css'%}" rel="stylesheet" type="text/css" />
+{% endblock extra_css %}
+
+{% block content %}
+<div class="row">{% csrf_token %}
+    <div class="col-12">
+        <h2 style="margin-left: 20px">{{ recruitment.own_company.company_name }}</h2>
+        <div style="display: flex">
+            <div><h1 class="card-title" style="font-size: 24px">마케팅DB 관리</h4></div>
+            
+                <div style="margin: auto 0 0 auto;">
+                    <button type="button" class="btn btn-primary w-md waves-effect waves-light" onclick="location.href='{% url 'marketing-DB-management' %}'">목록</button>
+                    {% comment %} <button type="button" class="btn btn-danger w-md waves-effect waves-light" id="marketing_agree_user_detail-remove">탈퇴처리</button> {% endcomment %}
+                </div>
+            </div>
+        </div><br><br><br><hr><br><br>
+        <div class="card">
+            <div class="card-body">
+                <h4>마케팅 동의자 상세</h4><br>
+                {% comment %} <div style="display:flex; justify-content: space-between; align-content: stretch; 
+                            height: 50px; align-items: center; border-top: 1px solid Silver; font-size: 14px;
+                            text-indent: 20px;">
+                    <div style="line-height: 50px; height: 100%; width: 100px; flex-basis:20%; background-color: #F2F2F2;">이메일</div>
+                    <div style="line-height: 50px; height: 100%; width: 100px; flex-basis:80%;">{{ marketing_agree_user.user.username }}</div>
+                </div> {% endcomment %}
+
+                <div style="display:flex; justify-content: space-between; align-content: stretch; 
+                            height: 50px; align-items: center; border-top: 1px solid Silver; font-size: 14px;
+                            text-indent: 20px;">
+                    <div style="line-height: 50px; height: 100%; width: 100px; flex-basis:20%; background-color: #F2F2F2;">분류</div>
+                    <div style="line-height: 50px; height: 100%; width: 100px; flex-basis:30%;">활용</div>
+                    <div style="line-height: 50px; height: 100%; width: 100px; flex-basis:20%; background-color: #F2F2F2;">구분</div>
+                    <div style="line-height: 50px; height: 100%; width: 100px; flex-basis:30%;">{{ interviewee_info.get_tester_type_display }}</div>
+                </div>
+                
+                <div style="display:flex; justify-content: space-between; align-content: stretch; 
+                            height: 50px; align-items: center; border-top: 1px solid Silver; font-size: 14px;
+                            text-indent: 20px;">
+                    <div style="line-height: 50px; height: 100%; width: 100px; flex-basis:20%; background-color: #F2F2F2;">주소</div>
+                    <div style="line-height: 50px; height: 100%; width: 100px; flex-basis:30%;">{{ marketing_agree_user.addr }}</div>
+                    <div style="line-height: 50px; height: 100%; width: 100px; flex-basis:20%; background-color: #F2F2F2;">성명</div>
+                    <div style="line-height: 50px; height: 100%; width: 100px; flex-basis:30%;">{{ marketing_agree_user.name }}</div>
+                </div>
+                <div style="display:flex; justify-content: space-between; align-content: stretch; 
+                            height: 50px; align-items: center; border-top: 1px solid Silver; font-size: 14px;
+                            text-indent: 20px;">
+                    <div style="line-height: 50px; height: 100%; width: 100px; flex-basis:20%; background-color: #F2F2F2;">출생년도</div>
+                    <div style="line-height: 50px; height: 100%; width: 100px; flex-basis:30%;">{{ marketing_agree_user.birth_year }}</div>
+                    <div style="line-height: 50px; height: 100%; width: 100px; flex-basis:20%; background-color: #F2F2F2;">성별</div>
+                    {% if marketing_agree_user.sex == "M" %}
+                    <div style="line-height: 50px; height: 100%; width: 100px; flex-basis:30%;">남</div>
+                    {% else %}
+                    <div style="line-height: 50px; height: 100%; width: 100px; flex-basis:30%;">여</div>
+                    {% endif %}
+                </div>
+                <div style="display:flex; justify-content: space-between; align-content: stretch; 
+                            height: 50px; align-items: center; border-top: 1px solid Silver; font-size: 14px;
+                            text-indent: 20px;">
+                    <div style="line-height: 50px; height: 100%; width: 100px; flex-basis:20%; background-color: #F2F2F2;">휴대폰번호</div>
+                    <div style="line-height: 50px; height: 100%; width: 100px; flex-basis:30%;">{{ marketing_agree_user.phone }}</div>
+                    <div style="line-height: 50px; height: 100%; width: 100px; flex-basis:20%; background-color: #F2F2F2;">이메일</div>
+                    <div style="line-height: 50px; height: 100%; width: 100px; flex-basis:30%;">{{ marketing_agree_user.email }}</div>
+                </div>
+                <div style="display:flex; justify-content: space-between; align-content: stretch; 
+                            height: 50px; align-items: center; border-top: 1px solid Silver; font-size: 14px;
+                            text-indent: 20px;">
+                    <div style="line-height: 50px; height: 100%; width: 100px; flex-basis:20%; background-color: #F2F2F2;">응답신뢰도</div>
+                    <div style="line-height: 50px; height: 100%; width: 100px; flex-basis:30%;">{{ interviewee_info.total_score | default:"-" }}</div>
+                    <div style="line-height: 50px; height: 100%; width: 100px; flex-basis:20%; background-color: #F2F2F2;">리포트</div>
+                    <div style="line-height: 50px; height: 100%; width: 100px; flex-basis:30%;">
+                    {% if interviewee_info.result_file_link %}
+                        <a href="{{ interviewee_info.result_file_link }}">보기</a>
+                    {% else %}
+                        -
+                    {% endif %}
+                </div>
+                    {% comment %} <div style="line-height: 50px; height: 100%; width: 100px; flex-basis:20%; background-color: #F2F2F2;">리포트</div> {% endcomment %}
+                    {% comment %} <div style="line-height: 50px; height: 100%; width: 100px; flex-basis:30%;">{{ interviewee_info.result_file_link | default:"-" }}</div> {% endcomment %}
+                </div>
+                {% comment %} <div style="display:flex; justify-content: space-between; align-content: stretch; 
+                            height: 50px; align-items: center; border-top: 1px solid Silver; font-size: 14px;
+                            text-indent: 20px;">
+                    <div style="line-height: 50px; height: 100%; width: 100px; flex-basis:20%; background-color: #F2F2F2;">휴대폰번호</div>
+                    <div style="line-height: 50px; height: 100%; width: 100px; flex-basis:30%;">{{ marketing_agree_user.phone }}</div>
+                    <div style="line-height: 50px; height: 100%; width: 100px; flex-basis:20%; background-color: #F2F2F2;">이메일</div>
+                    <div style="line-height: 50px; height: 100%; width: 100px; flex-basis:30%;">{{ marketing_agree_user.email }}</div>
+                </div> {% endcomment %}
+
+            </div>
+        </div> <!-- end col -->
+
+        {% comment %} ########################## form 끝 ################################# {% endcomment %}
+
+
+
+    </div> <!-- end col -->
+</div> <!-- end row -->
+
+{% endblock content %}
+
+{% block javascript %}
+<!-- JAVASCRIPT -->
+<script src="{% static 'libs/jquery/jquery.min.js' %}"></script>
+<script src="{% static 'libs/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+<script src="{% static 'libs/metismenu/metisMenu.min.js' %}"></script>
+<script src="{% static 'libs/simplebar/simplebar.min.js' %}"></script>
+<script src="{% static 'libs/node-waves/waves.min.js' %}"></script>
+
+<!-- Required datatable js -->
+<script src="{% static 'libs/datatables.net/js/jquery.dataTables.min.js' %}"></script>
+<script src="{% static 'libs/datatables.net-bs4/js/dataTables.bootstrap4.min.js' %}"></script>
+
+<!-- Buttons examples -->
+<script src="{% static 'libs/datatables.net-buttons/js/dataTables.buttons.min.js' %}"></script>
+<script src="{% static 'libs/datatables.net-buttons-bs4/js/buttons.bootstrap4.min.js' %}"></script>
+<script src="{% static 'libs/jszip/jszip.min.js' %}"></script>
+<script src="{% static 'libs/pdfmake/build/pdfmake.min.js' %}"></script>
+<script src="{% static 'libs/pdfmake/build/vfs_fonts.js' %}"></script>
+<script src="{% static 'libs/datatables.net-buttons/js/buttons.html5.min.js' %}"></script>
+<script src="{% static 'libs/datatables.net-buttons/js/buttons.print.min.js' %}"></script>
+<script src="{% static 'libs/datatables.net-buttons/js/buttons.colVis.min.js' %}"></script>
+<script src="{% static 'libs/datatables.net-keyTable/js/dataTables.keyTable.min.js' %}"></script>
+<script src="{% static 'libs/datatables.net-select/js/dataTables.select.min.js' %}"></script>
+
+<!-- Responsive examples -->
+<script src="{% static 'libs/datatables.net-responsive/js/dataTables.responsive.min.js' %}"></script>
+<script src="{% static 'libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js' %}"></script>
+
+<!-- Datatable init js -->
+<script src="{% static 'js/pages/datatables.init.js' %}"></script>
+
+
+
+<script src="{% static 'js/menus/user-business_management.js'%}"></script>
+
+<script src="{% static 'js/app.js' %}"></script>
+
+
+{% endblock javascript %}

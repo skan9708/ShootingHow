@@ -1,0 +1,572 @@
+#accordion-menu {
+  padding: 10px 0 30px 0;
+}
+#accordion-menu .mm-active > .has-arrow:after {
+  -webkit-transform: rotate(90deg);
+  transform: rotate(90deg);
+}
+#accordion-menu .has-arrow:after {
+  content: "\ed0b";
+  font-family: boxicons;
+  display: block;
+  float: right;
+  -webkit-transition: -webkit-transform 0.2s;
+  transition: -webkit-transform 0.2s;
+  transition: transform 0.2s;
+  transition: transform 0.2s, -webkit-transform 0.2s;
+  font-size: 9px;
+  margin-top: 7px;
+}
+#accordion-menu ul li a {
+  display: block;
+  padding: 0.6rem 1.5rem;
+  color: #545a6d;
+  position: relative;
+  -webkit-transition: all 0.4s;
+  transition: all 0.4s;
+}
+#accordion-menu ul li a i {
+  display: inline-block;
+  min-width: 1.6rem;
+  font-size: 18px;
+  line-height: 1.40625rem;
+  vertical-align: middle;
+  color: #545a6d;
+  -webkit-transition: all 0.4s;
+  transition: all 0.4s;
+}
+#accordion-menu ul li a span {
+  vertical-align: middle;
+}
+#accordion-menu ul li a:hover {
+  color: #383c40;
+}
+#accordion-menu ul li a:hover i {
+  color: #383c40;
+}
+#accordion-menu ul li .badge {
+  margin-top: 4px;
+}
+#accordion-menu ul li ul.sub-menu {
+  padding: 0;
+}
+#accordion-menu ul li ul.sub-menu li a {
+  padding: 0.4rem 1.5rem 0.4rem 3.3rem;
+  font-size: 14px;
+  color: #545a6d;
+}
+#accordion-menu ul li ul.sub-menu li a:hover {
+  color: #383c40;
+}
+#accordion-menu ul li ul.sub-menu li ul.sub-menu {
+  padding: 0;
+}
+#accordion-menu ul li ul.sub-menu li ul.sub-menu li a {
+  padding: 0.4rem 1.5rem 0.4rem 4.5rem;
+  font-size: 14px;
+}
+#accordion-menu ul.metismenu > li.mm-active > a {
+  background-color: #0576b9 !important;
+  color: black !important;
+  font-weight: bold;
+}
+#accordion-menu ul.metismenu > li.mm-active > a > i {
+  color: black !important;
+  font-weight: bold;
+}
+[dir="rtl"] #accordion-menu .has-arrow:after {
+  content: "\ecab";
+}
+.menu-title {
+  padding: 12px 20px !important;
+  letter-spacing: 0.05em;
+  pointer-events: none;
+  cursor: default;
+  font-size: 11px;
+  text-transform: uppercase;
+  color: #545a6d;
+  font-weight: 600;
+}
+.mm-active {
+  color: #0576b9 !important;
+}
+.mm-active > a {
+  color: #0576b9 !important;
+}
+.mm-active > a i {
+  color: #0576b9 !important;
+}
+.mm-active .active {
+  color: #0576b9 !important;
+}
+.mm-active .active i {
+  color: #0576b9 !important;
+}
+.mm-active > i {
+  color: #0576b9 !important;
+}
+@media (max-width: 992px) {
+  .vertical-menu {
+    display: none;
+  }
+  .main-content {
+    margin-left: 0 !important;
+  }
+  body.sidebar-enable .vertical-menu {
+    display: block;
+  }
+}
+body[data-sidebar-size="sm"] .main-content {
+  margin-left: 70px;
+}
+body[data-sidebar-size="sm"] .navbar-brand-box {
+  width: 70px !important;
+}
+body[data-sidebar-size="sm"] .logo span.logo-lg {
+  display: none;
+}
+body[data-sidebar-size="sm"] .logo span.logo-sm {
+  display: block;
+}
+body[data-sidebar-size="sm"] .vertical-menu {
+  position: absolute;
+  width: 70px !important;
+  z-index: 5;
+}
+body[data-sidebar-size="sm"] .vertical-menu .simplebar-content-wrapper,
+body[data-sidebar-size="sm"] .vertical-menu .simplebar-mask {
+  overflow: visible !important;
+}
+body[data-sidebar-size="sm"] .vertical-menu .simplebar-scrollbar {
+  display: none !important;
+}
+body[data-sidebar-size="sm"] .vertical-menu .simplebar-offset {
+  bottom: 0 !important;
+}
+body[data-sidebar-size="sm"] .vertical-menu #accordion-menu .badge,
+body[data-sidebar-size="sm"] .vertical-menu #accordion-menu .collapse.in,
+body[data-sidebar-size="sm"] .vertical-menu #accordion-menu .menu-title {
+  display: none !important;
+}
+body[data-sidebar-size="sm"] .vertical-menu #accordion-menu .nav.collapse {
+  height: inherit !important;
+}
+body[data-sidebar-size="sm"] .vertical-menu #accordion-menu .has-arrow:after {
+  -webkit-transform: rotate(0) !important;
+  transform: rotate(0) !important;
+}
+body[data-sidebar-size="sm"] .vertical-menu #accordion-menu > ul > li {
+  position: relative;
+  white-space: nowrap;
+}
+body[data-sidebar-size="sm"] .vertical-menu #accordion-menu > ul > li > a {
+  padding: 15px 20px;
+  min-height: 55px;
+  -webkit-transition: none;
+  transition: none;
+}
+body[data-sidebar-size="sm"]
+  .vertical-menu
+  #accordion-menu
+  > ul
+  > li
+  > a.has-arrow:after {
+  display: none;
+}
+body[data-sidebar-size="sm"] .vertical-menu #accordion-menu > ul > li > a:active,
+body[data-sidebar-size="sm"] .vertical-menu #accordion-menu > ul > li > a:focus,
+body[data-sidebar-size="sm"] .vertical-menu #accordion-menu > ul > li > a:hover {
+  color: #383c40;
+}
+body[data-sidebar-size="sm"] .vertical-menu #accordion-menu > ul > li > a i {
+  font-size: 1.4rem;
+  margin-left: 5px;
+}
+body[data-sidebar-size="sm"] .vertical-menu #accordion-menu > ul > li > a span {
+  display: none;
+  padding-left: 25px;
+}
+body[data-sidebar-size="sm"] .vertical-menu #accordion-menu > ul > li:hover > a {
+  position: relative;
+  width: calc(190px + 70px);
+  color: #0576b9;
+  background-color: #f5f5f5;
+  -webkit-transition: none;
+  transition: none;
+}
+body[data-sidebar-size="sm"]
+  .vertical-menu
+  #accordion-menu
+  > ul
+  > li:hover
+  > a
+  i {
+  color: #0576b9;
+}
+body[data-sidebar-size="sm"]
+  .vertical-menu
+  #accordion-menu
+  > ul
+  > li:hover
+  > a
+  span {
+  display: inline;
+}
+body[data-sidebar-size="sm"] .vertical-menu #accordion-menu > ul > li:hover > ul {
+  display: block;
+  left: 70px;
+  position: absolute;
+  width: 190px;
+  height: auto !important;
+  -webkit-box-shadow: 3px 5px 10px 0 rgba(54, 61, 71, 0.1);
+  box-shadow: 3px 5px 10px 0 rgba(54, 61, 71, 0.1);
+}
+body[data-sidebar-size="sm"]
+  .vertical-menu
+  #accordion-menu
+  > ul
+  > li:hover
+  > ul
+  ul {
+  -webkit-box-shadow: 3px 5px 10px 0 rgba(54, 61, 71, 0.1);
+  box-shadow: 3px 5px 10px 0 rgba(54, 61, 71, 0.1);
+  padding: 5px 0;
+}
+body[data-sidebar-size="sm"]
+  .vertical-menu
+  #accordion-menu
+  > ul
+  > li:hover
+  > ul
+  a {
+  -webkit-box-shadow: none;
+  box-shadow: none;
+  padding: 8px 20px;
+  position: relative;
+  width: 190px;
+  z-index: 6;
+  color: #545a6d;
+}
+body[data-sidebar-size="sm"]
+  .vertical-menu
+  #accordion-menu
+  > ul
+  > li:hover
+  > ul
+  a:hover {
+  color: #383c40;
+}
+body[data-sidebar-size="sm"] .vertical-menu #accordion-menu > ul ul {
+  padding: 5px 0;
+  z-index: 9999;
+  display: none;
+  background-color: black;
+  font-weight: bold;
+}
+body[data-sidebar-size="sm"]
+  .vertical-menu
+  #accordion-menu
+  > ul
+  ul
+  li:hover
+  > ul {
+  display: block;
+  left: 190px;
+  height: auto !important;
+  margin-top: -36px;
+  position: absolute;
+  width: 190px;
+}
+body[data-sidebar-size="sm"] .vertical-menu #accordion-menu > ul ul li.active a {
+  color: #f8f9fa;
+}
+body[data-sidebar="dark"] .vertical-menu {
+  background: #121e2d;
+  border-right: none;
+}
+body[data-sidebar="dark"] #accordion-menu ul li a {
+  color: #495057;
+}
+body[data-sidebar="dark"] #accordion-menu ul li a i {
+  color: #495057;
+}
+body[data-sidebar="dark"] #accordion-menu ul li a:hover {
+  color: black;
+  font-weight: bold;
+}
+body[data-sidebar="dark"] #accordion-menu ul li a:hover i {
+  color: black;
+  font-weight: bold;
+}
+body[data-sidebar="dark"] #accordion-menu ul li ul.sub-menu li a {
+  color: #495057;
+}
+body[data-sidebar="dark"] #accordion-menu ul li ul.sub-menu li a:hover {
+  color: black;
+  font-weight: bold;
+}
+body[data-sidebar="dark"][data-sidebar-size="sm"] {
+  min-height: 1550px;
+}
+body[data-sidebar="dark"][data-sidebar-size="sm"]
+  .vertical-menu
+  #accordion-menu
+  > ul
+  > li:hover
+  > a {
+  background: #152334;
+  color: black;
+  font-weight: bold;
+}
+body[data-sidebar="dark"][data-sidebar-size="sm"]
+  .vertical-menu
+  #accordion-menu
+  > ul
+  > li:hover
+  > a
+  i {
+  color: black;
+  font-weight: bold;
+}
+body[data-sidebar="dark"][data-sidebar-size="sm"]
+  .vertical-menu
+  #accordion-menu
+  > ul
+  > li:hover
+  > ul
+  a {
+  color: #495057;
+}
+body[data-sidebar="dark"][data-sidebar-size="sm"]
+  .vertical-menu
+  #accordion-menu
+  > ul
+  > li:hover
+  > ul
+  a:hover {
+  color: black;
+  font-weight: bold;
+}
+body[data-sidebar="dark"][data-sidebar-size="sm"]
+  .vertical-menu
+  #accordion-menu
+  > ul
+  ul {
+  background-color: #121e2d;
+}
+body[data-sidebar="dark"][data-sidebar-size="sm"]
+  .vertical-menu
+  #accordion-menu
+  ul
+  li.mm-active
+  .active {
+  color: black !important;
+  font-weight: bold;
+}
+body[data-sidebar="dark"][data-sidebar-size="sm"]
+  .vertical-menu
+  #accordion-menu
+  ul
+  li.mm-active
+  .active
+  i {
+  color: black !important;
+  font-weight: bold;
+}
+body[data-sidebar="dark"] .mm-active {
+  color: black !important;
+  font-weight: bold;
+}
+body[data-sidebar="dark"] .mm-active > a {
+  color: black !important;
+  font-weight: bold;
+}
+body[data-sidebar="dark"] .mm-active > a i {
+  color: black !important;
+  font-weight: bold;
+}
+body[data-sidebar="dark"] .mm-active > i {
+  color: black !important;
+  font-weight: bold;
+}
+body[data-sidebar="dark"] .mm-active .active {
+  color: black !important;
+  font-weight: bold;
+}
+body[data-sidebar="dark"] .mm-active .active i {
+  color: black !important;
+  font-weight: bold;
+}
+body[data-sidebar="dark"] .menu-title {
+  color: #495057;
+}
+body[data-layout="horizontal"] .main-content {
+  margin-left: 0 !important;
+}
+body[data-sidebar-size="md"] .navbar-brand-box {
+  width: 160px;
+}
+body[data-sidebar-size="md"] .vertical-menu {
+  width: 160px;
+  text-align: center;
+}
+body[data-sidebar-size="md"] .vertical-menu .badge,
+body[data-sidebar-size="md"] .vertical-menu .has-arrow:after {
+  display: none !important;
+}
+body[data-sidebar-size="md"] .main-content {
+  margin-left: 160px;
+}
+body[data-sidebar-size="md"] .footer {
+  left: 160px;
+}
+@media (max-width: 991.98px) {
+  body[data-sidebar-size="md"] .footer {
+    left: 0;
+  }
+}
+body[data-sidebar-size="md"] #accordion-menu ul li a i {
+  display: block;
+}
+body[data-sidebar-size="md"] #accordion-menu ul li ul.sub-menu li a {
+  padding-left: 1.5rem;
+}
+body[data-sidebar-size="md"]
+  #accordion-menu
+  ul
+  li
+  ul.sub-menu
+  li
+  ul.sub-menu
+  li
+  a {
+  padding-left: 1.5rem;
+}
+body[data-sidebar="brand"] #page-topbar {
+  border: none;
+}
+body[data-sidebar="brand"] .vertical-menu {
+  background-color: #0576b9;
+  border-color: #0576b9;
+}
+body[data-sidebar="brand"] .navbar-brand-box {
+  background-color: #0576b9;
+}
+body[data-sidebar="brand"] .navbar-brand-box .logo-dark {
+  display: none;
+}
+body[data-sidebar="brand"] .navbar-brand-box .logo-light {
+  display: block;
+}
+body[data-sidebar="brand"] .mm-active {
+  color: black !important;
+  font-weight: bold;
+}
+body[data-sidebar="brand"] .mm-active > a {
+  color: black !important;
+  font-weight: bold;
+}
+body[data-sidebar="brand"] .mm-active > a i {
+  color: black !important;
+  font-weight: bold;
+}
+body[data-sidebar="brand"] .mm-active .active,
+body[data-sidebar="brand"] .mm-active > i {
+  color: black !important;
+  font-weight: bold;
+}
+body[data-sidebar="brand"] #accordion-menu ul li.menu-title {
+  color: rgba(255, 255, 255, 0.6);
+}
+body[data-sidebar="brand"] #accordion-menu ul li a {
+  color: rgba(255, 255, 255, 0.6);
+}
+body[data-sidebar="brand"] #accordion-menu ul li a i {
+  color: rgba(255, 255, 255, 0.6);
+}
+body[data-sidebar="brand"] #accordion-menu ul li a.waves-effect .waves-ripple {
+  background: rgba(255, 255, 255, 0.1);
+}
+body[data-sidebar="brand"] #accordion-menu ul li a:hover {
+  color: black;
+  font-weight: bold;
+}
+body[data-sidebar="brand"] #accordion-menu ul li a:hover i {
+  color: black;
+  font-weight: bold;
+}
+body[data-sidebar="brand"] #accordion-menu ul li ul.sub-menu li a {
+  color: rgba(255, 255, 255, 0.5);
+}
+body[data-sidebar="brand"] #accordion-menu ul li ul.sub-menu li a:hover {
+  color: black;
+  font-weight: bold;
+}
+body[data-sidebar="brand"]body[data-sidebar-size="sm"]
+  .vertical-menu
+  #accordion-menu
+  > ul
+  > li:hover
+  > a {
+  background-color: #057cc3;
+  color: black;
+  font-weight: bold;
+}
+body[data-sidebar="brand"]body[data-sidebar-size="sm"]
+  .vertical-menu
+  #accordion-menu
+  > ul
+  > li:hover
+  > a
+  i {
+  color: black;
+  font-weight: bold;
+}
+body[data-sidebar="brand"]body[data-sidebar-size="sm"]
+  .vertical-menu
+  #accordion-menu
+  ul
+  li.mm-active
+  .active {
+  color: #0576b9 !important;
+}
+body[data-sidebar="brand"]body[data-sidebar-size="sm"]
+  .vertical-menu
+  #accordion-menu
+  ul
+  li
+  ul.sub-menu
+  li
+  a:hover {
+  color: #0576b9;
+}
+body[data-sidebar="brand"]body[data-sidebar-size="sm"]
+  .vertical-menu
+  #accordion-menu
+  ul
+  li
+  ul.sub-menu
+  li.mm-active {
+  color: #0576b9 !important;
+}
+body[data-sidebar="brand"]body[data-sidebar-size="sm"]
+  .vertical-menu
+  #accordion-menu
+  ul
+  li
+  ul.sub-menu
+  li.mm-active
+  > a {
+  color: #0576b9 !important;
+}
+body[data-sidebar="brand"]body[data-sidebar-size="sm"]
+  .vertical-menu
+  #accordion-menu
+  ul
+  li
+  ul.sub-menu
+  li.mm-active
+  > a
+  i {
+  color: #0576b9 !important;
+}

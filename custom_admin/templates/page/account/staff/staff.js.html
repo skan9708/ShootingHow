@@ -1,0 +1,217 @@
+{% load template_util %}
+{% load static %}
+<script src="{% static 'libs/sweetalert2/sweetalert2.min.js'%}"></script>
+<script src="{% static 'js/pages/sweet-alerts.init.js'%}"></script>
+<script type="text/javascript">
+  function clearElements(elements) {
+      while(elements.length > 0){
+        elements[0].parentNode.removeChild(elements[0]);
+      }
+  }
+  // checkbox 모두 선택
+  $('input[name=checkbox_select_all]').on('change', function(){
+    $('input[name=checkbox]').prop('checked', this.checked);
+  });
+
+  // 목록
+  $(document).on("click", '#list', function(e){
+    location.href = "{% url list_url %}"
+  });
+
+  // 생성
+  $(document).on("click", '#create', function(e){
+    var formData = new FormData();
+    var $crf_token = $('[name="csrfmiddlewaretoken"]').attr('value');
+    
+    {% for field, property in create_fields.items %}
+      formData.append("{{ field }}", document.getElementById("{{ field }}").value)
+    {% endfor %}
+    
+    $.ajax({
+
+      headers: {"X-CSRFToken": $crf_token},
+      type: "POST", 
+      url: "{% url create_url %}",
+      data: formData,
+
+      success: function (response) {
+        location.href = "{% url list_url %}"
+      },
+
+      error: function (xhr, status, error) {
+        response_text = JSON.parse(xhr.responseText);
+        alert(response_text.error)
+      },
+
+      dataType: "json",
+      async: true,
+      cache: false,
+      contentType: false,
+      processData: false,
+      timeout: 60000
+    });
+  })
+
+  // 삭제 with 확인 버튼
+  $(document).on("click", '#remove', function(e){
+    var checkbox = $("input[name=checkbox]:checked");
+    if(checkbox.length < 1){
+      Swal.fire({
+        //title: "Sweet!",
+        text: "선택 된 사용자가 없습니다.",
+        //imageUrl: "assets/images/logo-dark.png",
+        //imageHeight: 20,
+        confirmButtonColor: "#0576b9",
+        confirmButtonText: "확인",
+        animation: !1
+      })
+      return
+    }
+
+    Swal.fire({
+      title: "선택한 사용자를 삭제합니다.",
+      text: "삭제 된 사용자는 되돌릴 수 없습니다.",
+      icon: "warning",
+      showCancelButton: !0,
+      confirmButtonColor: "#34c3af",
+      cancelButtonColor: "#f46a6a",
+      confirmButtonText: "삭제",
+      cancelButtonText: "취소",
+    }).then(function(t) {
+        if(!t.value) return;
+        var formData = new FormData();
+        var $crf_token = $('[name="csrfmiddlewaretoken"]').attr('value');
+        
+        // get checked elements
+        var checked_list = new Array();
+
+        checkbox.each(function(i) {
+          var tr = checkbox.parent().parent().eq(i);
+          var td = tr.children();
+          
+          var code = td.eq(-1).text();
+          checked_list.push(code);
+        });
+        formData.append("checked_list", checked_list);
+
+        $.ajax({
+          headers: {"X-CSRFToken": $crf_token},
+          type: "DELETE", 
+          url: "{% url list_url %}",
+          data: formData,
+
+          success: function (response) {
+            Swal.fire(
+              "", "선택한 사용자가 삭제되었습니다.", "success"
+              ).then(function(t){
+                location.reload()
+            })
+          },
+
+          error: function (xhr, status, error) {
+            response_text = JSON.parse(xhr.responseText);
+            alert(response_text.error)
+          },
+
+          dataType: "json",
+          async: true,
+          cache: false,
+          contentType: false,
+          processData: false,
+          timeout: 60000
+        });
+    })
+  })
+
+  // 수정
+  $(document).on("click", '#update', function(e){
+    // readonly 속성 제거
+    {% for field, property in detail_fields.items %}
+      {% if not property.read_only %}
+        element = document.getElementById("{{ field }}");
+        element.readOnly = false;
+        element.disabled = false;
+      {% endif %}
+    {% endfor %}
+
+    // 버튼 바꾸기
+    list_button = document.getElementById('list');
+    update_button = document.getElementById('update');
+
+    list_button.innerText = '취소';
+    update_button.innerText = '저장';
+
+    list_button.id = 'update-cancel';
+    update_button.id = 'update-confirm';
+
+    list_button.className = 'btn btn-light w-md waves-effect';
+    update_button.className = 'btn btn-danger w-md waves-effect waves-light';
+  })
+
+  // 수정 취소
+  $(document).on("click", '#update-cancel', function(e){
+    {% for field, property in detail_fields.items %}
+      element = document.getElementById("{{ field }}");
+      {% if property.choices %}
+        element.disabled = true;
+        element.value = "{{ property.value }}";
+      {% else %}
+        element.readOnly = true;
+        element.value = "{{ property.value }}";
+      {% endif %}
+      
+    {% endfor %}
+
+    // 버튼 바꾸기
+    list_button = document.getElementById('update-cancel');
+    update_button = document.getElementById('update-confirm');
+
+    list_button.innerText = '목록';
+    update_button.innerText = '수정';
+
+    list_button.id = 'list';
+    update_button.id = 'update';
+
+    list_button.className = 'btn btn-primary w-md waves-effect waves-light';
+    update_button.className = 'btn btn-info w-md waves-effect waves-light';
+
+  })
+
+  // 수정 저장
+  $(document).on("click", '#update-confirm', function(e){
+    var formData = new FormData();
+    var $crf_token = $('[name="csrfmiddlewaretoken"]').attr('value');
+    
+    {% for field, property in detail_fields.items %}
+      {% if field != 'licenses' %}
+        formData.append("{{ field }}", document.getElementById("{{ field }}").value)
+      {% endif %}
+    {% endfor %}
+
+    $.ajax({
+
+      headers: {"X-CSRFToken": $crf_token},
+      type: "PUT",
+      {% if pk %}
+        url: "{% url detail_url pk %}",
+      {% endif %}
+      data: formData,
+
+      success: function (response) {
+        location.reload()
+      },
+
+      error: function (xhr, status, error) {
+        response_text = JSON.parse(xhr.responseText);
+        alert(response_text.error)
+      },
+
+      dataType: "json",
+      async: true,
+      cache: false,
+      contentType: false,
+      processData: false,
+      timeout: 60000
+    });
+  })
+</script>

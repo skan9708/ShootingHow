@@ -1,0 +1,73 @@
+{% extends 'partials/base.html' %}
+{% load static %}
+{% block extra_css %}
+  <link rel="stylesheet" href="https://rawgit.com/enyo/dropzone/master/dist/dropzone.css">
+
+  <link href="{% static 'libs/sweetalert2/sweetalert2.min.css'%}" rel="stylesheet" type="text/css"/>
+  <link href="{% static 'page/main.css' %}" rel="stylesheet" type="text/css"/>
+{% endblock extra_css %}
+
+{% load template_util %}
+{% block content %}
+  <div class="row">{% csrf_token %}
+    <div class="col-12">
+      <div class="title-button">
+        <div>
+          <h1 class="page-title">{{ title }}</h1>
+        </div>
+        <div style="margin: auto 0 0 auto;">
+          <button type="button" class="btn btn-primary w-md waves-effect waves-light" id="list">목록</button>
+          <button type="button" class="btn btn-info w-md waves-effect waves-light" id="update">수정</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-body">
+      <!-- body start -->
+      {% for field, property in detail_fields.items %}
+        <div id="{{ field }}-input">
+          <hr>
+          <div class="single-input detail_field">
+            <div class="input-title">{{ property.verbose }}</div>
+            <!-- choice 필드일 경우 경우 -->
+            {% if property.choices %}
+              <select class="form-control select2-search-disable dropdown-content" id="{{ field }}" disabled="disabled">
+                <!-- 기존에 설정되어 있는 값을 choice의 기본값으로 설정 -->
+                <option value="{{ property.value }}" selected="selected" hidden="hidden">{{ property.choices|get_value_from_key:property.value }}</option>
+                <!-- choice 목록 보여주기 -->
+                {% for value, verbose in property.choices.items %}
+                  <option value="{{ value }}" class="dropdown-value">{{ verbose }}</option>
+                {% endfor %}
+              </select>
+
+            <!-- 첨부파일을 list로 보여줘야 할 경우 -->
+            {% elif property.list %}
+              <div class="input-list" id="{{ field }}">
+              {% for filename, url in property.value %}
+                <a class="list-content" href="{{ url }}" download="{{ filename }}">{{ filename }}</a>
+              {% endfor %}
+              </div>
+            
+            <!-- 일반 필드일 경우 -->
+            {% else %}
+              <input type="{{ property.type }}" class="form-control input-content" id="{{ field }}" readonly="readonly" value="{{ property.value }}">
+            {% endif %}
+          </div>
+        </div>
+      {% endfor %}
+      <hr>
+      <!-- body end -->
+    </div>
+  </div>
+  <!-- end col -->
+</div>
+<!-- end row -->
+
+{% endblock content %}
+
+{% block javascript %}
+
+{% include js %}
+
+{% endblock javascript %}

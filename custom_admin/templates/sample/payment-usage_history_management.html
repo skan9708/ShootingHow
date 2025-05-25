@@ -1,0 +1,160 @@
+{% extends 'partials/base.html' %}
+{% load static %}
+{% block extra_css %}
+    <link href="{% static 'libs/sweetalert2/sweetalert2.min.css'%}" rel="stylesheet" type="text/css" />
+{% endblock extra_css %}
+
+{% block content %}
+<div class="row">{% csrf_token %}
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <div style="display: flex">
+                    <div><h1 class="card-title" style="font-size: 24px">구매내역 및 사용내역 조회</h4></div>
+                    </div>
+                    <a class="btn btn-link waves-effect" href={% url 'purchase-history-management' %}>구매내역</a>
+                    <div class="btn btn-light waves-effect">사용내역</div>
+                <hr class="one">
+                <form method="GET">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label for="example-text-input" class="form-label">기업명</label>
+                                <input class="form-control" type="text" value="{{ company_name }}" id="company_name" name="company_name">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label for="example-text-input" class="form-label">담당자</label>
+                                <input class="form-control" type="text" value="{{ business_name }}" id="business_name" name="business_name">
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="mb-3">
+                                <label for="example-date-input" class="form-label">변동일시</label>
+                                <input class="form-control" type="date" value="{{ start_date }}" id="start_date" name="start_date">
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="mb-3">
+                                <label for="example-date-input" class="form-label">　</label>
+                                <input class="form-control" type="date" value="{{ end_date }}" id="end_date" name="end_date">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label for="example-text-input" class="form-label">전형명</label>
+                                <input class="form-control" type="text" value="{{ recruit_name }}" id="recruit_name" name="recruit_name">
+                            </div>
+                        </div>
+                    
+                    <div style="text-align: right">
+                        <button class="btn btn-primary">🔍검색</button>
+                    </div>
+                </form>
+            </div>
+        </div> <!-- end col -->
+        {% comment %} ########################## form 끝 ################################# {% endcomment %}
+
+        <div class="card">
+            <div class="card-body">
+                {% comment %} <h4 class="card-title">Default Datatable</h4>
+                <p class="card-title-desc">DataTables has most features enabled by
+                    default, so all you need to do to use it with your own tables is to call
+                    the construction function: <code>$().DataTable();</code>.
+                </p> {% endcomment %}
+
+                <table id="" class="table table-bordered dt-responsive nowrap w-100">
+                    <thead>
+                        <tr>
+                            <th style="text-align: center" width="70">선택</th>
+                            <th style="text-align: center">전형</th>
+                            <th style="text-align: center">기업명</th>
+                            <th style="text-align: center">담당자</th>
+                            <th style="text-align: center">변동일시</th>
+                            <th style="text-align: center">잔여 </th>
+                            <th style="text-align: center">총 응시자</th>
+                            <th style="text-align: center">추가된 응시자</th>
+                            <th style="text-align: center">사용된 전형 등록 합</th>
+                            <th style="text-align: center">사용된 전형 등록</th>
+                            <th style="text-align: center" width="70">세부</th>
+                            <th style="display:none;">히든아이디</th>
+                        </tr>
+                    </thead>
+                    
+                    <tbody>
+                        {% for usage_history in payment_history_list %}
+                        <tr>
+                            <td style="text-align: center"><input type="checkbox" name="object_CheckBox" ></td>
+                            <td>{{ usage_history.recruitment.recruit_name }}</td>
+                            <td>{{ usage_history.recruitment.own_company.company_name }}</td>
+                            <td>{{ usage_history.recruitment.own_company.user.fullname}}</td>
+                            <td>{{ usage_history.created | date:"y-m-d h:i:s"}}</td>
+                            <td>{{ usage_history.recruitment.own_company.product_count }}</td>
+                            <td>{{ usage_history.total_ticket_count }}</td>
+                            <td>{{ usage_history.ticket_count }}</td>
+                            <td>{{ usage_history.total_use_count }}</td>
+                            <td>{{ usage_history.use_count }}</td>
+                            <td style="text-align: center">
+                                <a class="" href="{% url 'usage-history-detail' usage_history.id %}"><i
+                                        class="mdi mdi-pencil-box fa-lg text-muted align-middle me-1"></i></a>
+                            </td>
+
+                            {% comment %} <td style="display:none;">{{ usage_history.id  }}</td> {% endcomment %}
+                            </tr>
+                        {% endfor %}
+
+
+                    </tbody>
+                </table>
+
+            </div>
+            <!-- end card-body -->
+        </div>
+        <!-- end card -->
+    </div> <!-- end col -->
+</div> <!-- end row -->
+
+{% endblock content %}
+
+{% block javascript %}
+<!-- JAVASCRIPT -->
+<script src="{% static 'libs/jquery/jquery.min.js' %}"></script>
+<script src="{% static 'libs/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+<script src="{% static 'libs/metismenu/metisMenu.min.js' %}"></script>
+<script src="{% static 'libs/simplebar/simplebar.min.js' %}"></script>
+<script src="{% static 'libs/node-waves/waves.min.js' %}"></script>
+
+<!-- Required datatable js -->
+<script src="{% static 'libs/datatables.net/js/jquery.dataTables.min.js' %}"></script>
+<script src="{% static 'libs/datatables.net-bs4/js/dataTables.bootstrap4.min.js' %}"></script>
+
+<!-- Buttons examples -->
+<script src="{% static 'libs/datatables.net-buttons/js/dataTables.buttons.min.js' %}"></script>
+<script src="{% static 'libs/datatables.net-buttons-bs4/js/buttons.bootstrap4.min.js' %}"></script>
+<script src="{% static 'libs/jszip/jszip.min.js' %}"></script>
+<script src="{% static 'libs/pdfmake/build/pdfmake.min.js' %}"></script>
+<script src="{% static 'libs/pdfmake/build/vfs_fonts.js' %}"></script>
+<script src="{% static 'libs/datatables.net-buttons/js/buttons.html5.min.js' %}"></script>
+<script src="{% static 'libs/datatables.net-buttons/js/buttons.print.min.js' %}"></script>
+<script src="{% static 'libs/datatables.net-buttons/js/buttons.colVis.min.js' %}"></script>
+<script src="{% static 'libs/datatables.net-keyTable/js/dataTables.keyTable.min.js' %}"></script>
+<script src="{% static 'libs/datatables.net-select/js/dataTables.select.min.js' %}"></script>
+
+<!-- Responsive examples -->
+<script src="{% static 'libs/datatables.net-responsive/js/dataTables.responsive.min.js' %}"></script>
+<script src="{% static 'libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js' %}"></script>
+
+<!-- Datatable init js -->
+<script src="{% static 'js/pages/datatables.init.js' %}"></script>
+
+
+
+<script src="{% static 'js/menus/user-marketing_DB_management.js'%}"></script>
+
+<script src="{% static 'js/app.js' %}"></script>
+
+
+{% endblock javascript %}

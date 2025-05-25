@@ -1,0 +1,32 @@
+{% extends "partials/base.html" %}
+{% load static %}
+{% block extra_css %}
+  <link href="{% static 'libs/sweetalert2/sweetalert2.min.css' %}" rel="stylesheet" type="text/css"/>
+  <link href="{% static 'page/main.css' %}" rel="stylesheet" type="text/css"/>
+{% endblock extra_css %}
+{% block content %}
+  {% load template_util %}
+  <div class="row">
+    {% csrf_token %}
+    <div class="col-12">
+      <div class="title-button">
+        <div>
+          <h1 class="page-title">{{ title }}</h1>
+        </div>
+        <div style="margin: auto 0 0 auto;"></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-body">
+
+      </div>
+      <!-- end card-body -->
+    </div>
+    <!-- end card -->
+  </div>
+  <!-- end col -->
+</div>
+<!-- end row -->
+{% endblock content %}
+
+{% block javascript %}{% endblock javascript %}
