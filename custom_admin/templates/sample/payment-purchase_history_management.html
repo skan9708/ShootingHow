@@ -1,0 +1,192 @@
+{% extends 'partials/base.html' %}
+{% load static %}
+{% block extra_css %}
+    <link href="{% static 'libs/sweetalert2/sweetalert2.min.css'%}" rel="stylesheet" type="text/css" />
+{% endblock extra_css %}
+
+{% block content %}
+<div class="row">{% csrf_token %}
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <div style="display: flex">
+                    <div><h1 class="card-title" style="font-size: 24px">구매내역 및 사용내역 조회</h4></div>
+                    
+                        <div style="margin: auto 0 0 auto;">
+                            {% comment %} <a class="" href="{% url 'individual-user-detail' individual_user.user.id %}"><i {% endcomment %}
+                                {% comment %} class="mdi mdi-pencil-box fa-lg text-muted align-middle me-1"></i></a> {% endcomment %}
+                        </div>
+                    </div>
+                    <div style="margin: 0px 0px 0px 0px;">
+                        {% comment %} <button type="button" class="btn btn-primary w-md waves-effect waves-light" onclick="location.href='{% url 'recruit-excel-download' %}'"> 생성</button> {% endcomment %}
+                        {% comment %} <button type="submit" class="btn btn-primary w-md waves-effect waves-light" id="download-individual-report">개인리포트 다운로드</button> {% endcomment %}
+                        {% comment %} <button type="submit" class="btn btn-danger w-md waves-effect waves-light" id="interviewee_test-remove">삭제</button> {% endcomment %}
+                        <div class="btn btn-light waves-effect">구매내역</div>
+                        <a class="btn btn-link waves-effect" href={% url 'usage-history-management' %}>사용내역</a>
+                    </div>
+                <hr class="one">
+                <form method="GET">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label for="example-text-input" class="form-label">기업명</label>
+                                <input class="form-control" type="text" value="{{ company_name }}" id="company_name" name="company_name">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label for="example-text-input" class="form-label">담당자</label>
+                                <input class="form-control" type="text" value="{{ business_name }}" id="business_name" name="business_name">
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="mb-3">
+                                <label for="example-date-input" class="form-label">결제일시</label>
+                                <input class="form-control" type="date" value="{{ start_date }}" id="start_date" name="start_date">
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="mb-3">
+                                <label for="example-date-input" class="form-label">　</label>
+                                <input class="form-control" type="date" value="{{ end_date }}" id="end_date" name="end_date">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="">
+                                <label for="payment_type" class="form-label">결제방식</label>
+                                <select class="form-control select2-search-disable" id="payment_type" name="payment_type">
+                                    <option value={{ payment_type }} selected hidden>{{ payment_type }}</option>
+                                    <option value=모두>모두</option>
+                                    <option value=무료(쿠폰)>무료(쿠폰)</option>
+                                    <option value=유료(신용카드)>유료(신용카드)</option>
+                                    <option value=유료(계좌이체)>유료(계좌이체)</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="">
+                                <label for="payment_status" class="form-label">상태</label>
+                                <select class="form-control select2-search-disable" id="payment_status" name="payment_status">
+                                    <option value={{ payment_status }} selected hidden>{{ payment_status }}</option>
+                                    <option value=모두>모두</option>
+                                    <option value=결제완료>결제완료</option>
+                                    <option value=결제취소>결제취소</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label for="example-text-input" class="form-label">결제번호</label>
+                                <input class="form-control" type="text" value="{{ payment_code }}" id="payment_code" name="payment_code">
+                            </div>
+                        </div>
+                    
+                    <div style="text-align: right">
+                        <button class="btn btn-primary">🔍검색</button>
+                    </div>
+                </form>
+            </div>
+        </div> <!-- end col -->
+        {% comment %} ########################## form 끝 ################################# {% endcomment %}
+
+        <div class="card">
+            <div class="card-body">
+                {% comment %} <h4 class="card-title">Default Datatable</h4>
+                <p class="card-title-desc">DataTables has most features enabled by
+                    default, so all you need to do to use it with your own tables is to call
+                    the construction function: <code>$().DataTable();</code>.
+                </p> {% endcomment %}
+
+                <table id="" class="table table-bordered dt-responsive nowrap w-100">
+                    <thead>
+                        <tr>
+                            <th style="text-align: center" width="70">선택</th>
+                            <th style="text-align: center">결제번호</th>
+                            <th style="text-align: center">기업명</th>
+                            <th style="text-align: center">담당자</th>
+                            <th style="text-align: center">결제일시</th>
+                            <th style="text-align: center">결제금액</th>
+                            <th style="text-align: center">충전건수</th>
+                            <th style="text-align: center">지불상태</th>
+                            <th style="text-align: center">결제방식</th>
+                            <th style="text-align: center" width="70">세부</th>
+                            <th style="display:none;">히든아이디</th>
+                        </tr>
+                    </thead>
+                    
+                    <tbody>
+                        {% for payment_history in payment_history_list %}
+                        <tr>
+                            <td style="text-align: center"><input type="checkbox" name="object_CheckBox" ></td>
+                            <td>{{ payment_history.payment_code }}</td>
+                            <td>{{ payment_history.user.business.company_name }}</td>
+                            <td>{{ payment_history.user.fullname }}</td>
+                            <td>{{ payment_history.date | date:"y-m-d h:i:s"}}</td>
+                            <td>{{ payment_history.price}}</td>
+                            <td>{{ payment_history.charge_count }}</td>
+                            <td>{{ payment_history.pay_result }}</td>
+                            <td>{{ payment_history.payment_type }}</td>
+                            <td style="text-align: center">
+                                <a class="" href="{% url 'purchase-history-detail' payment_history.id %}"><i
+                                        class="mdi mdi-pencil-box fa-lg text-muted align-middle me-1"></i></a>
+                            </td>
+
+                            <td style="display:none;">{{ payment_history.id  }}</td>
+                            </tr>
+                        {% endfor %}
+
+
+                    </tbody>
+                </table>
+
+            </div>
+            <!-- end card-body -->
+        </div>
+        <!-- end card -->
+    </div> <!-- end col -->
+</div> <!-- end row -->
+
+{% endblock content %}
+
+{% block javascript %}
+<!-- JAVASCRIPT -->
+<script src="{% static 'libs/jquery/jquery.min.js' %}"></script>
+<script src="{% static 'libs/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+<script src="{% static 'libs/metismenu/metisMenu.min.js' %}"></script>
+<script src="{% static 'libs/simplebar/simplebar.min.js' %}"></script>
+<script src="{% static 'libs/node-waves/waves.min.js' %}"></script>
+
+<!-- Required datatable js -->
+<script src="{% static 'libs/datatables.net/js/jquery.dataTables.min.js' %}"></script>
+<script src="{% static 'libs/datatables.net-bs4/js/dataTables.bootstrap4.min.js' %}"></script>
+
+<!-- Buttons examples -->
+<script src="{% static 'libs/datatables.net-buttons/js/dataTables.buttons.min.js' %}"></script>
+<script src="{% static 'libs/datatables.net-buttons-bs4/js/buttons.bootstrap4.min.js' %}"></script>
+<script src="{% static 'libs/jszip/jszip.min.js' %}"></script>
+<script src="{% static 'libs/pdfmake/build/pdfmake.min.js' %}"></script>
+<script src="{% static 'libs/pdfmake/build/vfs_fonts.js' %}"></script>
+<script src="{% static 'libs/datatables.net-buttons/js/buttons.html5.min.js' %}"></script>
+<script src="{% static 'libs/datatables.net-buttons/js/buttons.print.min.js' %}"></script>
+<script src="{% static 'libs/datatables.net-buttons/js/buttons.colVis.min.js' %}"></script>
+<script src="{% static 'libs/datatables.net-keyTable/js/dataTables.keyTable.min.js' %}"></script>
+<script src="{% static 'libs/datatables.net-select/js/dataTables.select.min.js' %}"></script>
+
+<!-- Responsive examples -->
+<script src="{% static 'libs/datatables.net-responsive/js/dataTables.responsive.min.js' %}"></script>
+<script src="{% static 'libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js' %}"></script>
+
+<!-- Datatable init js -->
+<script src="{% static 'js/pages/datatables.init.js' %}"></script>
+
+
+
+<script src="{% static 'js/menus/user-marketing_DB_management.js'%}"></script>
+
+<script src="{% static 'js/app.js' %}"></script>
+
+
+{% endblock javascript %}

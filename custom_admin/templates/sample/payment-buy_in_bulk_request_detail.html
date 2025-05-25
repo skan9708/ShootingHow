@@ -1,0 +1,121 @@
+{% extends 'partials/base.html' %}
+{% load static %}
+{% block extra_css %}
+    <link href="{% static 'libs/sweetalert2/sweetalert2.min.css'%}" rel="stylesheet" type="text/css" />
+{% endblock extra_css %}
+
+{% block content %}
+<div class="row">{% csrf_token %}
+    <div class="col-12">
+        <h2 style="margin-left: 20px">{{ recruitment.own_company.company_name }}</h2>
+        <div style="display: flex">
+            <div><h1 class="card-title" style="font-size: 24px">대량 구매 요청 상세</h4></div>
+            
+                <div style="margin: auto 0 0 auto;">
+                    <button type="button" class="btn btn-primary w-md waves-effect waves-light" onclick="location.href='{% url 'buy-in-bulk-request' %}'">목록</button>
+                    <button type="button" class="btn btn-danger w-md waves-effect waves-light" id="purchase_request_detail-remove" value={{ pur_request.id }}>삭제</button>
+                </div>
+            </div>
+        </div><br><br><br><hr><br><br>
+        <div class="card">
+            <div class="card-body">
+                <h4>담당자 정보</h4><br>
+
+                <div style="display:flex; justify-content: space-between; align-content: stretch; 
+                            height: 50px; align-items: center; border-top: 1px solid Silver; font-size: 14px;
+                            text-indent: 20px;">
+                    <div style="line-height: 50px; height: 100%; width: 100px; flex-basis:20%; background-color: #F2F2F2;">기업명</div>
+                    <div style="line-height: 50px; height: 100%; width: 100px; flex-basis:30%;">{{ pur_request.company }}</div>
+                    <div style="line-height: 50px; height: 100%; width: 100px; flex-basis:20%; background-color: #F2F2F2;">담당자</div>
+                    <div style="line-height: 50px; height: 100%; width: 100px; flex-basis:30%;">{{ pur_request.register_user.fullname }}</div>
+                </div>
+                <div style="display:flex; justify-content: space-between; align-content: stretch; 
+                            height: 50px; align-items: center; border-top: 1px solid Silver; font-size: 14px;
+                            text-indent: 20px;">
+                    <div style="line-height: 50px; height: 100%; width: 100px; flex-basis:20%; background-color: #F2F2F2;">연락처</div>
+                    <div style="line-height: 50px; height: 100%; width: 100px; flex-basis:30%;">{{ pur_request.register_user.phone }}</div>
+                    <div style="line-height: 50px; height: 100%; width: 100px; flex-basis:20%; background-color: #F2F2F2;">이메일</div>
+                    <div style="line-height: 50px; height: 100%; width: 100px; flex-basis:30%;">{{ pur_request.register_user.username }}</div>
+                </div>
+                <div style="display:flex; justify-content: space-between; align-content: stretch; 
+                            height: 50px; align-items: center; border-top: 1px solid Silver; font-size: 14px;
+                            text-indent: 20px;">
+                    <div style="line-height: 50px; height: 100%; width: 100px; flex-basis:20%; background-color: #F2F2F2;">희망구매건수</div>
+                    <div style="line-height: 50px; height: 100%; width: 100px; flex-basis:30%;">{{ pur_request.number_of_purchases }}</div>
+                    <div style="line-height: 50px; height: 100%; width: 100px; flex-basis:20%; background-color: #F2F2F2;">희망결제방식</div>
+                    <div style="line-height: 50px; height: 100%; width: 100px; flex-basis:30%;">{{ pur_request.payment_type }}</div>
+                </div>
+                <div style="display:flex; justify-content: space-between; align-content: stretch; 
+                            height: 50px; align-items: center; border-top: 1px solid Silver; font-size: 14px;
+                            text-indent: 20px; border-bottom: 1px solid Silver;">
+                    <div style="line-height: 50px; height: 100%; width: 100px; flex-basis:20%; background-color: #F2F2F2;">문의날짜</div>
+                    <div style="line-height: 50px; height: 100%; width: 100px; flex-basis:30%;">{{ pur_request.created | date:'Y-m-d H:i:s' }}</div>
+                    <div style="line-height: 50px; height: 100%; width: 100px; flex-basis:20%;"></div>
+                    <div style="line-height: 50px; height: 100%; width: 100px; flex-basis:30%;"></div>
+                </div>
+
+
+            </div>
+        </div> <!-- end col -->
+
+        <div class="card">
+            <div class="card-body">
+                <h4>문의 내용</h4><br>
+
+                <div style="display:flex; justify-content: space-between; align-content: stretch; 
+                            height: 50px; align-items: center; border-top: 1px solid Silver; font-size: 14px;
+                            text-indent: 20px; border-bottom: 1px solid Silver;">
+                    <div style="line-height: 50px; height: 100%; width: 100px; flex-basis:20%; background-color: #F2F2F2;">문의 내용</div>
+                    <div style="line-height: 50px; height: 100%; width: 100px; flex-basis:80%;">{{ pur_request.content }}</div>
+                    {% comment %} <div style="line-height: 50px; height: 100%; width: 100px; flex-basis:30%;">{{ pur_request.content }}</div> {% endcomment %}
+                </div>
+            </div>
+        </div> <!-- end col -->
+        {% comment %} ########################## form 끝 ################################# {% endcomment %}
+
+
+
+    </div> <!-- end col -->
+</div> <!-- end row -->
+
+{% endblock content %}
+
+{% block javascript %}
+<!-- JAVASCRIPT -->
+<script src="{% static 'libs/jquery/jquery.min.js' %}"></script>
+<script src="{% static 'libs/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+<script src="{% static 'libs/metismenu/metisMenu.min.js' %}"></script>
+<script src="{% static 'libs/simplebar/simplebar.min.js' %}"></script>
+<script src="{% static 'libs/node-waves/waves.min.js' %}"></script>
+
+<!-- Required datatable js -->
+<script src="{% static 'libs/datatables.net/js/jquery.dataTables.min.js' %}"></script>
+<script src="{% static 'libs/datatables.net-bs4/js/dataTables.bootstrap4.min.js' %}"></script>
+
+<!-- Buttons examples -->
+<script src="{% static 'libs/datatables.net-buttons/js/dataTables.buttons.min.js' %}"></script>
+<script src="{% static 'libs/datatables.net-buttons-bs4/js/buttons.bootstrap4.min.js' %}"></script>
+<script src="{% static 'libs/jszip/jszip.min.js' %}"></script>
+<script src="{% static 'libs/pdfmake/build/pdfmake.min.js' %}"></script>
+<script src="{% static 'libs/pdfmake/build/vfs_fonts.js' %}"></script>
+<script src="{% static 'libs/datatables.net-buttons/js/buttons.html5.min.js' %}"></script>
+<script src="{% static 'libs/datatables.net-buttons/js/buttons.print.min.js' %}"></script>
+<script src="{% static 'libs/datatables.net-buttons/js/buttons.colVis.min.js' %}"></script>
+<script src="{% static 'libs/datatables.net-keyTable/js/dataTables.keyTable.min.js' %}"></script>
+<script src="{% static 'libs/datatables.net-select/js/dataTables.select.min.js' %}"></script>
+
+<!-- Responsive examples -->
+<script src="{% static 'libs/datatables.net-responsive/js/dataTables.responsive.min.js' %}"></script>
+<script src="{% static 'libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js' %}"></script>
+
+<!-- Datatable init js -->
+<script src="{% static 'js/pages/datatables.init.js' %}"></script>
+
+
+
+<script src="{% static 'js/menus/payment-buy_in_bulk_request.js'%}"></script>
+
+<script src="{% static 'js/app.js' %}"></script>
+
+
+{% endblock javascript %}

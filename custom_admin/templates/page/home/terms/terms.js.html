@@ -1,0 +1,44 @@
+{% load template_util %}
+{% load static %}
+<script src="{% static 'libs/sweetalert2/sweetalert2.min.js'%}"></script>
+<script src="{% static 'js/pages/sweet-alerts.init.js'%}"></script>
+<script type="text/javascript">
+  // 문의 답변 작성
+  $(document).on("click", '#save', function(e){
+    var formData = new FormData();
+    var $crf_token = $('[name="csrfmiddlewaretoken"]').attr('value');
+
+    //formData.append("answer", $('#inquiry-answer').text())
+    {% for row in rows %}
+      formData.append("{{ row.pk }}", JSON.stringify({
+        "title": $('#{{ row.pk }}-title').text(),
+        "content": document.getElementById("{{ row.pk }}-content").innerText
+      }))
+    {% endfor %}
+
+    $.ajax({
+      headers: {"X-CSRFToken": $crf_token},
+      type: "put",
+      {% if pk %}
+        url: "{% url detail_url pk %}",
+      {% endif %}
+      data: formData,
+
+      success: function (response) {
+        location.reload()
+      },
+
+      error: function (xhr, status, error) {
+        response_text = JSON.parse(xhr.responseText);
+        alert(response_text.error)
+      },
+
+      dataType: "json",
+      async: true,
+      cache: false,
+      contentType: false,
+      processData: false,
+      timeout: 60000
+    });
+  })
+</script>

@@ -1,0 +1,178 @@
+{% extends 'partials/base.html' %}
+{% load static %}
+{% block extra_css %}
+    <link href="{% static 'libs/sweetalert2/sweetalert2.min.css'%}" rel="stylesheet" type="text/css" />
+{% endblock extra_css %}
+
+{% block content %}
+<div class="row">{% csrf_token %}
+    <div class="col-12">
+        <h2 style="margin-left: 20px">{{ recruitment.own_company.company_name }}</h2>
+        <div class="card">
+            <div class="card-body">
+                <div style="margin-left: 50px; margin-right: 50px; display:flex; justify-content: space-around;">
+                    <div style="text-align:center; width: 100px; color: grey; flex-grow: 1">전형코드</div>
+                    <div style="text-align:center; width: 100px; color: grey; flex-grow: 2">전형명</div>
+                    <div style="text-align:center; width: 100px; color: grey; flex-grow: 1">대상자</div>
+                    <div style="text-align:center; width: 100px; color: grey; flex-grow: 1">진단완료</div>
+                    <div style="text-align:center; width: 100px; color: grey; flex-grow: 1">미완료</div>
+                </div><hr>
+                
+                <div style="margin-left: 50px; margin-right: 50px; display:flex; justify-content: space-around;">
+                {% comment %} TODO 여기에 전형 상세정보 넣어야함 {% endcomment %}
+                <div style="text-align:center; width: 100px; color: grey; flex-grow: 1">{{ recruitment.recruit_code }}</div>
+                <div style="text-align:center; width: 100px; color: grey; flex-grow: 2">{{ recruitment.recruit_name }}</div>
+                {% comment %} TODO 대상자 뭔지 모름 {% endcomment %}
+                <div style="text-align:center; width: 100px; color: grey; flex-grow: 1">{{ recruitment.get_passed_user_count.0 }}</div>
+                <div style="text-align:center; width: 100px; color: grey; flex-grow: 1">{{ recruitment.get_passed_user_count.1 }}</div>
+                <div style="text-align:center; width: 100px; color: grey; flex-grow: 1">{{ recruitment.get_passed_user_count.2 }}</div>
+                </div>
+            </div>
+        </div> <!-- end col -->
+        {% comment %} ########################## form 끝 ################################# {% endcomment %}
+
+
+        <div style="display:flex; justify-content: space-around;">
+            <div class="card" style="margin-right: 7px; flex-basis:50%;">
+                <div class="card-body">
+                    <table id="" class="table table-bordered dt-responsive nowrap w-100">
+                        <thead>
+                            <tr>
+                                <th style="text-align: center" width="60">선택</th>
+                                <th style="text-align: center" width="30">NO</th>
+                                <th style="text-align: center" width="80">성명</th>
+                                <th style="text-align: center">휴대폰번호</th>
+                                <th style="text-align: center">진단상태</th>
+                                <th style="text-align: center" width="90">진단결과</th>
+                                <th style="text-align: center" width="60">보기</th>
+                                <th style="display:none;">히든아이디</th>
+                            </tr>
+                        </thead>
+                        
+                        <tbody>
+                            {% for interviewee in recruitment.interviewee.all %}
+                            <tr>
+                                <td style="text-align: center"><input type="checkbox" name="object_CheckBox"></td>
+                                <td style="text-align: center">{{ forloop.counter }}</td>
+                                <td style="text-align: center">{{ interviewee.interviewee_test.name }}</td>
+                                <td style="text-align: center">{{ interviewee.interviewee_test.phone }}</td>
+                                <td style="text-align: center">{{ interviewee.status }}</td>
+                                <td style="text-align: center">{{ interviewee.result_rank }}</td>
+                                {% comment %} TODO 아이콘 바꿔야함 {% endcomment %}
+                                {% if interviewee.result_file_link %}
+                                <td style="text-align: center">
+                                    <a class="" href="{% url 'recruit-management-detail' recruitment.id %}?interviewee={{ interviewee.uuid }}"><i
+                                        {% comment %} <a class="" href="{% url 'recruit-management-detail' recruitment.id %}"><i {% endcomment %}
+                                    class="mdi mdi-magnify fa-lg text-muted align-middle me-1"></i></a>
+                                </td>
+                                {% else %}
+                                <td style="text-align: center">-</td>
+                                {% endif %}
+                                <td style="display:none;">{{ interviewee.uuid }}</td>
+                            </tr>
+                            {% endfor %}
+    
+    
+                        </tbody>
+                    </table>
+                    <div style="margin: 0px 0px 0px 0px;">
+                        {% comment %} <button type="button" class="btn btn-primary w-md waves-effect waves-light" onclick="location.href='{% url 'recruit-excel-download' %}'"> 생성</button> {% endcomment %}
+                        <button type="submit" class="btn btn-primary w-md waves-effect waves-light" id="download-individual-report">개인리포트 다운로드</button>
+                        <button type="submit" class="btn btn-danger w-md waves-effect waves-light" id="interviewee_test-remove">삭제</button>
+                    </div>
+                    
+                </div>
+            </div>
+            <div class="card" style="margin-left: 7px; flex-basis:50%; height:590px;">
+                <div class="card-body">
+                    {% comment %} {{ selected_interviewee.result_file_link }} {% endcomment %}
+                    {% comment %} <embed src="{{ selected_interviewee.result_file_link }}"> {% endcomment %}
+                        {% comment %} src="{{ selected_interviewee.result_file_link }}&navpanes=0&scrollbar=0" {% endcomment %}
+
+                        
+                    {% comment %} <iframe
+                    src="http://infolab.stanford.edu/pub/papers/google.pdf#toolbar=0&navpanes=0&scrollbar=0"
+                    frameBorder="0"
+                    scrolling="auto"
+                    height="100%"
+                    width="101.5%"
+                    ></iframe> {% endcomment %}
+
+                    {% comment %} <embed
+                    src="http://infolab.stanford.edu/pub/papers/google.pdf#toolbar=0&navpanes=0&scrollbar=0"
+                    type="application/pdf"
+                    frameBorder="0"
+                    scrolling="auto"
+                    height="100%"
+                    width="101.5%"
+                    ></embed> {% endcomment %}
+                    {% if selected_interviewee %}
+                    <iframe
+                    src="https://drive.google.com/viewerng/viewer?embedded=true&url={{ selected_interviewee.result_file_link }}#toolbar=0&scrollbar=0"
+                    frameBorder="0"
+                    scrolling="auto"
+                    height="100%"
+                    width="101.5%"
+                    >로딩중...</iframe>
+                    {% else %}
+                    <div>-</div>
+                    {% endif %}
+
+
+                    {% comment %} <iframe width="100%" height="600" src="./compressed.tracemonkey-pldi-09.pdf"></iframe> {% endcomment %}
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+
+
+
+
+    </div> <!-- end col -->
+</div> <!-- end row -->
+
+{% endblock content %}
+
+{% block javascript %}
+<!-- JAVASCRIPT -->
+<script src="{% static 'libs/jquery/jquery.min.js' %}"></script>
+<script src="{% static 'libs/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+<script src="{% static 'libs/metismenu/metisMenu.min.js' %}"></script>
+<script src="{% static 'libs/simplebar/simplebar.min.js' %}"></script>
+<script src="{% static 'libs/node-waves/waves.min.js' %}"></script>
+
+<!-- Required datatable js -->
+<script src="{% static 'libs/datatables.net/js/jquery.dataTables.min.js' %}"></script>
+<script src="{% static 'libs/datatables.net-bs4/js/dataTables.bootstrap4.min.js' %}"></script>
+
+<!-- Buttons examples -->
+<script src="{% static 'libs/datatables.net-buttons/js/dataTables.buttons.min.js' %}"></script>
+<script src="{% static 'libs/datatables.net-buttons-bs4/js/buttons.bootstrap4.min.js' %}"></script>
+<script src="{% static 'libs/jszip/jszip.min.js' %}"></script>
+<script src="{% static 'libs/pdfmake/build/pdfmake.min.js' %}"></script>
+<script src="{% static 'libs/pdfmake/build/vfs_fonts.js' %}"></script>
+<script src="{% static 'libs/datatables.net-buttons/js/buttons.html5.min.js' %}"></script>
+<script src="{% static 'libs/datatables.net-buttons/js/buttons.print.min.js' %}"></script>
+<script src="{% static 'libs/datatables.net-buttons/js/buttons.colVis.min.js' %}"></script>
+<script src="{% static 'libs/datatables.net-keyTable/js/dataTables.keyTable.min.js' %}"></script>
+<script src="{% static 'libs/datatables.net-select/js/dataTables.select.min.js' %}"></script>
+
+<!-- Responsive examples -->
+<script src="{% static 'libs/datatables.net-responsive/js/dataTables.responsive.min.js' %}"></script>
+<script src="{% static 'libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js' %}"></script>
+
+<!-- Datatable init js -->
+<script src="{% static 'js/pages/datatables.init.js' %}"></script>
+
+
+
+<script src="{% static 'js/menus/ai-recruit_management_and_download.js'%}"></script>
+
+<script src="{% static 'js/app.js' %}"></script>
+
+
+{% endblock javascript %}

@@ -1,0 +1,215 @@
+{% extends 'partials/base.html' %}
+{% load static %}
+{% block extra_css %}
+
+    <link href="{% static 'libs/select2/css/select2.min.css' %}" rel="stylesheet" type="text/css" />
+    <link href="{% static 'libs/bootstrap-datepicker/css/bootstrap-datepicker.min.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'libs/spectrum-colorpicker2/spectrum.min.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'libs/bootstrap-touchspin/jquery.bootstrap-touchspin.min.css' %}" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="{% static 'libs/@chenfengyuan/datepicker/datepicker.min.css' %}">
+
+    <!-- File Upload Plugins css -->
+    <link href="{% static 'libs/dropzone/min/dropzone.min.css' %}" rel="stylesheet" type="text/css" />
+{% endblock extra_css %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <form method="POST" onsubmit="return false;">{% csrf_token %}
+
+                <div style="display: flex">
+                    <div><h1 class="card-title" style="font-size: 24px">쿠폰 수정</h4></div>
+                        <div style="margin: auto 0 0 auto;">
+                    
+                            <button class="btn btn-primary w-md waves-effect waves-light" id="coupon-update" value={{ coupon.id }}>수정</button>
+
+                            {% comment %} <button type="submit" class="btn btn-danger w-md waves-effect waves-light" id="coupon-create">삭제</button> {% endcomment %}
+                            {% comment %} <button type="submit" class="btn btn-primary" id="coupon-create">Submit</button> {% endcomment %}
+                            {% comment %} <button class="btn btn-primary w-md waves-effect waves-light">생성</button> {% endcomment %}
+                            <button type="button" class="btn btn-danger w-md waves-effect waves-light" onclick="location.href='{% url 'coupon-management' %}'">취소</button>
+                            {% comment %} <li>
+                                <input type="button" class="like" name="{{ post.id }}" value="Like">
+                                <p id="count-{{ post.id }}">{{ post.like_count }}개</p>
+                                <p id="like-user-{{post.id}}">
+                                {% for like_user in post.like_user_set.all %}
+                                  {{ like_user.profile.nickname }}
+                                {% endfor %}
+                                </p>
+                              </li> {% endcomment %}
+                        </div>
+                        {% comment %} <div style="padding-left: 10px">
+                            <button type="button" class="btn btn-danger w-md waves-effect waves-light" id="custom-html-alert" onclick="location.href='{% url 'auth-logout' %}'">
+                                삭제</button>
+                        </div> {% endcomment %}
+                    </div>
+                <hr class="one">
+                {% comment %} <p class="card-title-desc">Here are examples of <code>.form-control</code> applied to
+                    each
+                    textual HTML5 <code>&lt;input&gt;</code> <code>type</code>.</p> {% endcomment %}
+                    <div style="text-align: right">
+                    </div>
+                    {% comment %} <div class="col-md-7">
+                        <div class="mb-3">
+                            <label for="validationCustom01" class="form-label">쿠폰 이름*</label>
+                            <input type="text" class="form-control" id="coupon_name" name="coupon_name">
+                            <div class="valid-feedback"></div>
+                        </div>
+                    </div> {% endcomment %}
+                    <div class="col-md-7">
+                        <div class="mb-3">
+                            <label for="validationCustom01" class="form-label">쿠폰 이름*</label>
+                            <input type="text" class="form-control" id="coupon_name" name="coupon_name" value={{ coupon.coupon_name }}>
+                            <div class="valid-feedback"></div>
+                        </div>
+                    </div>
+                    {% comment %} <div class="col-md-7">
+                        <div class="mb-3">
+                            <label for="validationCustom01" class="form-label">코드*</label>
+                            <input type="text" class="form-control" id="coupon_code" name="coupon_code">
+                            <div class="valid-feedback"></div>
+                        </div>
+                    </div> {% endcomment %}
+                    <div class="row">
+                        {% if coupon.freecount_info %}
+                        <div class="col-md-2">
+                            <div class="mb-3">
+                                <label for="event_type" class="form-label">구분</label>
+                                <select class="form-control select2-search-disable" id="coupon_type" name="event_type">
+                                    <option value="discount">할인률</option>
+                                    <option value="freecount" selected>무료차감갯수</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-5">
+                            <div class="mb-3">
+                                <label for="validationCustom01" class="form-label">수치</label>
+                                <input type="text" class="form-control" id="coupon_value" name="coupon_value" value={{ coupon.freecount_info }}>
+                                <div class="valid-feedback"></div>
+                            </div>
+                        </div>
+                        {% else %}
+                        <div class="col-md-2">
+                            <div class="mb-3">
+                                <label for="event_type" class="form-label">구분</label>
+                                <select class="form-control select2-search-disable" id="coupon_type" name="event_type">
+                                    <option value="discount">할인률</option>
+                                    <option value="freecount">무료차감갯수</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-5">
+                            <div class="mb-3">
+                                <label for="validationCustom01" class="form-label">수치</label>
+                                <input type="text" class="form-control" id="coupon_value" name="coupon_value" value={{ coupon.get_discount_info_display }}>
+                                <div class="valid-feedback"></div>
+                            </div>
+                        </div>
+                        {% endif %}
+                    </div>
+                    <div class="col-md-7">
+                        <div class="mb-3">
+                            <label class="form-label">상태*</label><br>
+                            {% if coupon.expired == False %}
+                            <select class="form-control select2-search-disable" id="expired" name="expired">
+                                <option value=False>활성</option>
+                                <option value=True>비활성</option>
+                            </select>
+                            {% else %}
+                            <select class="form-control select2-search-disable" id="expired" name="expired">
+                                <option value=False>활성</option>
+                                <option value=True selected>비활성</option>
+                            </select>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <div class="col-md-7">
+                        <div class="mb-3">
+                            <label for="example-date-input" class="form-label">시작 날짜*</label>
+                            <input class="form-control" type="date" id="start_date" name="start_date" value={{ coupon.start_date | date:'Y-m-d' }}>
+                        </div>
+                    </div>
+
+                    <div class="col-md-7">
+                        <div class="mb-3">
+                            <label for="example-date-input" class="form-label">종료 날짜*</label>
+                            <input class="form-control" type="date" id="end_date" name="end_date" value={{ coupon.valid_date | date:'Y-m-d' }}>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-7">
+                        <div class="mb-3">
+                            <label class="form-label">회원 선택*</label><br>
+                            <select class="form-control select2" id="user" name="user" value={{ coupon.coupon_name }}>
+                                {% comment %} <option value={{ coupon.for_user.id | default:'all'}} selected hidden>{{ coupon.for_user | default:'모두'}}</option> {% endcomment %}
+                                {% if coupon.for_user %}
+                                    {% for user in user_list %}
+                                        {% if coupon.for_user == user %}
+                                        <option value={{ user.id }} selected>{{ user.username }} / {{ user.fullname }} / {{ user.business.company_name }}</option>
+                                        {% else %}
+                                        <option value={{ user.id }}>{{ user.username }} / {{ user.fullname }} / {{ user.business.company_name }}</option>
+                                        {% endif %}
+                                    {% endfor %}
+                                {% endif %}
+                            </select>
+                        </div>
+                    </div>
+                    
+                            
+                            {% comment %} TODO 이거 뭐지 {% endcomment %}
+                            {% comment %} <div class="col-md-7">
+                                <div class="" id="coupon_condition" name="coupon_condition">
+                                    <label for="coupon_condition" class="form-label">조건 선택*</label><br>
+                                    <select class="form-control" id="coupon_condition" name="coupon_condition">
+                                        <option value=할인 쿠폰>할인 쿠폰</option>
+                                        <option value=대량 구매 쿠폰>대량 구매 쿠폰</option>
+                                    </select>
+                                </div>
+                            </div><br> {% endcomment %}
+                </form>
+            </div>
+        </div> <!-- end col -->
+        {% comment %} ########################## form 끝 ################################# {% endcomment %}
+    </div> <!-- end col -->
+</div> <!-- end row -->
+
+{% endblock content %}
+
+{% block javascript %}
+<!-- JAVASCRIPT -->
+<script src="{% static 'libs/jquery/jquery.min.js' %}"></script>
+<script src="{% static 'libs/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+<script src="{% static 'libs/metismenu/metisMenu.min.js' %}"></script>
+<script src="{% static 'libs/simplebar/simplebar.min.js' %}"></script>
+<script src="{% static 'libs/node-waves/waves.min.js' %}"></script>
+
+<script src="{% static 'libs/select2/js/select2.min.js' %}"></script>
+<script src="{% static 'libs/bootstrap-datepicker/js/bootstrap-datepicker.min.js' %}"></script>
+<script src="{% static 'libs/spectrum-colorpicker2/spectrum.min.js' %}"></script>
+<script src="{% static 'libs/bootstrap-touchspin/jquery.bootstrap-touchspin.min.js' %}"></script>
+<script src="{% static 'libs/@chenfengyuan/datepicker/datepicker.min.js' %}"></script>
+
+<!-- form advanced init -->
+<script src="{% static 'js/pages/form-advanced.init.js' %}"></script>
+
+<!--tinymce js-->
+<script src="{% static 'libs/tinymce/tinymce.min.js' %}"></script>
+
+<!-- init js -->
+<script src="{% static 'js/pages/form-editor.init.js' %}"></script>
+
+<!-- Plugins js -->
+<script src="{% static 'libs/dropzone/min/dropzone.min.js' %}"></script>
+
+<!-- jquery step -->
+<script src="{% static 'libs/jquery-steps/build/jquery.steps.min.js' %}"></script>
+
+<!-- form wizard init -->
+<script src="{% static 'js/pages/form-wizard.init.js' %}"></script>
+
+<script src="{% static 'js/menus/ai-coupon_management.js'%}"></script>
+
+<script src="{% static 'js/app.js' %}"></script>
+{% endblock javascript %}

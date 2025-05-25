@@ -1,0 +1,142 @@
+{% extends "partials/base.html" %}
+{% load static %}
+{% block extra_css %}
+  <link href="{% static 'libs/sweetalert2/sweetalert2.min.css' %}" rel="stylesheet" type="text/css"/>
+  <link href="{% static 'page/main.css' %}" rel="stylesheet" type="text/css"/>
+  <link href="{% static 'page/accordion.css' %}" rel="stylesheet" type="text/css"/>
+{% endblock extra_css %}
+{% block content %}
+  {% load template_util %}
+  <div class="row">
+    {% csrf_token %}
+    <div class="col-12">
+      <div class="title-button">
+        <div>
+          <h1 class="page-title">{{ title }}</h1>
+        </div>
+        <div style="margin: auto 0 0 auto;"></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-body">
+        <!-- accordion menu start -->
+        <div class="category">
+          {% for title in data %}
+            <button type="button" id="category-button-{{ title.id }}" class="btn btn-outline-secondary waves-effect">{{ title.name }}</button>
+          {% endfor %}
+        </div>
+        <hr><br>
+        <div id="accordion-menu" class="product-body">
+          <ul class="metismenu list-unstyled" id="side-menu">
+            {% for title in data %}
+              {% if forloop.counter0 == 0 %}
+                <div id="category-title-{{ title.id }}">
+              {% else %}
+                <div id="category-title-{{ title.id }}" style="display: none">
+              {% endif %}
+              
+              {% comment %}
+              <li>
+                <a>
+                  <span class="product-title">{{ title.name }}</span>
+                  <span class="product-button">
+                    <div class="product-update" data-bs-toggle="modal" data-bs-target=".product-modal-xl"
+                          data-id="{{ title.id }}" data-name="카테고리" data-value="{{ category.name }}">수정</div>
+                  </span>
+                </a>
+              </li>
+              {% endcomment %}
+
+              <!-- title ex) 잠수풀 이용료 -->
+              {% for category in title.child %}
+                <li>
+                  <a>
+                    <span class="product-category">{{ category.name }}</span>
+                    <span class="product-button">
+                      <div class="product-update" data-bs-toggle="modal" data-bs-target=".product-modal-xl"
+                            data-id="{{ category.id }}" data-name="카테고리" data-value="{{ category.name }}">수정</div>
+                    </span>
+                    <span class="product-button">
+                      <div class="product-create" data-bs-toggle="modal" data-bs-target=".product-modal-xl" level="category"
+                            data-id="{{ category.id }}" data-name="카테고리" data-value="{{ category.name }}" data-header="{{ category.header }}">추가</div>
+                    </span>
+                  </a>
+                  <ul class="sub-menu" aria-expanded="true">
+                    <!-- category ex) 체험다이빙 -->
+                    {% for info in category.child %}
+                      <li>
+                        <a>
+                          <span class="product-name">{{ info.name }}</span>
+                          <span class="product-button">
+                            <div class="product-update" data-bs-toggle="modal" data-bs-target=".product-modal-xl"
+                                  data-id="{{ info.id }}" data-name="상품명" data-value="{{ info.name }}">수정</div>
+                          </span>
+                          <span class="product-button">
+                            <div id="remove" value="{{ info.id }}">삭제</div>
+                          </span>
+                        </a>
+                        <ul class="sub-menu" aria-expanded="true">
+                          <!-- option ex) 50000 -->
+                          {% for pk, name, value in info.value %} 
+                            <li>
+                              <a>
+                                <span class="product-option">{{ name }} / {{ value }} </span>
+                                <span class="product-button">
+                                  <div class="product-update" data-bs-toggle="modal" data-bs-target=".product-modal-xl"
+                                        data-id="{{ pk }}" data-name="{{ name }}" data-value="{{ value }}" level="option">수정</div>
+                                </span>
+                              </a>
+                            </li>
+                          {% endfor %}
+                        </ul>
+                      </li>
+                    {% endfor %}
+                  </ul>
+                </li>
+                <br><hr><br>
+              {% endfor %}
+              </div>
+            {% endfor %}
+          </ul>
+        </div>
+        <!-- <div id="sidebar-menu"> <ul class="metismenu list-unstyled" id="accordion-menu"> <li> <a href="#"> <i class='bx bx-share-alt'></i> <span>Multi Level</span> </a> <ul class="sub-menu" aria-expanded="true"> <li> <a href="#">Level 1.1</a> </li> <li> <a href="#">Level 1.2</a> <ul class="sub-menu" aria-expanded="true"> <li> <a href="#">Level 2.1</a> </li> <li> <a href="#">Level 2.2</a> </li> </ul> </li> </ul> </li> </ul> </div> -->
+        <!-- accordion menu end -->
+
+      </div>
+      <!-- end card-body -->
+    </div>
+    <!-- end card -->
+  </div>
+  <!-- end col -->
+</div>
+<!-- end row -->
+
+<!-- 수정 modal -->
+<div class="modal fade product-modal-xl" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel"aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content" style='width: 50vw;'>
+      <div class="modal-header" style='width: 50vw;'>
+        <h5 class="modal-title mt-0" id="myExtraLargeModalLabel" id="modal-title">수정</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+
+      <div class="card" style="margin: 5px;">
+        <div class="card-body" id="modal-body">
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary waves-effect" data-bs-dismiss="modal">취소</button>
+        <button type="button" class="btn btn-primary waves-effect waves-light" id="modal-save">저장</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+{% endblock content %}
+
+{% block javascript %}
+
+{% include js %}
+
+{% endblock javascript %}

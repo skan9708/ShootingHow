@@ -1,0 +1,108 @@
+{% extends 'partials/base.html' %}
+{% load static %}
+{% block extra_css %}
+  <link rel="stylesheet" href="https://rawgit.com/enyo/dropzone/master/dist/dropzone.css">
+
+  <link href="{% static 'libs/sweetalert2/sweetalert2.min.css'%}" rel="stylesheet" type="text/css"/>
+  <link href="{% static 'page/main.css' %}" rel="stylesheet" type="text/css"/>
+{% endblock extra_css %}
+
+{% load template_util %}
+{% block content %}
+  <div class="row">{% csrf_token %}
+    <div class="col-12">
+      <div class="title-button">
+        <div>
+          <h1 class="page-title">{{ title }}</h1>
+        </div>
+        <div style="margin: auto 0 0 auto;">
+          <button type="button" class="btn btn-primary w-md waves-effect waves-light" id="list">목록</button>
+          <button type="button" class="btn btn-danger w-md waves-effect waves-light" id="save">저장</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-body">
+      <h4>신고자 정보</h4>
+      <div class="info-box">
+        <div class="info-half-title">신고자</div>
+        <div class="info-half-content">{{ detail_fields.user }}</div>
+        <div class="info-half-title">신고일자</div>
+        <div class="info-half-content">{{ detail_fields.datetime }}</div>
+      </div><br><br>
+      
+      {% if detail_fields.target.title %}
+        <h4>게시글 내용</h4>
+        <div class="info-text-box">
+          <div class="info-text-title">
+            <div class="info-text-title-value">제목</div>
+          </div>
+          <div class="info-text-content">
+            <div>{{ detail_fields.target.title }}</div>
+          </div>
+        </div>
+        {% else %}
+        <h4>댓글 내용</h4>
+      {% endif %}
+      <div class="info-text-box">
+        <div class="info-text-title">
+          <div class="info-text-title-value">내용</div>
+        </div>
+        <div class="info-text-content">
+          <div>{{ detail_fields.target.content }}</div>
+        </div>
+      </div>
+          {% if detail_fields.target.title %}
+          <div class="info-text-box">
+            <div class="info-text-title">
+              <div class="info-text-title-value">게시글</div>
+            </div>
+            <div class="info-text-content">
+              <a href="{% url 'admin' %}article/{{ detail_fields.category.url }}/{{ detail_fields.target.pk }}">
+                <i class="mdi mdi-file-document-outline"><span>{{ detail_fields.target.title }}</span></i>
+              </a>
+            </div>
+          </div><br><br>
+          {% else %}
+          <div class="info-text-box">
+            <div class="info-text-title">
+              <div class="info-text-title-value">댓글</div>
+            </div>
+            <div class="info-text-content">
+              <a href="{% url 'admin' %}article/{{ detail_fields.category.url }}/{{ detail_fields.target.pk }}">
+                <i class="mdi mdi-file-document-outline"><span>{{ detail_fields.target.content }}</span></i>
+              </a>
+            </div>
+          </div>
+          
+          <div class="info-text-box">
+            <div class="info-text-title">
+              <div class="info-text-title-value">게시글</div>
+            </div>
+            <div class="info-text-content">
+              <a href="{% url 'admin' %}article/{{ target_url }}/{{ target.pk }}">
+                <i class="mdi mdi-file-document-outline"><span>{{ target.content }}</span></i>
+              </a>
+            </div>
+          </div><br><br>
+          {% endif %}
+        
+      
+
+      <!-- <div class="info-content" contenteditable="true">zzzzzzzzzzzz -->
+      <!-- body end -->
+    </div>
+  </div>
+  <!-- end col -->
+</div>
+<!-- end row -->
+
+{% endblock content %}
+
+{% block javascript %}
+
+{% include js %}
+{% include "page/dropzone.init.js.html" %}
+
+{% endblock javascript %}

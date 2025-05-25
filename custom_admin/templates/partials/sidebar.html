@@ -1,0 +1,32 @@
+{% block sidebar %}
+  {% load template_util %}
+  {% get_page_list user as page_list %}
+  <!-- ========== Left Sidebar Start ========== -->
+  <div class="vertical-menu">
+    <div data-simplebar="data-simplebar" class="h-100">
+      <div id="sidebar-menu">
+        <ul class="metismenu list-unstyled" id="side-menu">
+          <li class="menu-title" key="t-menu">Menu</li>
+
+          {% for category, pages in page_list.items %}
+            <li>
+              <a href="javascript: void(0);" class="has-arrow waves-effect">
+                <i class="{{ category|get_category_icon }}"></i>
+                <span key="t-pages">{{ category|get_category_verbose_name }}</span>
+              </a>
+              <ul class="sub-menu" aria-expanded="false">
+                {% for page in pages %}
+                  {% if page.verbose_name %}
+                    <li>
+                      <a href={% url page.url_name %}>{{ page.verbose_name }}</a>
+                    </li>
+                  {% endif %}
+                {% endfor %}
+              </ul>
+            </li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+  </div>
+{% endblock sidebar %}

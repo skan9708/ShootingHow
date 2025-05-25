@@ -1,0 +1,113 @@
+{% extends 'partials/base.html' %}
+{% load static %}
+{% block extra_css %}
+
+    <link href="{% static 'libs/select2/css/select2.min.css' %}" rel="stylesheet" type="text/css" />
+    <link href="{% static 'libs/bootstrap-datepicker/css/bootstrap-datepicker.min.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'libs/spectrum-colorpicker2/spectrum.min.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'libs/bootstrap-touchspin/jquery.bootstrap-touchspin.min.css' %}" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="{% static 'libs/@chenfengyuan/datepicker/datepicker.min.css' %}">
+
+    <!-- File Upload Plugins css -->
+    <link href="{% static 'libs/dropzone/min/dropzone.min.css' %}" rel="stylesheet" type="text/css" />
+{% endblock extra_css %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <form method="POST" onsubmit="return false;">{% csrf_token %}
+
+                <div style="display: flex">
+                    <div><h1 class="card-title" style="font-size: 24px">관리자 아이디 수정</h4></div>
+                        <div style="margin: auto 0 0 auto;">
+                    
+                            <button class="btn btn-primary w-md waves-effect waves-light" id="admin-user-update" value={{ marketing_admin.id }}>수정</button>
+                            <button type="button" class="btn btn-danger w-md waves-effect waves-light" onclick="location.href='{% url 'admin-user-management' %}'">취소</button>
+                        </div>
+
+                    </div>
+                <hr class="one">
+                    <div style="text-align: right">
+                    </div>
+                    <div class="col-md-7">
+                        <div class="mb-3">
+                            <label for="validationCustom01" class="form-label">관리자 아이디</label>
+                            <input type="text" class="form-control" id="admin_username" name="admin_username" value={{ marketing_admin.username }} readonly>
+                            <div class="valid-feedback"></div>
+                        </div>
+                    </div>
+                    <div class="col-md-7">
+                        <div class="mb-3">
+                            <label for="validationCustom01" class="form-label">비밀번호</label>
+                            <input type="text" class="form-control" id="admin_password" name="admin_password">
+                            <div class="valid-feedback"></div>
+                        </div>
+                    </div>
+                    <div class="col-md-7">
+                        <div class="mb-3">
+                            <label for="validationCustom01" class="form-label">이름</label>
+                            <input type="text" class="form-control" id="admin_name" name="admin_name" value={{ marketing_admin.fullname }}>
+                            <div class="valid-feedback"></div>
+                        </div>
+                    </div>
+                    <div class="col-md-7">
+                        <div class="mb-3">
+                            <label for="validationCustom01" class="form-label">연락처</label>
+                            <input type="text" class="form-control" id="admin_phone" name="admin_phone" value={{ marketing_admin.phone }}>
+                            <div class="valid-feedback"></div>
+                        </div>
+                    </div>
+                    {% comment %} <div class="col-md-7">
+                        <div class="mb-3">
+                            <label for="validationCustom01" class="form-label">이메일</label>
+                            <input type="text" class="form-control" id="admin_email" name="admin_email">
+                            <div class="valid-feedback"></div>
+                        </div>
+                    </div> {% endcomment %}
+                </form>
+            </div>
+        </div> <!-- end col -->
+        {% comment %} ########################## form 끝 ################################# {% endcomment %}
+    </div> <!-- end col -->
+</div> <!-- end row -->
+
+{% endblock content %}
+
+{% block javascript %}
+<!-- JAVASCRIPT -->
+<script src="{% static 'libs/jquery/jquery.min.js' %}"></script>
+<script src="{% static 'libs/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+<script src="{% static 'libs/metismenu/metisMenu.min.js' %}"></script>
+<script src="{% static 'libs/simplebar/simplebar.min.js' %}"></script>
+<script src="{% static 'libs/node-waves/waves.min.js' %}"></script>
+
+<script src="{% static 'libs/select2/js/select2.min.js' %}"></script>
+<script src="{% static 'libs/bootstrap-datepicker/js/bootstrap-datepicker.min.js' %}"></script>
+<script src="{% static 'libs/spectrum-colorpicker2/spectrum.min.js' %}"></script>
+<script src="{% static 'libs/bootstrap-touchspin/jquery.bootstrap-touchspin.min.js' %}"></script>
+<script src="{% static 'libs/@chenfengyuan/datepicker/datepicker.min.js' %}"></script>
+
+<!-- form advanced init -->
+<script src="{% static 'js/pages/form-advanced.init.js' %}"></script>
+
+<!--tinymce js-->
+<script src="{% static 'libs/tinymce/tinymce.min.js' %}"></script>
+
+<!-- init js -->
+<script src="{% static 'js/pages/form-editor.init.js' %}"></script>
+
+<!-- Plugins js -->
+<script src="{% static 'libs/dropzone/min/dropzone.min.js' %}"></script>
+
+<!-- jquery step -->
+<script src="{% static 'libs/jquery-steps/build/jquery.steps.min.js' %}"></script>
+
+<!-- form wizard init -->
+<script src="{% static 'js/pages/form-wizard.init.js' %}"></script>
+
+<script src="{% static 'js/menus/user-admin_managememt.js'%}"></script>
+
+<script src="{% static 'js/app.js' %}"></script>
+{% endblock javascript %}

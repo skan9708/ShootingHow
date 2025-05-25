@@ -1,0 +1,343 @@
+{% extends 'partials/base.html' %}
+{% load static %}
+{% block extra_css %}
+    <link href="{% static 'libs/sweetalert2/sweetalert2.min.css'%}" rel="stylesheet" type="text/css" />
+
+    <style>
+        #modal.modal-overlay {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            left: 0;
+            top: 0;
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255, 255, 255, 0.25);
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+            backdrop-filter: blur(1.5px);
+            -webkit-backdrop-filter: blur(1.5px);
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.18);
+        }
+        #modal .modal-window {
+            background: rgba( 69, 139, 197, 0.70 );
+            box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
+            backdrop-filter: blur( 13.5px );
+            -webkit-backdrop-filter: blur( 13.5px );
+            border-radius: 10px;
+            border: 1px solid rgba( 255, 255, 255, 0.18 );
+            width: 400px;
+            height: 500px;
+            position: relative;
+            top: -100px;
+            padding: 10px;
+        }
+        #modal .title {
+            padding-left: 10px;
+            display: inline;
+            text-shadow: 1px 1px 2px gray;
+            color: white;
+            
+        }
+        #modal .title h2 {
+            display: inline;
+        }
+        #modal .close-area {
+            display: inline;
+            float: right;
+            padding-right: 10px;
+            cursor: pointer;
+            text-shadow: 1px 1px 2px gray;
+            color: white;
+        }
+        
+        #modal .content {
+            margin-top: 20px;
+            padding: 0px 10px;
+            text-shadow: 1px 1px 2px gray;
+            color: white;
+        }
+    </style>
+{% endblock extra_css %}
+
+{% block content %}
+<div class="row">{% csrf_token %}
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <div style="display: flex">
+                    <div><h1 class="card-title" style="font-size: 24px">퇴사자 관리</h4></div>
+                    
+                        <div style="margin: auto 0 0 auto;">
+                            {% comment %} <button type="button" class="btn btn-primary w-md waves-effect waves-light" onclick="location.href='{% url 'coupon-create' %}'"> 생성</button> {% endcomment %}
+                            {% comment %} <button type="submit" class="btn btn-danger w-md waves-effect waves-light" id="coupon-remove">삭제</button> {% endcomment %}
+                            {% comment %} <li>
+                                <input type="button" class="like" name="{{ post.id }}" value="Like">
+                                <p id="count-{{ post.id }}">{{ post.like_count }}개</p>
+                                <p id="like-user-{{post.id}}">
+                                {% for like_user in post.like_user_set.all %}
+                                  {{ like_user.profile.nickname }}
+                                {% endfor %}
+                                </p>
+                              </li> {% endcomment %}
+                        </div>
+                        {% comment %} <div style="padding-left: 10px">
+                            <button type="button" class="btn btn-danger w-md waves-effect waves-light" id="custom-html-alert" onclick="location.href='{% url 'auth-logout' %}'">
+                                삭제</button>
+                        </div> {% endcomment %}
+                    </div>
+                <hr class="one">
+                {% comment %} <p class="card-title-desc">Here are examples of <code>.form-control</code> applied to
+                    each
+                    textual HTML5 <code>&lt;input&gt;</code> <code>type</code>.</p> {% endcomment %}
+                <form method="GET">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label for="example-text-input" class="form-label">이름</label>
+                                <input class="form-control" type="text" value="{{ fullname }}" id="fullname" name="fullname">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label for="example-date-input" class="form-label">연락처</label>
+                                <input class="form-control" type="text" value="{{ phone }}" id="phone" name="phone">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="" id="sex" name="sex">
+                                <label for="sex" class="form-label">성별</label>
+                                <select class="form-control select2-search-disable" id="sex" name="sex">
+                                    <option value={{ sex }} selected hidden>{{ sex }}</option>
+                                    <option value=모두>모두</option>
+                                    <option value=남자>남자</option>
+                                    <option value=여자>여자</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label for="example-text-input" class="form-label">희망근무지역</label>
+                                <input class="form-control" type="text" value="{{ hope_working_area }}" id="hope_working_area" name="hope_working_area">
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="mb-3">
+                                <label for="example-date-input" class="form-label">생년월일</label>
+                                <input class="form-control" type="date" value="{{ birthday_start_date }}" id="birthday_start_date" name="birthday_start_date">
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="mb-3">
+                                <label for="example-date-input" class="form-label">　</label>
+                                <input class="form-control" type="date" value="{{ birthday_end_date }}" id="birthday_end_date" name="birthday_end_date">
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="mb-3">
+                                <label for="example-date-input" class="form-label">동의날짜</label>
+                                <input class="form-control" type="date" value="{{ agree_start_date }}" id="agree_start_date" name="agree_start_date">
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="mb-3">
+                                <label for="example-date-input" class="form-label">　</label>
+                                <input class="form-control" type="date" value="{{ agree_end_date }}" id="agree_end_date" name="agree_end_date">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    
+                    <div style="text-align: right">
+                        <button class="btn btn-primary">🔍검색</button>
+                    </div>
+                </form>
+            </div>
+        </div> <!-- end col -->
+        {% comment %} ########################## form 끝 ################################# {% endcomment %}
+
+        <div class="card">
+            <div style="text-align: right; padding: 10px 20px 0px 0px;">
+                <button type="button" class="btn btn-primary waves-effect waves-light" data-bs-toggle="modal" data-bs-target=".bs-example-modal-xl" id="open_modal">SMS 발송하기</button>
+            </div>
+
+            <div class="card-body">
+                {% comment %} <h4 class="card-title">Default Datatable</h4>
+                <p class="card-title-desc">DataTables has most features enabled by
+                    default, so all you need to do to use it with your own tables is to call
+                    the construction function: <code>$().DataTable();</code>.
+                </p> {% endcomment %}
+
+                <table id="" class="table table-bordered dt-responsive nowrap w-100">
+                    <thead>
+                        <tr>
+                            {% comment %} <th style="text-align: center; width: 50px">선택</th> {% endcomment %}
+                            <th style="text-align: center; width: 50px"><input type="checkbox" name="_selected_all_"></th>
+                            {% comment %} <th style="text-align: center" width="70">선택</th> {% endcomment %}
+                            {% comment %} <th style="text-align: center">no</th> {% endcomment %}
+                            <th style="text-align: center; width: 100px">이름</th>
+                            <th style="text-align: center">연락처</th>
+                            <th style="text-align: center">성별</th>
+                            <th style="text-align: center">생년월일</th>
+                            <th style="text-align: center">근무 희망 지역</th>
+                            <th style="text-align: center">채용정보 수신동의일</th>
+                            <th style="text-align: center">동의 종료일</th>
+                            <th style="text-align: center">SMS발송자(최근)</th>
+                            <th style="text-align: center">SMS발송시간</th>
+                            <th style="text-align: center">소속</th>
+                            <th style="text-align: center">퇴사일자</th>
+                            <th style="text-align: center">근속기간</th>
+                            <th style="text-align: center">퇴직사유</th>
+                            <th style="text-align: center">대상구분</th>
+                            {% comment %} <th style="text-align: center" width="70">보기</th> {% endcomment %}
+                            <th style="display:none;">히든아이디</th>
+                        </tr>
+                    </thead>
+                    
+                    <tbody>
+                        {% for retired_employee in retired_employee_list %}
+                        <tr>
+                            <td style="text-align: center"><input type="checkbox" name="object_CheckBox" ></td>
+                            <td>{{ retired_employee.fullname }}</td>
+                            <td>{{ retired_employee.phone }}</td>
+                            <td>{{ retired_employee.sex }}</td>
+                            <td>{{ retired_employee.birthday | date:'Y-m-d' }}</td>
+                            <td>{{ retired_employee.hope_working_area }}</td>
+                            <td>{{ retired_employee.agree_date | date:'Y-m-d' }}</td>
+                            <td>{{ retired_employee.agree_expired_date | date:'Y-m-d' }}</td>
+                            <td>{{ retired_employee.sms_send_user | default:"" }}</td>
+                            <td>{{ retired_employee.sms_send_datetime | date:'Y-m-d H:i:s' }}</td>
+                            <td>{{ retired_employee.team | default:"" }}</td>
+                            <td>{{ retired_employee.retired_date | date:'Y-m-d'}}</td>
+                            <td>{{ retired_employee.working_period | default:"" }}</td>
+                            <td>{{ retired_employee.retired_reason | default:"" }}</td>
+                            <td>{{ retired_employee.is_sms | default:"" }}</td>
+                            <td style="display:none;">{{ retired_employee.id }}</td>
+                        </tr>
+                        {% endfor %}
+
+
+                    </tbody>
+                </table>
+
+            </div>
+            <div style="margin: 0px 20px 20px 20px;">
+                {% comment %} <button type="button" class="btn btn-primary w-md waves-effect waves-light" onclick="location.href='{% url 'recruit-excel-download' %}'"> 생성</button> {% endcomment %}
+                <button type="submit" class="btn btn-primary w-md waves-effect waves-light" id="create-excel">엑셀 다운로드</button>
+            </div>
+            <div style="margin: 0px 20px 20px 20px;">
+                <button type="submit" class="btn btn-primary w-md waves-effect waves-light" id="upload-excel">엑셀 업로드</button>
+                <input type="file" id="excel_file" name="excel_file">
+            </div>
+            <!-- end card-body -->
+        </div>
+        <!-- end card -->
+    </div> <!-- end col -->
+</div> <!-- end row -->
+
+<!--  Extra Large modal example -->
+<div class="modal fade bs-example-modal-xl" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title mt-0" id="myExtraLargeModalLabel">SMS 보내기</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div style="display:flex; justify-content: space-around;">
+                    <div class="card" style="margin-right: 7px; flex-basis:70%;">
+                        <div class="card-body" style="height:600px; overflow:auto">
+                            <table id="modal_table_data" class="table table-bordered dt-responsive nowrap w-100">
+                                <thead>
+                                    <tr>
+                                        {% comment %} <th style="text-align: center; width: 50px">선택</th> {% endcomment %}
+                                        {% comment %} <th style="text-align: center; width: 50px"><input type="checkbox" name="_selected_all_"></th> {% endcomment %}
+                                        {% comment %} <th style="text-align: center" width="70">선택</th> {% endcomment %}
+                                        {% comment %} <th style="text-align: center">no</th> {% endcomment %}
+                                        <th style="text-align: center; width: 100px">이름</th>
+                                        <th style="text-align: center">연락처</th>
+                                        <th style="text-align: center">성별</th>
+                                        <th style="text-align: center">생년월일</th>
+                                        <th style="text-align: center">근무 희망 지역</th>
+                                        {% comment %} <th style="text-align: center">채용정보 수신동의일</th> {% endcomment %}
+                                        {% comment %} <th style="text-align: center">동의 종료일</th> {% endcomment %}
+                                        <th style="text-align: center">SMS발송자(최근)</th>
+                                        <th style="text-align: center">SMS발송시간</th>
+                                        {% comment %} <th style="text-align: center">소속</th> {% endcomment %}
+                                        {% comment %} <th style="text-align: center">퇴사일자</th> {% endcomment %}
+                                        {% comment %} <th style="text-align: center">근속기간</th> {% endcomment %}
+                                        {% comment %} <th style="text-align: center">퇴직사유</th> {% endcomment %}
+                                        <th style="text-align: center">대상구분</th>
+                                        {% comment %} <th style="text-align: center" width="70">보기</th> {% endcomment %}
+                                        <th style="display:none;">히든아이디</th>
+                                    </tr>
+                                </thead>
+                                
+                                <tbody id="modal_table">
+            
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="card" style="margin-left: 7px; flex-basis:30%; height:600px;">
+                        <div class="card-body">
+                            <textarea class="form-control" style="height: 550px; resize: none;" id="modal_content">안녕하세요 $(지원자이름)님
+여기에 들어갈 문구를 알려주세요
+사용자에게 보내 질 메세지입니다.</textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary waves-effect" data-bs-dismiss="modal">취소</button>
+                <button type="button" class="btn btn-primary waves-effect waves-light" id="send_sms">전송</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+{% endblock content %}
+
+{% block javascript %}
+<!-- JAVASCRIPT -->
+<script src="{% static 'libs/jquery/jquery.min.js' %}"></script>
+<script src="{% static 'libs/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+<script src="{% static 'libs/metismenu/metisMenu.min.js' %}"></script>
+<script src="{% static 'libs/simplebar/simplebar.min.js' %}"></script>
+<script src="{% static 'libs/node-waves/waves.min.js' %}"></script>
+
+<!-- Required datatable js -->
+<script src="{% static 'libs/datatables.net/js/jquery.dataTables.min.js' %}"></script>
+<script src="{% static 'libs/datatables.net-bs4/js/dataTables.bootstrap4.min.js' %}"></script>
+
+<!-- Buttons examples -->
+<script src="{% static 'libs/datatables.net-buttons/js/dataTables.buttons.min.js' %}"></script>
+<script src="{% static 'libs/datatables.net-buttons-bs4/js/buttons.bootstrap4.min.js' %}"></script>
+<script src="{% static 'libs/jszip/jszip.min.js' %}"></script>
+<script src="{% static 'libs/pdfmake/build/pdfmake.min.js' %}"></script>
+<script src="{% static 'libs/pdfmake/build/vfs_fonts.js' %}"></script>
+<script src="{% static 'libs/datatables.net-buttons/js/buttons.html5.min.js' %}"></script>
+<script src="{% static 'libs/datatables.net-buttons/js/buttons.print.min.js' %}"></script>
+<script src="{% static 'libs/datatables.net-buttons/js/buttons.colVis.min.js' %}"></script>
+<script src="{% static 'libs/datatables.net-keyTable/js/dataTables.keyTable.min.js' %}"></script>
+<script src="{% static 'libs/datatables.net-select/js/dataTables.select.min.js' %}"></script>
+
+<!-- Responsive examples -->
+<script src="{% static 'libs/datatables.net-responsive/js/dataTables.responsive.min.js' %}"></script>
+<script src="{% static 'libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js' %}"></script>
+
+<!-- Datatable init js -->
+<script src="{% static 'js/pages/datatables.init.js' %}"></script>
+
+
+
+<script src="{% static 'js/menus/user-retired_employee.js'%}"></script>
+
+<script src="{% static 'js/app.js' %}"></script>
+
+
+{% endblock javascript %}

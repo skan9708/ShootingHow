@@ -1,0 +1,1086 @@
+{% extends 'partials/base.html' %}
+{% load static %}
+{% block extra_css %}
+
+    <link href="{% static 'libs/select2/css/select2.min.css' %}" rel="stylesheet" type="text/css" />
+    <link href="{% static 'libs/bootstrap-datepicker/css/bootstrap-datepicker.min.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'libs/spectrum-colorpicker2/spectrum.min.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'libs/bootstrap-touchspin/jquery.bootstrap-touchspin.min.css' %}" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="{% static 'libs/@chenfengyuan/datepicker/datepicker.min.css' %}">
+
+    <!-- File Upload Plugins css -->
+    <link href="{% static 'libs/dropzone/min/dropzone.min.css' %}" rel="stylesheet" type="text/css" />
+{% endblock extra_css %}
+
+{% block content %}
+<!-- Start Select row -->
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-body">
+
+                <h4 class="card-title">Select2</h4>
+                <p class="card-title-desc">A mobile and touch friendly input spinner component for
+                    Bootstrap</p>
+
+                <form>
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="mb-3">
+                                <label class="form-label">Single Select</label>
+                                <select class="form-control select2">
+                                    <option>Select</option>
+                                    <optgroup label="Alaskan/Hawaiian Time Zone">
+                                        <option value="AK">Alaska</option>
+                                        <option value="HI">Hawaii</option>
+                                    </optgroup>
+                                    <optgroup label="Pacific Time Zone">
+                                        <option value="CA">California</option>
+                                        <option value="NV">Nevada</option>
+                                        <option value="OR">Oregon</option>
+                                        <option value="WA">Washington</option>
+                                    </optgroup>
+                                    <optgroup label="Mountain Time Zone">
+                                        <option value="AZ">Arizona</option>
+                                        <option value="CO">Colorado</option>
+                                        <option value="ID">Idaho</option>
+                                        <option value="MT">Montana</option>
+                                        <option value="NE">Nebraska</option>
+                                        <option value="NM">New Mexico</option>
+                                        <option value="ND">North Dakota</option>
+                                        <option value="UT">Utah</option>
+                                        <option value="WY">Wyoming</option>
+                                    </optgroup>
+                                    <optgroup label="Central Time Zone">
+                                        <option value="AL">Alabama</option>
+                                        <option value="AR">Arkansas</option>
+                                        <option value="IL">Illinois</option>
+                                        <option value="IA">Iowa</option>
+                                        <option value="KS">Kansas</option>
+                                        <option value="KY">Kentucky</option>
+                                        <option value="LA">Louisiana</option>
+                                        <option value="MN">Minnesota</option>
+                                        <option value="MS">Mississippi</option>
+                                        <option value="MO">Missouri</option>
+                                        <option value="OK">Oklahoma</option>
+                                        <option value="SD">South Dakota</option>
+                                        <option value="TX">Texas</option>
+                                        <option value="TN">Tennessee</option>
+                                        <option value="WI">Wisconsin</option>
+                                    </optgroup>
+                                    <optgroup label="Eastern Time Zone">
+                                        <option value="CT">Connecticut</option>
+                                        <option value="DE">Delaware</option>
+                                        <option value="FL">Florida</option>
+                                        <option value="GA">Georgia</option>
+                                        <option value="IN">Indiana</option>
+                                        <option value="ME">Maine</option>
+                                        <option value="MD">Maryland</option>
+                                        <option value="MA">Massachusetts</option>
+                                        <option value="MI">Michigan</option>
+                                        <option value="NH">New Hampshire</option>
+                                        <option value="NJ">New Jersey</option>
+                                        <option value="NY">New York</option>
+                                        <option value="NC">North Carolina</option>
+                                        <option value="OH">Ohio</option>
+                                        <option value="PA">Pennsylvania</option>
+                                        <option value="RI">Rhode Island</option>
+                                        <option value="SC">South Carolina</option>
+                                        <option value="VT">Vermont</option>
+                                        <option value="VA">Virginia</option>
+                                        <option value="WV">West Virginia</option>
+                                    </optgroup>
+                                </select>
+
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Multiple Select</label>
+
+                                <select class="select2 form-control select2-multiple"
+                                    multiple="multiple" data-placeholder="Choose ...">
+                                    <optgroup label="Alaskan/Hawaiian Time Zone">
+                                        <option value="AK">Alaska</option>
+                                        <option value="HI">Hawaii</option>
+                                    </optgroup>
+                                    <optgroup label="Pacific Time Zone">
+                                        <option value="CA">California</option>
+                                        <option value="NV">Nevada</option>
+                                        <option value="OR">Oregon</option>
+                                        <option value="WA">Washington</option>
+                                    </optgroup>
+                                    <optgroup label="Mountain Time Zone">
+                                        <option value="AZ">Arizona</option>
+                                        <option value="CO">Colorado</option>
+                                        <option value="ID">Idaho</option>
+                                        <option value="MT">Montana</option>
+                                        <option value="NE">Nebraska</option>
+                                        <option value="NM">New Mexico</option>
+                                        <option value="ND">North Dakota</option>
+                                        <option value="UT">Utah</option>
+                                        <option value="WY">Wyoming</option>
+                                    </optgroup>
+                                    <optgroup label="Central Time Zone">
+                                        <option value="AL">Alabama</option>
+                                        <option value="AR">Arkansas</option>
+                                        <option value="IL">Illinois</option>
+                                        <option value="IA">Iowa</option>
+                                        <option value="KS">Kansas</option>
+                                        <option value="KY">Kentucky</option>
+                                        <option value="LA">Louisiana</option>
+                                        <option value="MN">Minnesota</option>
+                                        <option value="MS">Mississippi</option>
+                                        <option value="MO">Missouri</option>
+                                        <option value="OK">Oklahoma</option>
+                                        <option value="SD">South Dakota</option>
+                                        <option value="TX">Texas</option>
+                                        <option value="TN">Tennessee</option>
+                                        <option value="WI">Wisconsin</option>
+                                    </optgroup>
+                                    <optgroup label="Eastern Time Zone">
+                                        <option value="CT">Connecticut</option>
+                                        <option value="DE">Delaware</option>
+                                        <option value="FL">Florida</option>
+                                        <option value="GA">Georgia</option>
+                                        <option value="IN">Indiana</option>
+                                        <option value="ME">Maine</option>
+                                        <option value="MD">Maryland</option>
+                                        <option value="MA">Massachusetts</option>
+                                        <option value="MI">Michigan</option>
+                                        <option value="NH">New Hampshire</option>
+                                        <option value="NJ">New Jersey</option>
+                                        <option value="NY">New York</option>
+                                        <option value="NC">North Carolina</option>
+                                        <option value="OH">Ohio</option>
+                                        <option value="PA">Pennsylvania</option>
+                                        <option value="RI">Rhode Island</option>
+                                        <option value="SC">South Carolina</option>
+                                        <option value="VT">Vermont</option>
+                                        <option value="VA">Virginia</option>
+                                        <option value="WV">West Virginia</option>
+                                    </optgroup>
+                                </select>
+
+                            </div>
+
+                            <div>
+                                <label class="form-label">Search Disable</label>
+                                <select class="form-control select2-search-disable">
+                                    <option>Select</option>
+                                    <optgroup label="Alaskan/Hawaiian Time Zone">
+                                        <option value="AK">Alaska</option>
+                                        <option value="HI">Hawaii</option>
+                                    </optgroup>
+                                    <optgroup label="Pacific Time Zone">
+                                        <option value="CA">California</option>
+                                        <option value="NV">Nevada</option>
+                                        <option value="OR">Oregon</option>
+                                        <option value="WA">Washington</option>
+                                    </optgroup>
+                                </select>
+
+                            </div>
+                        </div>
+
+                        <div class="col-lg-6">
+                            <div class="mb-3 ajax-select mt-3 mt-lg-0">
+                                <label class="form-label">Ajax (remote data)</label>
+                                <select class="form-control select2-ajax"></select>
+
+                            </div>
+                            <div class="templating-select">
+                                <label class="form-label">Templating</label>
+                                <select class="form-control select2-templating">
+                                    <optgroup label="Alaskan/Hawaiian Time Zone">
+                                        <option value="AK">Alaska</option>
+                                        <option value="HI">Hawaii</option>
+                                    </optgroup>
+                                    <optgroup label="Pacific Time Zone">
+                                        <option value="CA">California</option>
+                                        <option value="NV">Nevada</option>
+                                        <option value="OR">Oregon</option>
+                                        <option value="WA">Washington</option>
+                                    </optgroup>
+                                </select>
+
+                            </div>
+                        </div>
+                    </div>
+
+                </form>
+
+            </div>
+        </div>
+        <!-- end select2 -->
+
+    </div>
+
+
+</div>
+<!-- end row -->
+
+<!-- Start color/date-picker row -->
+<div class="row">
+    <div class="col-xl-6">
+        <div class="card">
+            <div class="card-body">
+
+                <h4 class="card-title">Colorpicker</h4>
+                <p class="card-title-desc">Examples of Spectrum Colorpicker.</p>
+
+                <form action="#">
+                    <div class="mb-3">
+                        <label class="form-label">Simple input field</label>
+                        <input type="text" class="form-control" id="colorpicker-default" value="#50c4f1">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Show Alpha</label>
+                        <input type="text" class="form-control" id="colorpicker-showalpha" value="rgba(244, 106, 106, 0.6)">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Show Palette Only</label>
+                        <input type="text" class="form-control" id="colorpicker-showpaletteonly" value="#34c3af">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Toggle Palette Only</label>
+                        <input type="text" class="form-control" id="colorpicker-togglepaletteonly" value="#50c4f1">
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Show Initial</label>
+                        <input type="text" class="form-control" id="colorpicker-showintial" value="#fbc15e">
+                    </div>
+                    <div>
+                        <label class="form-label">Show Input And Initial</label>
+                        <input type="text" class="form-control" id="colorpicker-showinput-intial" value="#f46a6a">
+                    </div>
+
+                </form>
+
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-body">
+
+                <h4 class="card-title">Bootstrap TouchSpin</h4>
+                <p class="card-title-desc">A mobile and touch friendly input spinner component for
+                    Bootstrap</p>
+
+                <form>
+                    <div class="mb-3">
+                        <label class="form-label">Using data attributes</label>
+                        <input data-toggle="touchspin" type="text" value="55">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Example with postfix (large)</label>
+                        <input data-toggle="touchspin" value="18.20" type="text" data-step="0.1"
+                            data-decimals="2" data-bts-postfix="%">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">With prefix </label>
+                        <input data-toggle="touchspin" type="text" data-bts-prefix="$">
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Init with empty value:</label>
+                        <input data-toggle="touchspin" type="text">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Value attribute is not set (applying
+                            settings.initval)</label>
+                        <input id="demo3_21" type="text" value="" name="demo3_21">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Value is set explicitly to 33 (skipping
+                            settings.initval) </label>
+                        <input id="demo3_22" type="text" value="33" name="demo3_22">
+                    </div>
+                    <div>
+                        <label class="form-label">Vertical button alignment:</label>
+                        <input id="demo_vertical" type="text" value="" name="demo_vertical">
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="col-xl-6">
+        <div class="card">
+            <div class="card-body">
+
+                <h4 class="card-title">Bootstrap Datepicker</h4>
+                <p class="card-title-desc">Examples of twitter bootstrap datepicker.</p>
+
+                <form action="#">
+                    <div class="mb-4">
+                        <label>Default Functionality</label>
+                        <div class="input-group" id="datepicker1">
+                            <input type="text" class="form-control" placeholder="dd M, yyyy"
+                                data-date-format="dd M, yyyy" data-date-container='#datepicker1' data-provide="datepicker">
+
+                            <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
+                        </div><!-- input-group -->
+                    </div>
+
+                    <div class="mb-4">
+                        <label>Auto Close</label>
+                        <div class="input-group" id="datepicker2">
+                            <input type="text" class="form-control" placeholder="dd M, yyyy"
+                                data-date-format="dd M, yyyy" data-date-container='#datepicker2' data-provide="datepicker"
+                                data-date-autoclose="true">
+
+                            <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
+                        </div><!-- input-group -->
+                    </div>
+
+                    <div class="mb-4">
+                        <label>Multiple Date</label>
+                        <div class="input-group" id="datepicker3">
+                            <input type="text" class="form-control" placeholder="dd M, yyyy"
+                                data-provide="datepicker" data-date-container='#datepicker3' data-date-format="dd M, yyyy"
+                                data-date-multidate="true">
+
+                            <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
+                        </div><!-- input-group -->
+                    </div>
+
+                    <div class="mb-4">
+                        <label>Month View</label>
+                        <div class="position-relative" id="datepicker4">
+                            <input type="text" class="form-control" data-date-container='#datepicker4' data-provide="datepicker"
+                            data-date-format="MM yyyy" data-date-min-view-mode="1">
+                        </div>
+                        
+                    </div>
+
+                    <div class="mb-4">
+                        <label>Year View</label>
+                        <div class="position-relative" id="datepicker5">
+                            <input type="text" class="form-control" data-provide="datepicker" data-date-container='#datepicker5'
+                                data-date-format="dd M, yyyy" data-date-min-view-mode="2">
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <label>Date Range</label>
+
+                        <div class="input-daterange input-group" id="datepicker6" data-date-format="dd M, yyyy" data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker6'>
+                            <input type="text" class="form-control" name="start" placeholder="Start Date" />
+                            <input type="text" class="form-control" name="end" placeholder="End Date" />
+                        </div>
+                    </div>
+
+                    <div>
+                        <label>Inline Datepicker</label>
+                        
+                        <div data-provide="datepicker-inline" class="bootstrap-datepicker-inline"></div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-body">
+
+                <h4 class="card-title">Css Switch</h4>
+                <p class="card-title-desc">Here are a few types of switches. </p>
+
+                <div class="row">
+                    <div class="col-lg-12">
+                        <h5 class="font-size-14 mb-3">Example switch</h5>
+                        <div>
+                            <input type="checkbox" id="switch1" switch="none" checked />
+                            <label for="switch1" data-on-label="On" data-off-label="Off"></label>
+
+                            <input type="checkbox" id="switch2" switch="default" checked />
+                            <label for="switch2" data-on-label="" data-off-label=""></label>
+
+                            <input type="checkbox" id="switch3" switch="bool" checked />
+                            <label for="switch3" data-on-label="Yes" data-off-label="No"></label>
+
+                            <input type="checkbox" id="switch6" switch="primary" checked />
+                            <label for="switch6" data-on-label="Yes" data-off-label="No"></label>
+
+                            <input type="checkbox" id="switch4" switch="success" checked />
+                            <label for="switch4" data-on-label="Yes" data-off-label="No"></label>
+
+                            <input type="checkbox" id="switch7" switch="info" checked />
+                            <label for="switch7" data-on-label="Yes" data-off-label="No"></label>
+
+                            <input type="checkbox" id="switch5" switch="warning" checked />
+                            <label for="switch5" data-on-label="Yes" data-off-label="No"></label>
+
+                            <input type="checkbox" id="switch8" switch="danger" checked />
+                            <label for="switch8" data-on-label="Yes" data-off-label="No"></label>
+
+                            <input type="checkbox" id="switch9" switch="dark" checked />
+                            <label for="switch9" data-on-label="Yes" data-off-label="No"></label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="mt-4">
+                            <h5 class="font-size-14 mb-3">Square switch</h5>
+                            <div class="d-flex">
+                                <div class="square-switch">
+                                    <input type="checkbox" id="square-switch1" switch="none" checked />
+                                    <label for="square-switch1" data-on-label="On"
+                                        data-off-label="Off"></label>
+                                </div>
+                                <div class="square-switch">
+                                    <input type="checkbox" id="square-switch2" switch="info" checked />
+                                    <label for="square-switch2" data-on-label="Yes"
+                                        data-off-label="No"></label>
+                                </div>
+                                <div class="square-switch">
+                                    <input type="checkbox" id="square-switch3" switch="bool" checked />
+                                    <label for="square-switch3" data-on-label="Yes"
+                                        data-off-label="No"></label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+
+
+    </div>
+</div>
+<!-- end row -->
+
+<!-- Start Form validation row -->
+<div class="row">
+    <div class="col-xl-6">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Bootstrap Validation - Normal</h4>
+                <p class="card-title-desc">Provide valuable, actionable feedback to your users with
+                    HTML5 form validation–available in all our supported browsers.</p>
+                <form class="needs-validation" novalidate>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="validationCustom01" class="form-label">First name</label>
+                                <input type="text" class="form-control" id="validationCustom01"
+                                    placeholder="First name" value="Mark" required>
+                                <div class="valid-feedback">
+                                    Looks good!
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="validationCustom02" class="form-label">Last name</label>
+                                <input type="text" class="form-control" id="validationCustom02"
+                                    placeholder="Last name" value="Otto" required>
+                                <div class="valid-feedback">
+                                    Looks good!
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label for="validationCustom03" class="form-label">State</label>
+                                <select class="form-select" id="validationCustom03" required>
+                                    <option selected disabled value="">Choose...</option>
+                                    <option>...</option>
+                                </select>
+                                <div class="invalid-feedback">
+                                    Please select a valid state.
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label for="validationCustom04" class="form-label">City</label>
+                                <input type="text" class="form-control" id="validationCustom04"
+                                    placeholder="City" required>
+                                <div class="invalid-feedback">
+                                    Please provide a valid city.
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label for="validationCustom05" class="form-label">Zip</label>
+                                <input type="text" class="form-control" id="validationCustom05"
+                                    placeholder="Zip" required>
+                                <div class="invalid-feedback">
+                                    Please provide a valid zip.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-check mb-3">
+                        <input class="form-check-input" type="checkbox" value="" id="invalidCheck"
+                            required>
+                        <label class="form-check-label" for="invalidCheck">
+                            Agree to terms and conditions
+                        </label>
+                        <div class="invalid-feedback">
+                            You must agree before submitting.
+                        </div>
+                    </div>
+                    <div>
+                        <button class="btn btn-primary" type="submit">Submit form</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <!-- end card -->
+    </div> <!-- end col -->
+
+    <div class="col-xl-6">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Bootstrap Validation (Tooltips)</h4>
+                <p class="card-title-desc">If your form layout allows it, you can swap the
+                    <code>.{valid|invalid}-feedback</code> classes for
+                    <code>.{valid|invalid}-tooltip</code> classes to display validation feedback in a
+                    styled tooltip.
+                </p>
+                <form class="needs-validation" novalidate>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="mb-3 position-relative">
+                                <label for="validationTooltip01" class="form-label">First name</label>
+                                <input type="text" class="form-control" id="validationTooltip01"
+                                    placeholder="First name" value="Mark" required>
+                                <div class="valid-tooltip">
+                                    Looks good!
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="mb-3 position-relative">
+                                <label for="validationTooltip02" class="form-label">Last name</label>
+                                <input type="text" class="form-control" id="validationTooltip02"
+                                    placeholder="Last name" value="Otto" required>
+                                <div class="valid-tooltip">
+                                    Looks good!
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="mb-3 position-relative">
+                                <label for="validationTooltipUsername" class="form-label">Username</label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"
+                                            id="validationTooltipUsernamePrepend">@</span>
+                                    </div>
+                                    <input type="text" class="form-control" id="validationTooltipUsername"
+                                        placeholder="Username"
+                                        aria-describedby="validationTooltipUsernamePrepend" required>
+                                    <div class="invalid-tooltip">
+                                        Please choose a unique and valid username.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3 position-relative">
+                                <label for="validationTooltip03" class="form-label">City</label>
+                                <input type="text" class="form-control" id="validationTooltip03"
+                                    placeholder="City" required>
+                                <div class="invalid-tooltip">
+                                    Please provide a valid city.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3 position-relative">
+                                <label for="validationTooltip04" class="form-label">State</label>
+                                <input type="text" class="form-control" id="validationTooltip04"
+                                    placeholder="State" required>
+                                <div class="invalid-tooltip">
+                                    Please provide a valid state.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+
+                        <button class="btn btn-primary" type="submit">Submit form</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <!-- end card -->
+    </div> <!-- end col -->
+</div>
+<!-- end row -->
+
+<!-- Start Form Editor row -->
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+
+                <h4 class="card-title">Forms Editors</h4>
+                <p class="card-title-desc">Bootstrap-wysihtml5 is a javascript
+                    plugin that makes it easy to create simple, beautiful wysiwyg editors
+                    with the help of wysihtml5 and Twitter Bootstrap.</p>
+
+                <form method="post">
+                    <textarea id="elm1" name="area"></textarea>
+                </form>
+
+            </div>
+        </div>
+    </div> <!-- end col -->
+</div>
+<!-- end row -->
+
+<!-- Start File Upload Form row -->
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+
+                <h4 class="card-title">File Upload Form - Dropzone</h4>
+                <p class="card-title-desc">DropzoneJS is an open source library
+                    that provides drag’n’drop file uploads with image previews.
+                </p>
+
+                <div>
+                    <form action="#" class="dropzone">
+                        <div class="fallback">
+                            <input name="file" type="file" multiple="multiple">
+                        </div>
+                        <div class="dz-message needsclick">
+                            <div class="mb-3">
+                                <i class="display-4 text-muted bx bxs-cloud-upload"></i>
+                            </div>
+                            
+                            <h4>Drop files here or click to upload.</h4>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="text-center mt-4">
+                    <button type="button" class="btn btn-primary waves-effect waves-light">Send Files</button>
+                </div>
+            </div>
+        </div>
+    </div> <!-- end col -->
+</div> 
+<!-- end row -->
+
+<!-- Start Form Wizard Basic row -->
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title mb-4">Basic Wizard</h4>
+
+                <div id="basic-example">
+                    <!-- Seller Details -->
+                    <h3>Seller Details</h3>
+                    <section>
+                        <form>
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <div class="mb-3">
+                                        <label for="basicpill-firstname-input">First name</label>
+                                        <input type="text" class="form-control" id="basicpill-firstname-input">
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="mb-3">
+                                        <label for="basicpill-lastname-input">Last name</label>
+                                        <input type="text" class="form-control" id="basicpill-lastname-input">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <div class="mb-3">
+                                        <label for="basicpill-phoneno-input">Phone</label>
+                                        <input type="text" class="form-control" id="basicpill-phoneno-input">
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="mb-3">
+                                        <label for="basicpill-email-input">Email</label>
+                                        <input type="email" class="form-control" id="basicpill-email-input">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="mb-3">
+                                        <label for="basicpill-address-input">Address</label>
+                                        <textarea id="basicpill-address-input" class="form-control" rows="2"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </section>
+
+                    <!-- Company Document -->
+                    <h3>Company Document</h3>
+                    <section>
+                        <form>
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <div class="mb-3">
+                                        <label for="basicpill-pancard-input">PAN Card</label>
+                                        <input type="text" class="form-control" id="basicpill-pancard-input">
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-6">
+                                    <div class="mb-3">
+                                        <label for="basicpill-vatno-input">VAT/TIN No.</label>
+                                        <input type="text" class="form-control" id="basicpill-vatno-input">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <div class="mb-3">
+                                        <label for="basicpill-cstno-input">CST No.</label>
+                                        <input type="text" class="form-control" id="basicpill-cstno-input">
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-6">
+                                    <div class="mb-3">
+                                        <label for="basicpill-servicetax-input">Service Tax No.</label>
+                                        <input type="text" class="form-control" id="basicpill-servicetax-input">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <div class="mb-3">
+                                        <label for="basicpill-companyuin-input">Company UIN</label>
+                                        <input type="text" class="form-control" id="basicpill-companyuin-input">
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-6">
+                                    <div class="mb-3">
+                                        <label for="basicpill-declaration-input">Declaration</label>
+                                        <input type="text" class="form-control" id="basicpill-declaration-input">
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </section>
+
+                    <!-- Bank Details -->
+                    <h3>Bank Details</h3>
+                    <section>
+                        <div>
+                            <form>
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <div class="mb-3">
+                                            <label for="basicpill-namecard-input">Name on Card</label>
+                                            <input type="text" class="form-control" id="basicpill-namecard-input">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-6">
+                                        <div class="mb-3">
+                                            <label>Credit Card Type</label>
+                                            <select class="form-select">
+                                                  <option selected>Select Card Type</option>
+                                                  <option value="AE">American Express</option>
+                                                  <option value="VI">Visa</option>
+                                                  <option value="MC">MasterCard</option>
+                                                  <option value="DI">Discover</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <div class="mb-3">
+                                            <label for="basicpill-cardno-input">Credit Card Number</label>
+                                            <input type="text" class="form-control" id="basicpill-cardno-input">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-6">
+                                        <div class="mb-3">
+                                            <label for="basicpill-card-verification-input">Card Verification Number</label>
+                                            <input type="text" class="form-control" id="basicpill-card-verification-input">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <div class="mb-3">
+                                            <label for="basicpill-expiration-input">Expiration Date</label>
+                                            <input type="text" class="form-control" id="basicpill-expiration-input">
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </form>
+                          </div>
+                    </section>
+
+                    <!-- Confirm Details -->
+                    <h3>Confirm Detail</h3>
+                    <section>
+                        <div class="row justify-content-center">
+                            <div class="col-lg-6">
+                                <div class="text-center">
+                                    <div class="mb-4">
+                                        <i class="mdi mdi-check-circle-outline text-success display-4"></i>
+                                    </div>
+                                    <div>
+                                        <h5>Confirm Detail</h5>
+                                        <p class="text-muted">If several languages coalesce, the grammar of the resulting</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+
+            </div>
+            <!-- end card body -->
+        </div>
+        <!-- end card -->
+    </div>
+    <!-- end col -->
+</div>
+<!-- end row -->
+
+<!-- Start Form Wizard vertical row-->
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title mb-4">Vertical Wizard</h4>
+
+                <div id="vertical-example" class="vertical-wizard">
+                    <!-- Seller Details -->
+                    <h3>Seller Details</h3>
+                    <section>
+                        <form>
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <div class="mb-3">
+                                        <label for="verticalnav-firstname-input">First name</label>
+                                        <input type="text" class="form-control" id="verticalnav-firstname-input">
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="mb-3">
+                                        <label for="verticalnav-lastname-input">Last name</label>
+                                        <input type="text" class="form-control" id="verticalnav-lastname-input">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <div class="mb-3">
+                                        <label for="verticalnav-phoneno-input">Phone</label>
+                                        <input type="text" class="form-control" id="verticalnav-phoneno-input">
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="mb-3">
+                                        <label for="verticalnav-email-input">Email</label>
+                                        <input type="email" class="form-control" id="verticalnav-email-input">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="mb-3">
+                                        <label for="verticalnav-address-input">Address</label>
+                                        <textarea id="verticalnav-address-input" class="form-control" rows="2"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </section>
+
+                    <!-- Company Document -->
+                    <h3>Company Document</h3>
+                    <section>
+                        <form>
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <div class="mb-3">
+                                        <label for="verticalnav-pancard-input">PAN Card</label>
+                                        <input type="text" class="form-control" id="verticalnav-pancard-input">
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-6">
+                                    <div class="mb-3">
+                                        <label for="verticalnav-vatno-input">VAT/TIN No.</label>
+                                        <input type="text" class="form-control" id="verticalnav-vatno-input">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <div class="mb-3">
+                                        <label for="verticalnav-cstno-input">CST No.</label>
+                                        <input type="text" class="form-control" id="verticalnav-cstno-input">
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-6">
+                                    <div class="mb-3">
+                                        <label for="verticalnav-servicetax-input">Service Tax No.</label>
+                                        <input type="text" class="form-control" id="verticalnav-servicetax-input">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <div class="mb-3">
+                                        <label for="verticalnav-companyuin-input">Company UIN</label>
+                                        <input type="text" class="form-control" id="verticalnav-companyuin-input">
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-6">
+                                    <div class="mb-3">
+                                        <label for="verticalnav-declaration-input">Declaration</label>
+                                        <input type="text" class="form-control" id="verticalnav-declaration-input">
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </section>
+
+                    <!-- Bank Details -->
+                    <h3>Bank Details</h3>
+                    <section>
+                        <div>
+                            <form>
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <div class="mb-3">
+                                            <label for="verticalnav-namecard-input">Name on Card</label>
+                                            <input type="text" class="form-control" id="verticalnav-namecard-input">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-6">
+                                        <div class="mb-3">
+                                            <label>Credit Card Type</label>
+                                            <select class="form-select">
+                                                  <option selected>Select Card Type</option>
+                                                  <option value="AE">American Express</option>
+                                                  <option value="VI">Visa</option>
+                                                  <option value="MC">MasterCard</option>
+                                                  <option value="DI">Discover</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <div class="mb-3">
+                                            <label for="verticalnav-cardno-input">Credit Card Number</label>
+                                            <input type="text" class="form-control" id="verticalnav-cardno-input">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-6">
+                                        <div class="mb-3">
+                                            <label for="verticalnav-card-verification-input">Card Verification Number</label>
+                                            <input type="text" class="form-control" id="verticalnav-card-verification-input">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <div class="mb-3">
+                                            <label for="verticalnav-expiration-input">Expiration Date</label>
+                                            <input type="text" class="form-control" id="verticalnav-expiration-input">
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </form>
+                          </div>
+                    </section>
+
+                    <!-- Confirm Details -->
+                    <h3>Confirm Detail</h3>
+                    <section>
+                        <div class="row justify-content-center">
+                            <div class="col-lg-6">
+                                <div class="text-center">
+                                    <div class="mb-4">
+                                        <i class="mdi mdi-check-circle-outline text-success display-4"></i>
+                                    </div>
+                                    <div>
+                                        <h5>Confirm Detail</h5>
+                                        <p class="text-muted">If several languages coalesce, the grammar of the resulting</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </div>
+        <!-- end card -->
+    </div>
+    <!-- end col -->
+</div>
+<!-- end row -->
+{% endblock content %}
+
+{% block javascript %}
+<!-- JAVASCRIPT -->
+<script src="{% static 'libs/jquery/jquery.min.js' %}"></script>
+<script src="{% static 'libs/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+<script src="{% static 'libs/metismenu/metisMenu.min.js' %}"></script>
+<script src="{% static 'libs/simplebar/simplebar.min.js' %}"></script>
+<script src="{% static 'libs/node-waves/waves.min.js' %}"></script>
+
+<script src="{% static 'libs/select2/js/select2.min.js' %}"></script>
+<script src="{% static 'libs/bootstrap-datepicker/js/bootstrap-datepicker.min.js' %}"></script>
+<script src="{% static 'libs/spectrum-colorpicker2/spectrum.min.js' %}"></script>
+<script src="{% static 'libs/bootstrap-touchspin/jquery.bootstrap-touchspin.min.js' %}"></script>
+<script src="{% static 'libs/@chenfengyuan/datepicker/datepicker.min.js' %}"></script>
+
+<!-- form advanced init -->
+<script src="{% static 'js/pages/form-advanced.init.js' %}"></script>
+
+<!--tinymce js-->
+<script src="{% static 'libs/tinymce/tinymce.min.js' %}"></script>
+
+<!-- init js -->
+<script src="{% static 'js/pages/form-editor.init.js' %}"></script>
+
+<!-- Plugins js -->
+<script src="{% static 'libs/dropzone/min/dropzone.min.js' %}"></script>
+
+<!-- jquery step -->
+<script src="{% static 'libs/jquery-steps/build/jquery.steps.min.js' %}"></script>
+
+<!-- form wizard init -->
+<script src="{% static 'js/pages/form-wizard.init.js' %}"></script>
+
+<script src="{% static 'js/app.js' %}"></script>
+{% endblock javascript %}

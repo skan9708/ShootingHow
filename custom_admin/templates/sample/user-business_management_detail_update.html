@@ -1,0 +1,128 @@
+{% extends 'partials/base.html' %}
+{% load static %}
+{% block extra_css %}
+    <link href="{% static 'libs/sweetalert2/sweetalert2.min.css'%}" rel="stylesheet" type="text/css" />
+{% endblock extra_css %}
+
+{% block content %}
+<div class="row">{% csrf_token %}
+    <div class="col-12">
+        <h2 style="margin-left: 20px">{{ recruitment.own_company.company_name }}</h2>
+        <div style="display: flex">
+            <div><h1 class="card-title" style="font-size: 24px">기업 회원관리</h4></div>
+                <div style="margin: auto 0 0 auto;">
+                    <button type="button" class="btn btn-primary w-md waves-effect waves-light" onclick="location.href='{% url 'business-user-management' %}'">목록</button>
+                    <button type="button" class="btn btn-info w-md waves-effect waves-light" id="business_user_detail-save">저장</button>
+                    {% comment %} <button type="button" class="btn btn-danger w-md waves-effect waves-light" id="business_user_detail-remove">탈퇴처리</button> {% endcomment %}
+                </div>
+            </div>
+        </div><br><br><br><hr><br><br>
+        <div class="card">
+            <div class="card-body">
+                <h4>기업회원 상세</h4><br>
+                <div style="display:flex; justify-content: space-between; align-content: stretch; 
+                            height: 50px; align-items: center; border-top: 1px solid Silver; font-size: 14px;
+                            text-indent: 20px;">
+                    <div style="line-height: 50px; height: 100%; width: 100px; flex-basis:20%; background-color: #F2F2F2;">이메일</div>
+                    <div style="line-height: 50px; height: 100%; width: 100px; flex-basis:80%;">{{ business_user.user.username }}</div>
+                </div>
+                <div style="display:flex; justify-content: space-between; align-content: stretch; 
+                            height: 50px; align-items: center; border-top: 1px solid Silver; font-size: 14px;
+                            text-indent: 20px;">
+                    <div style="line-height: 50px; height: 100%; width: 100px; flex-basis:20%; background-color: #F2F2F2;">이름</div>
+                    {% comment %} <input class="form-control" type="text" id="event_name" name="event_name" style="line-height: 50px; height: 100%; width: 100px; flex-basis:30%;"> {% endcomment %}
+                    <input class="form-control" type="text" id="user_fullname" value={{ business_user.user.fullname  | default:"&nbsp;" }} style="line-height: 50px; height: 100%; width: 100px; flex-basis:30%;">
+                    <div style="line-height: 50px; height: 100%; width: 100px; flex-basis:20%; background-color: #F2F2F2;">기업명</div>
+                    <input class="form-control" type="text" id="user_company_name" value={{ business_user.company_name  | default:"&nbsp;" }} style="line-height: 50px; height: 100%; width: 100px; flex-basis:30%;">
+                </div>
+                
+                <div style="display:flex; justify-content: space-between; align-content: stretch; 
+                            height: 50px; align-items: center; border-top: 1px solid Silver; font-size: 14px;
+                            text-indent: 20px;">
+                    <div style="line-height: 50px; height: 100%; width: 100px; flex-basis:20%; background-color: #F2F2F2;">주소</div>
+                    <input class="form-control" type="text" id="user_address" value={{ business_user.address  | default:"&nbsp;" }} style="line-height: 50px; height: 100%; width: 100px; flex-basis:30%;">
+                    <div style="line-height: 50px; height: 100%; width: 100px; flex-basis:20%; background-color: #F2F2F2;">연락처</div>
+                    <input class="form-control" type="text" id="user_telephone" value={{ business_user.telephone  | default:"&nbsp;" }} style="line-height: 50px; height: 100%; width: 100px; flex-basis:30%;">
+                </div>
+                <div style="display:flex; justify-content: space-between; align-content: stretch; 
+                            height: 50px; align-items: center; border-top: 1px solid Silver; font-size: 14px;
+                            text-indent: 20px;">
+                    <div style="line-height: 50px; height: 100%; width: 100px; flex-basis:20%; background-color: #F2F2F2;">소속(센터명)</div>
+                    <input class="form-control" type="text" id="user_company_name" value={{ business_user.company_name  | default:"&nbsp;" }} style="line-height: 50px; height: 100%; width: 100px; flex-basis:30%;">
+                    <div style="line-height: 50px; height: 100%; width: 100px; flex-basis:20%; background-color: #F2F2F2;">팀명</div>
+                    <input class="form-control" type="text" id="user_team_name" value={{ business_user.team_name  | default:"&nbsp;" }} style="line-height: 50px; height: 100%; width: 100px; flex-basis:30%;">
+                </div>
+                <div style="display:flex; justify-content: space-between; align-content: stretch; 
+                            height: 50px; align-items: center; border-top: 1px solid Silver; font-size: 14px;
+                            text-indent: 20px;">
+                    <div style="line-height: 50px; height: 100%; width: 100px; flex-basis:20%; background-color: #F2F2F2;">직급</div>
+                    <input class="form-control" type="text" id="user_company_rank" value={{ business_user.company_rank  | default:"&nbsp;" }} style="line-height: 50px; height: 100%; width: 100px; flex-basis:30%;">
+                    <div style="line-height: 50px; height: 100%; width: 100px; flex-basis:20%; background-color: #F2F2F2;">사업자번호</div>
+                    <input class="form-control" type="text" id="user_business_registration_number" value={{ business_user.business_registration_number  | default:"&nbsp;" }} style="line-height: 50px; height: 100%; width: 100px; flex-basis:30%;">
+                </div>
+                <div style="display:flex; justify-content: space-between; align-content: stretch; 
+                            height: 50px; align-items: center; border-top: 1px solid Silver; font-size: 14px;
+                            text-indent: 20px; border-bottom: 1px solid Silver;">
+                            {% comment %} 다운로드 링크 걸어야함 {% endcomment %}
+                    <div style="line-height: 50px; height: 100%; width: 100px; flex-basis:20%; background-color: #F2F2F2;">사업자등록증</div>
+                    <div style="line-height: 50px; height: 100%; width: 100px; flex-basis:80%;">
+                    {% if business_user.business_registration %}
+                        <a href="/fileserver/file/business/{{ business_user.user.id }}/">{{ business_user.business_registration.name | cut:'business/business_registration/'}}</a>
+                    {% else %}
+                        -
+                    {% endif %}
+                    </div>
+                    
+                </div>
+                    
+            </div>
+        </div> <!-- end col -->
+
+        {% comment %} ########################## form 끝 ################################# {% endcomment %}
+
+
+
+    </div> <!-- end col -->
+</div> <!-- end row -->
+
+{% endblock content %}
+
+{% block javascript %}
+<!-- JAVASCRIPT -->
+<script src="{% static 'libs/jquery/jquery.min.js' %}"></script>
+<script src="{% static 'libs/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+<script src="{% static 'libs/metismenu/metisMenu.min.js' %}"></script>
+<script src="{% static 'libs/simplebar/simplebar.min.js' %}"></script>
+<script src="{% static 'libs/node-waves/waves.min.js' %}"></script>
+
+<!-- Required datatable js -->
+<script src="{% static 'libs/datatables.net/js/jquery.dataTables.min.js' %}"></script>
+<script src="{% static 'libs/datatables.net-bs4/js/dataTables.bootstrap4.min.js' %}"></script>
+
+<!-- Buttons examples -->
+<script src="{% static 'libs/datatables.net-buttons/js/dataTables.buttons.min.js' %}"></script>
+<script src="{% static 'libs/datatables.net-buttons-bs4/js/buttons.bootstrap4.min.js' %}"></script>
+<script src="{% static 'libs/jszip/jszip.min.js' %}"></script>
+<script src="{% static 'libs/pdfmake/build/pdfmake.min.js' %}"></script>
+<script src="{% static 'libs/pdfmake/build/vfs_fonts.js' %}"></script>
+<script src="{% static 'libs/datatables.net-buttons/js/buttons.html5.min.js' %}"></script>
+<script src="{% static 'libs/datatables.net-buttons/js/buttons.print.min.js' %}"></script>
+<script src="{% static 'libs/datatables.net-buttons/js/buttons.colVis.min.js' %}"></script>
+<script src="{% static 'libs/datatables.net-keyTable/js/dataTables.keyTable.min.js' %}"></script>
+<script src="{% static 'libs/datatables.net-select/js/dataTables.select.min.js' %}"></script>
+
+<!-- Responsive examples -->
+<script src="{% static 'libs/datatables.net-responsive/js/dataTables.responsive.min.js' %}"></script>
+<script src="{% static 'libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js' %}"></script>
+
+<!-- Datatable init js -->
+<script src="{% static 'js/pages/datatables.init.js' %}"></script>
+
+
+
+<script src="{% static 'js/menus/user-business_management.js'%}"></script>
+
+<script src="{% static 'js/app.js' %}"></script>
+
+
+{% endblock javascript %}
