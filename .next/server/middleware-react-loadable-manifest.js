@@ -1,0 +1,1 @@
+self.__REACT_LOADABLE_MANIFEST={"booking\\order\\[id].jsx -> react-calendar":{"id":"booking\\order\\[id].jsx -> react-calendar","files":["static/chunks/node_modules_react-calendar_dist_esm_index_js.js"]}}
