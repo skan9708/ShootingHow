@@ -37,35 +37,51 @@ const Canceled = styled.div`
 export default function MypageBooked(props) {
   const router = useRouter();
   const [data, setData] = useState({
-    loading: false,
-    reservation_code: "TEST-12345",
-    status: "예약완료",
-    is_cancelable: true,
-    fullname: "최진혁",
-    reservation_date: "2025-05-30",
-    product: "PK풋살장",
-    reservation_time: "12:00 - 15:00",
-    num_of_man: 6,
+    loading: true,
+    reservation_code: "",
+    status: "",
+    is_cancelable: false,
+    fullname: "",
+    reservation_date: "",
+    product: "",
+    reservation_time: "",
+    num_of_man: 0,
     num_of_woman: 0,
-    reservation_at: "2025-05-28T09:50:32Z",
+    reservation_at: "",
   });
 
   useEffect(() => {
     if (!router.isReady) return;
-    // axios.get("/api/product/reservation/" + router.query.id + "/")
-    //   .then(({data}) => {
-    //     console.log(data)
-    //     setData(data);
-    //   })
-    //   .catch((e) => {
-    //     const err = e?.response?.data?.error
-    //     if(err) {
-    //       toast.error(err)
-    //     } else {
-    //       toast.error("자세한 예약내역을 불러오는 과정에서 에러가 발생했습니다.");
-    //       console.log(e)
-    //     }
-    //   });
+    if (!router.query.id) return;
+
+    setData(prev => ({ ...prev, loading: true }));
+
+    axios.get(`/api/product/reservation/${router.query.id}/`)
+      .then(({ data: responseData }) => {
+        setData({
+          loading: false,
+          reservation_code: responseData.id,
+          status: responseData.status,
+          is_cancelable: responseData.status === "예약완료",
+          fullname: responseData.fullname,
+          reservation_date: responseData.reservation_date,
+          product: responseData.product,
+          reservation_time: responseData.reservation_time,
+          num_of_man: responseData.num_of_man,
+          num_of_woman: responseData.num_of_woman,
+          reservation_at: responseData.reservation_at,
+        });
+      })
+      .catch((e) => {
+        setData(prev => ({ ...prev, loading: false }));
+        const err = e?.response?.data?.error || e?.response?.data?.detail;
+        if(err) {
+          toast.error(err);
+        } else {
+          toast.error("예약 상세 정보를 불러오는 중 오류가 발생했습니다.");
+          console.error(e);
+        }
+      });
   }, [router.query.id, router.isReady]);
 
   const changeHandler = () => {
@@ -80,19 +96,36 @@ export default function MypageBooked(props) {
     if(!confirm("취소하시겠습니까?")) {
       return
     }
-    // axios.post("/api/payment/cancel/", {"reservation_id": router.query.id})
-    // .then((res) => {
-    //   toast.success("정상적으로 예약취소되었습니다.")
-    //   router.push("/mypage/booked/")
-    // })
-    // .catch((e) => {
-    //   toast.error(e.response.data.error)
-    // })
-    toast.info("예약취소 API 호출이 임시로 비활성화되었습니다."); // 임시 알림
+    toast.info("예약취소 API 호출이 임시로 비활성화되었습니다.");
   };
   
   if(data.loading) {
-    return
+    return (
+      <MypageLayout id="booked">
+        <Sections>
+          <Section>
+            <Container style={{ textAlign: "center", padding: "50px" }}>
+              <p>예약 정보를 불러오는 중입니다...</p>
+            </Container>
+          </Section>
+        </Sections>
+      </MypageLayout>
+    )
+  }
+
+  if (!data.reservation_code && !data.loading) {
+    return (
+      <MypageLayout id="booked">
+        <Sections>
+          <Section>
+            <Container style={{ textAlign: "center", padding: "50px" }}>
+              <p>예약 정보를 찾을 수 없습니다.</p>
+              <Button onClick={() => router.push("/mypage/booked/")}>예약 목록으로 돌아가기</Button>
+            </Container>
+          </Section>
+        </Sections>
+      </MypageLayout>
+    )
   }
 
   return (
@@ -104,7 +137,6 @@ export default function MypageBooked(props) {
               <tbody>
                 <tr>
                   <td className="header">예약번호</td>
-                  {/* <td>{data.id}</td> */}
                   <td>{data.reservation_code}</td>
                 </tr>
                 <tr>
@@ -140,7 +172,6 @@ export default function MypageBooked(props) {
                 <tr>
                   <td className="header">결제방식</td>
                   <td>카드결제</td>
-                  {/* <td>무통장입금 || 카드결제</td> */}
                 </tr>
               </tbody>
             </Table>
@@ -158,9 +189,6 @@ export default function MypageBooked(props) {
                   )
                 )
               }
-              {/* &nbsp;&nbsp;&nbsp; */}
-              {/* TODO */}
-              {/* <Button onClick={changeHandler}>예약변경</Button> */}
             </Center>
           </Container>
         </Section>
